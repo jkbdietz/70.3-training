@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Training 2026">
+<meta name="theme-color" content="#060a10">
+<title>Training 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #060a10;
+  --surface: #0c1420;
+  --surface2: #111d2e;
+  --border: #172233;
+  --border2: #1f3048;
+  --text: #c8d8ea;
+  --text-dim: #4a6278;
+  --text-muted: #2a3d52;
+  --accent: #60a5fa;
+  --accent2: #3b82f6;
+  --swim: #60a5fa;
+  --bike: #fb923c;
+  --run: #4ade80;
+  --brick: #c084fc;
+  --rest: #3a4f65;
+  --race: #fbbf24;
+  --holiday: #34d399;
+  --done: #1a2d1a;
+  --done-check: #22c55e;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { font-size: 16px; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  overscroll-behavior: none;
+  padding-bottom: calc(80px + var(--safe-bottom));
+}
+
+/* ── NAV BAR ── */
+.nav-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 10px 0 calc(10px + var(--safe-bottom));
+  background: rgba(6,10,16,0.92);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.nav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  cursor: pointer; padding: 6px 16px; border-radius: 12px;
+  transition: all 0.2s ease;
+  opacity: 0.45;
+}
+.nav-item.active { opacity: 1; }
+.nav-item.active .nav-icon { color: var(--accent); }
+.nav-icon { font-size: 22px; transition: transform 0.2s ease; }
+.nav-item:active .nav-icon { transform: scale(0.88); }
+.nav-label { font-size: 10px; font-weight: 500; letter-spacing: 0.3px; color: var(--text); }
+.nav-item.active .nav-label { color: var(--accent); }
+
+/* ── SCREENS ── */
+.screen { display: none; padding: calc(var(--safe-top) + 16px) 16px 16px; max-width: 640px; margin: 0 auto; }
+.screen.active { display: block; }
+
+/* ── TOP HEADER ── */
+.app-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 20px;
+  padding-top: 8px;
+}
+.app-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px; letter-spacing: 2px; color: #fff; line-height: 1;
+}
+.app-title span { color: var(--accent); }
+.app-sub { font-size: 10px; color: var(--text-dim); margin-top: 3px; letter-spacing: 0.4px; }
+.race-badge {
+  background: rgba(251,191,36,0.1);
+  border: 1px solid rgba(251,191,36,0.3);
+  border-radius: 8px; padding: 6px 10px; text-align: right;
+}
+.race-badge .days { font-family: 'DM Mono', monospace; font-size: 22px; font-weight: 500; color: var(--race); line-height: 1; }
+.race-badge .label { font-size: 9px; color: var(--text-dim); margin-top: 2px; }
+
+/* ── TODAY CARD ── */
+.today-section { margin-bottom: 20px; }
+.section-label {
+  font-size: 9px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--text-dim); margin-bottom: 8px;
+}
+.today-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 16px; overflow: hidden;
+}
+.today-card-header {
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.today-date { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); }
+.today-week { font-size: 13px; font-weight: 600; color: var(--text); }
+.today-phase-tag {
+  font-size: 10px; font-weight: 500; padding: 3px 8px;
+  border-radius: 6px; background: rgba(96,165,250,0.12); color: var(--accent);
+}
+
+/* ── WORKOUT ITEM ── */
+.workout-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; gap: 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.workout-item:last-child { border-bottom: none; }
+.workout-item:active { background: rgba(255,255,255,0.03); }
+.workout-item.done { opacity: 0.5; }
+.workout-icon {
+  width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.workout-icon.sw { background: rgba(96,165,250,0.15); }
+.workout-icon.bk { background: rgba(251,146,60,0.15); }
+.workout-icon.rn { background: rgba(74,222,128,0.15); }
+.workout-icon.br { background: rgba(192,132,252,0.15); }
+.workout-icon.rs { background: rgba(58,79,101,0.15); }
+.workout-icon.rc { background: rgba(251,191,36,0.15); }
+.workout-icon.hd { background: rgba(52,211,153,0.15); }
+.workout-details { flex: 1; min-width: 0; }
+.workout-name { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.3; }
+.workout-name.sw { color: var(--swim); }
+.workout-name.bk { color: var(--bike); }
+.workout-name.rn { color: var(--run); }
+.workout-name.br { color: var(--brick); }
+.workout-name.rs { color: var(--rest); }
+.workout-name.rc { color: var(--race); }
+.workout-name.hd { color: var(--holiday); }
+.workout-sub { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+.workout-time { font-size: 10px; color: var(--accent); font-family: 'DM Mono', monospace; margin-top: 3px; background: rgba(96,165,250,0.08); padding: 2px 6px; border-radius: 4px; display: inline-block; }
+.check-btn {
+  width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--border2);
+  background: transparent; flex-shrink: 0; margin-top: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; cursor: pointer; transition: all 0.2s ease;
+  color: transparent;
+}
+.workout-item.done .check-btn {
+  background: var(--done-check); border-color: var(--done-check); color: #fff;
+}
+
+/* ── PROGRESS ── */
+.progress-row {
+  padding: 12px 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.progress-bar-wrap { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.progress-bar { height: 100%; background: linear-gradient(90deg, var(--accent2), var(--swim)); border-radius: 2px; transition: width 0.4s ease; }
+.progress-text { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dim); }
+
+/* ── WEEK PICKER ── */
+.week-nav {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 16px;
+}
+.week-nav-btn {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--surface); border: 1px solid var(--border2);
+  color: var(--text); font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.week-nav-btn:active { transform: scale(0.9); background: var(--border2); }
+.week-nav-btn:disabled { opacity: 0.3; cursor: default; }
+.week-nav-label { flex: 1; text-align: center; }
+.week-nav-kw { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1.5px; color: #fff; }
+.week-nav-date { font-size: 10px; color: var(--text-dim); margin-top: 1px; }
+.today-btn {
+  padding: 6px 12px; border-radius: 8px;
+  background: rgba(96,165,250,0.12); border: 1px solid rgba(96,165,250,0.25);
+  color: var(--accent); font-size: 11px; font-weight: 500; cursor: pointer;
+}
+
+/* ── PHASE BANNER ── */
+.phase-banner {
+  padding: 8px 14px; border-radius: 10px; margin-bottom: 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* ── DAY CARD ── */
+.day-section { margin-bottom: 10px; }
+.day-header {
+  font-size: 11px; font-weight: 600; color: var(--text-dim);
+  letter-spacing: 0.5px; margin-bottom: 6px;
+  display: flex; align-items: center; gap: 6px;
+}
+.day-header .today-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent); display: inline-block;
+}
+.day-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden;
+  margin-bottom: 8px;
+}
+.day-card.today-highlight { border-color: rgba(96,165,250,0.4); }
+
+/* ── STATS / PROGRESS SCREEN ── */
+.stats-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;
+}
+.stat-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 14px;
+}
+.stat-card .s-label { font-size: 10px; color: var(--text-dim); margin-bottom: 4px; }
+.stat-card .s-value { font-family: 'DM Mono', monospace; font-size: 24px; font-weight: 500; color: #fff; line-height: 1; }
+.stat-card .s-unit { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+
+.donut-wrap { position: relative; width: 90px; height: 90px; }
+.donut-wrap svg { transform: rotate(-90deg); }
+.donut-center {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  text-align: center;
+}
+.donut-center .pct { font-family: 'DM Mono', monospace; font-size: 18px; font-weight: 500; color: #fff; }
+.donut-center .lbl { font-size: 8px; color: var(--text-dim); }
+
+.phase-progress-list { margin-bottom: 20px; }
+.phase-prog-item {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 12px 14px; margin-bottom: 8px;
+  display: flex; align-items: center; gap: 12px;
+}
+.phase-prog-num { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--text-dim); width: 20px; flex-shrink: 0; }
+.phase-prog-info { flex: 1; }
+.phase-prog-name { font-size: 12px; font-weight: 600; color: var(--text); }
+.phase-prog-weeks { font-size: 10px; color: var(--text-dim); margin-top: 2px; }
+.phase-prog-bar-wrap { width: 80px; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.phase-prog-bar { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+
+/* ── NUTRITION SCREEN ── */
+.nutrition-hero {
+  background: linear-gradient(135deg, #0d2010, #061a0e);
+  border: 1px solid #143020; border-radius: 16px; padding: 20px;
+  margin-bottom: 16px; text-align: center;
+}
+.nutrition-hero h2 {
+  font-family: 'Bebas Neue', sans-serif; font-size: 28px;
+  letter-spacing: 2px; color: var(--run); margin-bottom: 6px;
+}
+.nutrition-hero p { font-size: 12px; color: var(--text-dim); line-height: 1.6; }
+.macro-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+.macro-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 12px 10px; text-align: center;
+}
+.macro-card .m-label { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.macro-card .m-val { font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 500; }
+.macro-card .m-unit { font-size: 10px; color: var(--text-dim); margin-top: 2px; }
+.macro-card.prot .m-val { color: var(--swim); }
+.macro-card.carb .m-val { color: var(--bike); }
+.macro-card.fat .m-val { color: var(--run); }
+
+.meal-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden; margin-bottom: 8px;
+}
+.meal-header {
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.meal-name { font-size: 12px; font-weight: 600; color: var(--text); }
+.meal-kcal { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); }
+.meal-body { padding: 10px 14px; }
+.meal-body p { font-size: 11px; color: var(--text-dim); line-height: 1.7; }
+.coming-soon-badge {
+  display: inline-block; background: rgba(251,191,36,0.1);
+  border: 1px solid rgba(251,191,36,0.25); border-radius: 6px;
+  padding: 2px 8px; font-size: 10px; color: var(--race); margin-left: 8px;
+}
+
+/* ── UTIL ── */
+.divider { height: 1px; background: var(--border); margin: 16px 0; }
+.empty-state { text-align: center; padding: 40px 20px; color: var(--text-dim); font-size: 13px; }
+.empty-state .emoji { font-size: 36px; display: block; margin-bottom: 12px; }
+
+/* Scrollbar hide */
+::-webkit-scrollbar { display: none; }
+
+/* ── ANIMATE ── */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.screen.active { animation: slideUp 0.3s ease; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 1: TODAY / HOME
+═══════════════════════════════════════════════════ -->
+<div id="screen-today" class="screen active">
+  <div class="app-header">
+    <div>
+      <div class="app-title">🏊 BIKE · <span>RUN</span></div>
+      <div class="app-sub">WIEN MARATHON · 70.3 IRONMAN ZELL AM SEE</div>
+    </div>
+    <div class="race-badge">
+      <div class="days" id="days-to-marathon">—</div>
+      <div class="label">Tage bis<br>Marathon</div>
+    </div>
+  </div>
+
+  <div class="today-section">
+    <div class="section-label">Heute</div>
+    <div id="today-workouts-container"></div>
+  </div>
+
+  <div class="section-label">Diese Woche</div>
+  <div id="this-week-container"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 2: PLAN (ALL WEEKS)
+═══════════════════════════════════════════════════ -->
+<div id="screen-plan" class="screen">
+  <div style="padding-top:8px; margin-bottom:16px;">
+    <div class="app-title" style="font-size:28px;">TRAININGSPLAN 2026</div>
+    <div class="app-sub">KW12–35 · Marathon + 70.3 Ironman</div>
+  </div>
+
+  <div class="week-nav">
+    <button class="week-nav-btn" id="prev-week-btn" onclick="changeWeek(-1)">‹</button>
+    <div class="week-nav-label">
+      <div class="week-nav-kw" id="plan-kw-label">KW12</div>
+      <div class="week-nav-date" id="plan-date-label">16.03 – 22.03.2026</div>
+    </div>
+    <button class="week-nav-btn" id="next-week-btn" onclick="changeWeek(1)">›</button>
+    <div class="today-btn" onclick="goToCurrentWeek()">Heute</div>
+  </div>
+
+  <div id="plan-phase-banner" class="phase-banner"></div>
+  <div id="plan-week-content"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 3: PROGRESS
+═══════════════════════════════════════════════════ -->
+<div id="screen-progress" class="screen">
+  <div style="padding-top:8px; margin-bottom:16px;">
+    <div class="app-title" style="font-size:28px;">FORTSCHRITT</div>
+    <div class="app-sub">Dein Trainingsüberblick</div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="s-label">Einheiten erledigt</div>
+      <div class="s-value" id="stat-done">0</div>
+      <div class="s-unit">von <span id="stat-total">0</span> gesamt</div>
+    </div>
+    <div class="stat-card" style="display:flex;align-items:center;justify-content:center;gap:12px;">
+      <div class="donut-wrap">
+        <svg width="90" height="90" viewBox="0 0 90 90">
+          <circle cx="45" cy="45" r="38" fill="none" stroke="#172233" stroke-width="8"/>
+          <circle cx="45" cy="45" r="38" fill="none" stroke="#3b82f6" stroke-width="8"
+            stroke-dasharray="238.76" id="donut-progress" stroke-dashoffset="238.76"
+            stroke-linecap="round" style="transition:stroke-dashoffset 0.5s ease;"/>
+        </svg>
+        <div class="donut-center">
+          <div class="pct" id="donut-pct">0%</div>
+          <div class="lbl">Done</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="s-label">Bis Marathon</div>
+      <div class="s-value" id="stat-marathon-days">—</div>
+      <div class="s-unit">Tage · 19.04.2026</div>
+    </div>
+    <div class="stat-card">
+      <div class="s-label">Bis Ironman 70.3</div>
+      <div class="s-value" id="stat-ironman-days">—</div>
+      <div class="s-unit">Tage · 30.08.2026</div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-bottom:10px;">Phasen-Übersicht</div>
+  <div class="phase-progress-list" id="phase-progress-list"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 4: NUTRITION
+═══════════════════════════════════════════════════ -->
+<div id="screen-nutrition" class="screen">
+  <div style="padding-top:8px; margin-bottom:16px;">
+    <div class="app-title" style="font-size:28px;">ERNÄHRUNG</div>
+    <div class="app-sub">Race Nutrition 2026</div>
+  </div>
+
+  <div class="nutrition-hero">
+    <h2>🥗 ERNÄHRUNGSPLAN</h2>
+    <p>Hier entsteht dein persönlicher Ernährungsplan.<br>
+    Lade deinen Plan hoch, um ihn hier einzubinden.</p>
+  </div>
+
+  <div class="section-label" style="margin-bottom:10px;">Kalorienbedarf (Richtwert · 95kg)</div>
+  <div class="macro-grid">
+    <div class="macro-card prot">
+      <div class="m-label">Protein</div>
+      <div class="m-val">190</div>
+      <div class="m-unit">g/Tag</div>
+    </div>
+    <div class="macro-card carb">
+      <div class="m-label">Kohlenhydrate</div>
+      <div class="m-val">380</div>
+      <div class="m-unit">g/Tag</div>
+    </div>
+    <div class="macro-card fat">
+      <div class="m-label">Fett</div>
+      <div class="m-val">85</div>
+      <div class="m-unit">g/Tag</div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-bottom:10px;">Mahlzeiten-Planer <span class="coming-soon-badge">Coming soon</span></div>
+
+  <div class="meal-card">
+    <div class="meal-header">
+      <span class="meal-name">🌅 Vor dem Training (morgens)</span>
+      <span class="meal-kcal">~400 kcal</span>
+    </div>
+    <div class="meal-body">
+      <p>Haferflocken (80g) + Banane + Honig + Proteinpulver (25g)<br>
+      <strong>Timing:</strong> 60–90 Min vor der Einheit</p>
+    </div>
+  </div>
+  <div class="meal-card">
+    <div class="meal-header">
+      <span class="meal-name">🚴 Während langer Einheit (>90 min)</span>
+      <span class="meal-kcal">60–90g Carbs/h</span>
+    </div>
+    <div class="meal-body">
+      <p>Gels alle 30 Min · Riegel bei >3h · Elektrolyte permanent<br>
+      <strong>Trinken:</strong> 500–750ml/h · bei Hitze mehr</p>
+    </div>
+  </div>
+  <div class="meal-card">
+    <div class="meal-header">
+      <span class="meal-name">🏆 Renntag Marathon</span>
+      <span class="meal-kcal">Race Nutrition</span>
+    </div>
+    <div class="meal-body">
+      <p>3h vorher: Haferbrei + Toast. Gel alle 5km ab KM10.<br>
+      <strong>Wasser + Isotonic</strong> an jedem Verpflegungspunkt</p>
+    </div>
+  </div>
+  <div class="meal-card">
+    <div class="meal-header">
+      <span class="meal-name">🌊 Renntag 70.3 Ironman</span>
+      <span class="meal-kcal">Race Nutrition</span>
+    </div>
+    <div class="meal-body">
+      <p>Rad: 2 Flaschen (Carbs + Elektrolyte) · Gel alle 45 Min<br>
+      Laufen: Gel KM4, KM8, KM12 · Cola bei KM15+</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     BOTTOM NAV
+═══════════════════════════════════════════════════ -->
+<nav class="nav-bar">
+  <div class="nav-item active" onclick="showScreen('today')" id="nav-today">
+    <div class="nav-icon">🏠</div>
+    <div class="nav-label">Heute</div>
+  </div>
+  <div class="nav-item" onclick="showScreen('plan')" id="nav-plan">
+    <div class="nav-icon">📅</div>
+    <div class="nav-label">Plan</div>
+  </div>
+  <div class="nav-item" onclick="showScreen('progress')" id="nav-progress">
+    <div class="nav-icon">📊</div>
+    <div class="nav-label">Fortschritt</div>
+  </div>
+  <div class="nav-item" onclick="showScreen('nutrition')" id="nav-nutrition">
+    <div class="nav-icon">🥗</div>
+    <div class="nav-label">Ernährung</div>
+  </div>
+</nav>
+
+<script>
+// ═══════════════════════════════════════════════
+// DATA — all 24 weeks from the plan
+// ═══════════════════════════════════════════════
+const PHASES = [
+  { id: 1, name: 'Phase 1 — Marathon Finale & Taper', color: '#7f1d1d', bg: 'rgba(127,29,29,0.25)', weeks: [12,13,14,15,16] },
+  { id: 2, name: 'Phase 2 — Post-Marathon Erholung', color: '#1e3050', bg: 'rgba(30,48,80,0.35)', weeks: [17,18] },
+  { id: 3, name: 'Phase 3 — Triathlon Base', color: '#0f2a5e', bg: 'rgba(15,42,94,0.35)', weeks: [19,20,21,22,23] },
+  { id: 4, name: 'Phase 4 — Kroatien Urlaub', color: '#043d24', bg: 'rgba(4,61,36,0.35)', weeks: [24,25,26] },
+  { id: 5, name: 'Phase 5 — Peak Build', color: '#2a0650', bg: 'rgba(42,6,80,0.35)', weeks: [27,28,29,30,31,32] },
+  { id: 6, name: 'Phase 6 — Taper', color: '#4a2a00', bg: 'rgba(74,42,0,0.35)', weeks: [33,34,35] },
+];
+
+const DAYS = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+const DAY_ICONS = { sw: '🏊', bk: '🚴', rn: '🏃', br: '🧱', rs: '💤', rc: '🏆', hd: '🌴' };
+
+// Week start dates (Monday of each KW in 2026)
+const WEEK_STARTS = {
+  12: new Date(2026, 2, 16),
+  13: new Date(2026, 2, 23),
+  14: new Date(2026, 2, 30),
+  15: new Date(2026, 3, 6),
+  16: new Date(2026, 3, 13),
+  17: new Date(2026, 3, 20),
+  18: new Date(2026, 3, 27),
+  19: new Date(2026, 4, 4),
+  20: new Date(2026, 4, 11),
+  21: new Date(2026, 4, 18),
+  22: new Date(2026, 4, 25),
+  23: new Date(2026, 5, 1),
+  24: new Date(2026, 5, 8),
+  25: new Date(2026, 5, 15),
+  26: new Date(2026, 5, 22),
+  27: new Date(2026, 5, 29),
+  28: new Date(2026, 6, 6),
+  29: new Date(2026, 6, 13),
+  30: new Date(2026, 6, 20),
+  31: new Date(2026, 6, 27),
+  32: new Date(2026, 7, 3),
+  33: new Date(2026, 7, 10),
+  34: new Date(2026, 7, 17),
+  35: new Date(2026, 7, 24),
+};
+
+const PLAN = {
+  12: {
+    meta: 'Letzte Belastungswoche (ab Do 19.03)',
+    volume: '~5.5h',
+    days: {
+      Mo: [], Di: [], Mi: [],
+      Do: [{ type: 'rn', name: '🏃 8km locker', sub: '+ 6× Strides · Z2' }],
+      Fr: [{ type: 'rn', name: '🏃 5km locker', sub: 'vor 07h · Z1', time: '06:30' }, { type: 'sw', name: '🏊 1.2km Technik', sub: 'ab 13:00 · Kraul-Basis', time: '13:00' }],
+      Sa: [{ type: 'rn', name: '🏃 22km Langer Lauf', sub: '@5:05/km · Z2', time: '07:00' }],
+      So: [{ type: 'bk', name: '🚴 60min Kickr', sub: 'Z2 locker' }],
+    }
+  },
+  13: {
+    meta: 'Taper Woche 1 (−20%)',
+    volume: '~8h',
+    days: {
+      Mo: [{ type: 'bk', name: '🚴 50min Kickr', sub: 'Z2' }],
+      Di: [{ type: 'rn', name: '🏃 10km Tempo', sub: '3×2km @4:25/km · Z3–4' }],
+      Mi: [{ type: 'bk', name: '🚴 45min Kickr', sub: 'Z2' }],
+      Do: [{ type: 'rn', name: '🏃 8km locker', sub: 'Z1–Z2' }],
+      Fr: [{ type: 'rn', name: '🏃 6km locker', sub: 'vor 07h · Z1', time: '06:30' }, { type: 'sw', name: '🏊 1.5km', sub: 'ab 13:00 · Z2', time: '13:00' }],
+      Sa: [{ type: 'rn', name: '🏃 18km Lauf', sub: '@5:00/km · Z2 (letzter langer)' }],
+      So: [{ type: 'sw', name: '🏊 1.2km locker', sub: '08:00 · Z1–Z2', time: '08:00' }, { type: 'bk', name: '🚴 45min Kickr', sub: 'Z1 locker' }],
+    }
+  },
+  14: {
+    meta: 'Taper Woche 2 (−35%)',
+    volume: '~5.5h',
+    days: {
+      Mo: [{ type: 'bk', name: '🚴 40min Kickr', sub: 'Z1 locker' }],
+      Di: [{ type: 'rn', name: '🏃 8km', sub: '4×1km @4:15/km · Z4' }],
+      Mi: [{ type: 'bk', name: '🚴 30min Kickr', sub: 'Z1 sehr locker' }],
+      Do: [{ type: 'rn', name: '🏃 6km locker', sub: 'Z1–Z2' }],
+      Fr: [{ type: 'rn', name: '🏃 5km locker', sub: 'vor 07h · Z1', time: '06:30' }, { type: 'sw', name: '🏊 1km Technik', sub: 'ab 13:00 · Z1', time: '13:00' }],
+      Sa: [{ type: 'rn', name: '🏃 12km', sub: '@5:00/km · Z2' }],
+      So: [{ type: 'rs', name: '💤 Pause', sub: 'Beine hochlagern' }],
+    }
+  },
+  15: {
+    meta: 'Renn-Vorbereitung (−50%)',
+    volume: '~3h',
+    days: {
+      Mo: [{ type: 'rn', name: '🏃 6km locker', sub: '+ 4× Strides · Z1' }],
+      Di: [{ type: 'bk', name: '🚴 25min Kickr', sub: 'Z1' }],
+      Mi: [{ type: 'rn', name: '🏃 5km locker', sub: 'Z1' }],
+      Do: [{ type: 'bk', name: '🚴 20min Kickr', sub: 'Z1' }],
+      Fr: [{ type: 'rn', name: '🏃 4km + 3× Strides', sub: 'vor 07h · Z1', time: '06:30' }, { type: 'sw', name: '🏊 800m locker', sub: 'ab 13:00 · Z1', time: '13:00' }],
+      Sa: [{ type: 'rs', name: '💤 Pause', sub: 'Startnummer · Material' }],
+      So: [{ type: 'rs', name: '💤 Pause', sub: 'Beine schonen' }],
+    }
+  },
+  16: {
+    meta: '🏆 MARATHONWOCHE',
+    volume: '~2h + Rennen',
+    days: {
+      Mo: [{ type: 'rn', name: '🏃 4km locker', sub: 'Z1' }],
+      Di: [{ type: 'bk', name: '🚴 20min Kickr', sub: 'Z1' }],
+      Mi: [{ type: 'rn', name: '🏃 3km + 2× Strides', sub: 'Aktivierung · Z1' }],
+      Do: [{ type: 'rs', name: '💤 Totale Pause', sub: 'Essen · Schlafen' }],
+      Fr: [{ type: 'rn', name: '🏃 2km locker', sub: 'vor 07h · Z1', time: '06:30' }, { type: 'rs', name: '💤 Pause', sub: 'ab 13:00 · keine Einheit' }],
+      Sa: [{ type: 'rs', name: '💤 Pause', sub: 'Marathon-Expo · Startnummer' }],
+      So: [{ type: 'rc', name: '🏆 WIEN MARATHON', sub: 'Ziel: Sub 3:20h · Start 09:00h', time: '09:00' }],
+    }
+  },
+  17: {
+    meta: 'Erholung 1 — KEIN Laufen',
+    volume: '~3.5h',
+    days: {
+      Mo: [{ type: 'rs', name: '💤 Totale Pause', sub: 'DOMS normal · spazieren OK' }],
+      Di: [{ type: 'rs', name: '💤 Pause', sub: 'Massage · Dehnen' }],
+      Mi: [{ type: 'bk', name: '🚴 30min Kickr', sub: 'Z1 · sehr locker' }],
+      Do: [{ type: 'bk', name: '🚴 40min Kickr', sub: 'Z1–Z2' }],
+      Fr: [{ type: 'rs', name: '💤 Pause', sub: 'vor 07h' }, { type: 'sw', name: '🏊 800m locker', sub: 'ab 13:00 · Z1 · Entspannung', time: '13:00' }],
+      Sa: [{ type: 'bk', name: '🚴 60min Kickr', sub: 'Z1–Z2' }],
+      So: [{ type: 'sw', name: '🏊 1km locker', sub: '08:00 · Z1', time: '08:00' }, { type: 'bk', name: '🚴 45min Kickr', sub: 'Z2' }],
+    }
+  },
+  18: {
+    meta: 'Erholung 2 — Laufen vorsichtig',
+    volume: '~7h',
+    days: {
+      Mo: [{ type: 'bk', name: '🚴 50min Kickr', sub: 'Z2' }],
+      Di: [{ type: 'rn', name: '🏃 6km sehr locker', sub: '1. Lauf post-Marathon · Z1–Z2' }],
+      Mi: [{ type: 'bk', name: '🚴 50min Kickr', sub: 'Z2' }],
+      Do: [{ type: 'rn', name: '🏃 8km locker', sub: 'Z2 · nur wenn schmerzfrei' }],
+      Fr: [{ type: 'bk', name: '🚴 45min Kickr', sub: 'vor 07h · Z2' }, { type: 'sw', name: '🏊 1.2km Technik', sub: 'ab 13:00 · Z1–Z2', time: '13:00' }],
+      Sa: [{ type: 'bk', name: '🚴 90min Kickr', sub: 'Z2' }],
+      So: [{ type: 'sw', name: '🏊 1.2km', sub: '08:00 · Z2', time: '08:00' }, { type: 'rn', name: '🏃 10km locker', sub: '@5:15/km · Z2' }],
+    }
+  },
+  19: {
+    meta: 'Triathlon Base 1',
+    volume: '~9.5h',
+    days: {
+      Mo: [{ type: 'bk', name: '🚴 60min Kickr', sub: 'Z2' }],
+      Di: [{ type: 'rn', name: '🏃 8km', sub: '@5:00/km · Z2' }],
+      Mi: [{ type: 'bk', name: '🚴 75min Kickr', sub: 'Z2' }],
+      Do: [{ type: 'rn', name: '🏃 8km', sub: 'Z2' }],
+      Fr: [{ type: 'rn', name: '🏃 8km locker', sub: 'vor 07h · Z2' }, { type: 'sw', name: '🏊 1.5km', sub: 'ab 13:00 · 10× 100m Intervalle', time: '13:00' }],
+      Sa: [{ type: 'bk', name: '🚴 2:30h Grizl outdoor', sub: '08:00 · Z2 · erste Outdoor-Runde', time: '08:00' }],
+      So: [{ type: 'sw', name: '🏊 1.5km Ausdauer', sub: '08:00 · Z2', time: '08:00' }, { type: 'rn', name: '🏃 14km', sub: '@5:00/km · Z2' }],
+    }
+  },
+  20: {
+    meta: 'Triathlon Base 2',
+    volume: '~10.5h',
+    days: {
+      Mo: [{ type: 'bk', name: '🚴 75min Kickr', sub: 'Z2' }],
+      Di: [{ type: 'rn', name: '🏃 10km', sub: '@4:55/km · Z2' }],
+      Mi: [{ type: 'bk', name: '🚴 75min Kickr', sub: '3× 8min Sweet Spot Z3' }],
+      Do: [{ type: 'rn', name: '🏃 10km', sub: 'Z2' }],
+      Fr: [{ type: 'bk', name: '🚴 60min Kickr', sub: 'vor 07h · Z2' }, { type: 'sw', name: '🏊 1.8km', sub: 'ab 13:00 · 10× 150m Intervalle', time: '13:00' }],
+      Sa: [{ type: 'bk', name: '🚴 3h Grizl outdoor', sub: '08:00 · Z2 · ~100km', time: '08:00' }],
+      So: [{ type: 'sw', name: '🏊 1.8km Ausdauer', sub: '08:00 · Z2', time: '08:00' }, { type: 'rn', name: '🏃 16km', sub: '@5:00/km · Z2' }],
+    }
+  },
+  21: {
+    meta: 'Triathlon Base 3',
+    volume: '~11h',
+    days: {
+      Mo: [{ type: 'bk', name: '🚴 75min Kickr', sub: 'Z2' }],
+      Di: [{ type: 'rn', name: '🏃 10km', sub: 'Z2' }],
+      Mi: [{ type: 'bk', name: '🚴 90min Kickr', sub: '2× 15min Z3' }],
+      Do: [{ type: 'rn', name: '🏃 10km', sub: '3× 2km @4:30/km · Z3' }],
+      Fr: [{ type: 'bk', name: '🚴 60min Kickr', sub: 'vor 07h · Z2' }, { type: 'sw', name: '🏊 2km', sub: 'ab 13:00 · 2× 800m Ausdauer', time: '13:00' }],
+      Sa: [{ type: 'bk', name: '🚴 3:30h Grizl outdoor', sub: '08:00 · erste 110km-Runde', time: '08:00' }],
+      So: [{ type: 'sw', name: '🏊 1.8km locker', sub: '08:00 · Z2', time: '08:00' }, { type: 'rn', name: '🏃 18km', sub: '@5:00/km · Z2' }],
+    }
+  },
+  22: {
+    meta: 'Aufbau 1 — Erster Brick!',
+    volume: '~12h',
+    days: {
+      Mo: [{ type: 'bk', name: '🚴 90min Kickr', sub: 'Z2' }],
+      Di: [{ type: 'rn', name: '🏃 10km', sub: '@4:55/km · Z2' }],
+      Mi: [{ type: 'bk', name: '🚴 90min Kickr', sub: '3× 10min Schwelle Z4' }],
+      Do: [{ type: 'rn', name: '🏃 10km', sub: 'Z2' }],
+      Fr: [{ type: 'rn', name: '🏃 10km', sub: 'vor 07h · Z2' }, { type: 'sw', name: '🏊 2km Technik + Tempo', sub: 'ab 13:00 · Z2–3', time: '13:00' }],
+      Sa: [{ type: 'br', name: '🧱 BRICK #1', sub: '08:00 · 🚴 3h Grizl + 🏃 20min @4:40/km', time: '08:00' }],
+      So: [{ type: 'sw', name: '🏊 2km locker', sub: '08:00 · Z2 · Erholung Brick', time: '08:00' }, { type: 'rn', name: '🏃 18km', sub: '@4:55/km · Z2' }],
+    }
+  },
+  23: {
+    meta: 'Aufbau 2',
+    volume: '~12.5h',
+    days: {
+      Mo: [{ type: 'bk', name: '🚴 90min Kickr', sub: 'Z2' }],
+      Di: [{ type: 'rn', name: '🏃 12km', sub: '@4:50/km · Z2' }],
+      Mi: [{ type: 'bk', name: '🚴 90min Kickr', sub: 'Schwelle Z4' }],
+      Do: [{ type: 'rn', name: '🏃 12km', sub: 'Z2' }],
+      Fr: [{ type: 'rn', name: '🏃 10km', sub: 'vor 07h · Z2' }, { type: 'sw', name: '🏊 2.2km', sub: 'ab 13:00 · Intervalle + Ausdauer', time: '13:00' }],
+      Sa: [{ type: 'br', name: '🧱 BRICK #2', sub: '08:00 · 🚴 3:30h + 🏃 30min @4:40/km', time: '08:00' }],
+      So: [{ type: 'sw', name: '🏊 2km locker', sub: '08:00 · Z2', time: '08:00' }, { type: 'rn', name: '🏃 20km', sub: '@4:55/km · Z2' }],
+    }
+  },
+  24: {
+    meta: 'Aufbau 3 → Urlaub ab Fr 13.06',
+    volume: '~11h',
+    days: {
+      Mo: [{ type: 'bk', name: '🚴 90min Kickr', sub: 'Z2' }],
+      Di: [{ type: 'rn', name: '🏃 12km', sub: '@4:50/km · Z2' }],
+      Mi: [{ type: 'bk', name: '🚴 90min Kickr', sub: 'Schwelle Z3–4' }],
+      Do: [{ type: 'rn', name: '🏃 12km', sub: 'Z2' }],
+      Fr: [{ type: 'sw', name: '🏊 2.2km', sub: 'ODER ab 13h' }, { type: 'hd', name: '🌴 Urlaub ab 13.06!', sub: 'Bijela Uvala · 45min Lauf morgens' }],
+      Sa: [{ type: 'hd', name: '🌊 Freiwasser 2km', sub: '08:00 · + Abend 30min locker' }],
+      So: [{ type: 'hd', name: '🏃 2h Langer Lauf', sub: '08:00 · Z2 · Bijela Uvala' }],
+    }
+  },
+  25: {
+    meta: '🌴 Urlaub – volle Woche',
+    volume: '~12h · kein Rad',
+    days: {
+      Mo: [{ type: 'hd', name: '🏃 60min Morgenlauf', sub: 'Z2 · Abend 30min locker' }],
+      Di: [{ type: 'hd', name: '🌊 Freiwasser 2.5km', sub: 'intensiv Z3 · Abend 30min' }],
+      Mi: [{ type: 'hd', name: '🏃 75min Tempolauf', sub: 'Z3 · Abend 30min locker' }],
+      Do: [{ type: 'hd', name: '🌊 2.5km Technik', sub: 'Sighting üben · Abend 🏃 30min' }],
+      Fr: [{ type: 'hd', name: '🏃 60min Fahrtspiel', sub: 'Z2–3 · Abend Pause' }],
+      Sa: [{ type: 'hd', name: '🌊 Freiwasser 3km', sub: '08:00 · Abend 30min locker', time: '08:00' }],
+      So: [{ type: 'hd', name: '🏃 2h Langer Lauf', sub: '08:00 · Z2 · Abend Pause', time: '08:00' }],
+    }
+  },
+  26: {
+    meta: 'Urlaub Ende (27.06) → Wien',
+    volume: '~9h',
+    days: {
+      Mo: [{ type: 'hd', name: '🌊 Freiwasser 2km', sub: 'Z2 · Abend 30min locker' }],
+      Di: [{ type: 'hd', name: '🏃 75min Tempo', sub: 'Z3 · Abend 30min locker' }],
+      Mi: [{ type: 'hd', name: '🌊 2.5km', sub: 'Z2 · Abend Pause' }],
+      Do: [{ type: 'hd', name: '🏃 60min locker', sub: 'letzter Urlaubslauf' }],
+      Fr: [{ type: 'rs', name: '🚗 Rückreise Wien', sub: 'Pause · ankommen' }],
+      Sa: [{ type: 'bk', name: '🚴 60min Kickr', sub: '08:00 · Wiedereinstieg Z2', time: '08:00' }],
+      So: [{ type: 'sw', name: '🏊 2km locker', sub: '08:00 · Zurück im Bad', time: '08:00' }, { type: 'rn', name: '🏃 15km locker', sub: 'Z2 · Wien' }],
+    }
+  },
+  27: {
+    meta: 'Peak Build 1',
+    volume: '~14h',
+    days: {
+      Mo: [{ type: 'bk', name: '🚴 90min Kickr', sub: 'Z2' }],
+      Di: [{ type: 'rn', name: '🏃 12km', sub: 'Z2–Z3 · @4:45/km' }],
+      Mi: [{ type: 'bk', name: '🚴 90min Kickr', sub: 'Schwelle Z4' }],
+      Do: [{ type: 'rn', name: '🏃 12km', sub: 'Z2' }],
+      Fr: [{ type: 'rn', name: '🏃 10km', sub: 'vor 07h · Z2' }, { type: 'sw', name: '🏊 2.5km', sub: 'ab 13:00 · Intervalle Z3', time: '13:00' }],
+      Sa: [{ type: 'br', name: '🧱 BRICK #3', sub: '08:00 · 🚴 4h Grizl + 🏃 40min @4:40/km', time: '08:00' }],
+      So: [{ type: 'sw', name: '🏊 2.5km Ausdauer', sub: '08:00 · Z2', time: '08:00' }, { type: 'rn', name: '🏃 20km', sub: '@4:55/km · Z2' }],
+    }
+  },
+  28: {
+    meta: 'Peak Build 2',
+    volume: '~15h',
+    days: {
+      Mo: [{ type: 'bk', name: '🚴 90min Kickr', sub: 'Z2' }],
+      Di: [{ type: 'rn', name: '🏃 12km', sub: '6km @4:30/km · Z3–4' }],
+      Mi: [{ type: 'bk', name: '🚴 90min Kickr', sub: 'Race Pace Intervalle' }],
+      Do: [{ type: 'rn', name: '🏃 12km', sub: 'Z2' }],
+      Fr: [{ type: 'rn', name: '🏃 10km', sub: 'vor 07h · Z2' }, { type: 'sw', name: '🏊 2.8km', sub: 'ab 13:00 · Race Pace + Intervalle', time: '13:00' }],
+      Sa: [{ type: 'br', name: '🧱 BRICK #4', sub: '08:00 · 🚴 4h + 🏃 45min @4:40/km', time: '08:00' }],
+      So: [{ type: 'sw', name: '🏊 2.5km', sub: '08:00 · Z2', time: '08:00' }, { type: 'rn', name: '🏃 21km', sub: '@4:55/km · Z2' }],
+    }
+  },
+  29: {
+    meta: 'Peak Build 3',
+    volume: '~16h',
+    days: {
+      Mo: [{ type: 'bk', name: '🚴 90min Kickr', sub: 'Z2' }],
+      Di: [{ type: 'rn', name: '🏃 14km', sub: 'Z2 · @4:50/km' }],
+      Mi: [{ type: 'bk', name: '🚴 2h Kickr', sub: 'Schwelle + Sprints' }],
+      Do: [{ type: 'rn', name: '🏃 12km', sub: 'Z2' }],
+      Fr: [{ type: 'rn', name: '🏃 12km', sub: 'vor 07h · Z2' }, { type: 'sw', name: '🏊 3km Race Simulation', sub: 'ab 13:00 · durchschwimmen', time: '13:00' }],
+      Sa: [{ type: 'br', name: '🧱 BRICK #5', sub: '08:00 · 🚴 4:30h + 🏃 45min @4:40/km', time: '08:00' }],
+      So: [{ type: 'sw', name: '🏊 2.8km', sub: '08:00 · Z2', time: '08:00' }, { type: 'rn', name: '🏃 22km', sub: 'Z2 · HM-Pace-Abschnitt' }],
+    }
+  },
+  30: {
+    meta: 'Regenerationswoche (−30%)',
+    volume: '~11h',
+    days: {
+      Mo: [{ type: 'bk', name: '🚴 60min Kickr', sub: 'Z2 locker' }],
+      Di: [{ type: 'rn', name: '🏃 10km locker', sub: 'Z2' }],
+      Mi: [{ type: 'bk', name: '🚴 60min Kickr', sub: 'Z2' }],
+      Do: [{ type: 'rn', name: '🏃 8km locker', sub: 'Z2' }],
+      Fr: [{ type: 'rn', name: '🏃 8km', sub: 'vor 07h · Z2' }, { type: 'sw', name: '🏊 2.5km locker', sub: 'ab 13:00 · Z1–Z2', time: '13:00' }],
+      Sa: [{ type: 'bk', name: '🚴 3h locker', sub: '08:00 · Z2 · Grizl outdoor', time: '08:00' }],
+      So: [{ type: 'sw', name: '🏊 2km locker', sub: '08:00 · Z1', time: '08:00' }, { type: 'rn', name: '🏃 16km locker', sub: 'Z2' }],
+    }
+  },
+  31: {
+    meta: 'HÖHEPUNKT 1',
+    volume: '~17h',
+    days: {
+      Mo: [{ type: 'bk', name: '🚴 90min Kickr', sub: 'Z2' }],
+      Di: [{ type: 'rn', name: '🏃 14km', sub: 'Tempo Z3' }],
+      Mi: [{ type: 'bk', name: '🚴 90min Kickr', sub: 'Schwelle Z4' }],
+      Do: [{ type: 'rn', name: '🏃 12km', sub: 'Z2–Z3' }],
+      Fr: [{ type: 'rn', name: '🏃 12km', sub: 'vor 07h · Z2' }, { type: 'sw', name: '🏊 3km Race Pace', sub: 'ab 13:00 · Intervalle', time: '13:00' }],
+      Sa: [{ type: 'br', name: '🧱 BIG BRICK', sub: '08:00 · 🚴 5h Grizl + 🏃 45min @4:40/km', time: '08:00' }],
+      So: [{ type: 'sw', name: '🏊 3km', sub: '08:00 · Z2–Z3', time: '08:00' }, { type: 'rn', name: '🏃 21km Race Pace', sub: '@4:35/km' }],
+    }
+  },
+  32: {
+    meta: 'HÖHEPUNKT 2 — Max.',
+    volume: '~17.5h',
+    days: {
+      Mo: [{ type: 'bk', name: '🚴 90min Kickr', sub: 'Z2' }],
+      Di: [{ type: 'rn', name: '🏃 14km', sub: 'Z2–Z3' }],
+      Mi: [{ type: 'bk', name: '🚴 2h Kickr', sub: 'Schwelle Z4' }],
+      Do: [{ type: 'rn', name: '🏃 10km', sub: 'Z2' }],
+      Fr: [{ type: 'rn', name: '🏃 10km', sub: 'vor 07h · Z2' }, { type: 'sw', name: '🏊 2.8km', sub: 'ab 13:00 · Z2–Z3', time: '13:00' }],
+      Sa: [{ type: 'br', name: '🧱 RACE SIMULATION', sub: '08:00 · 🚴 90km + 🏃 15km @4:35/km', time: '08:00' }],
+      So: [{ type: 'sw', name: '🏊 3km', sub: '08:00 · Z2', time: '08:00' }, { type: 'rn', name: '🏃 18km', sub: 'Z2' }],
+    }
+  },
+  33: {
+    meta: 'Taper Woche 1 (−30%)',
+    volume: '~11h',
+    days: {
+      Mo: [{ type: 'bk', name: '🚴 75min Kickr', sub: '2× 10min Z3' }],
+      Di: [{ type: 'rn', name: '🏃 10km', sub: '@5:00/km · Z2' }],
+      Mi: [{ type: 'bk', name: '🚴 60min Kickr', sub: 'Z2' }],
+      Do: [{ type: 'rn', name: '🏃 8km', sub: 'Z2' }],
+      Fr: [{ type: 'rn', name: '🏃 8km', sub: 'vor 07h · Z2' }, { type: 'sw', name: '🏊 2.5km locker', sub: 'ab 13:00 · Z2', time: '13:00' }],
+      Sa: [{ type: 'br', name: '🧱 BRICK', sub: '08:00 · 🚴 3h + 🏃 30min Race Pace', time: '08:00' }],
+      So: [{ type: 'sw', name: '🏊 2km locker', sub: '08:00 · Z2', time: '08:00' }, { type: 'rn', name: '🏃 14km locker', sub: 'Z2' }],
+    }
+  },
+  34: {
+    meta: 'Taper Woche 2 (−50%)',
+    volume: '~8h',
+    days: {
+      Mo: [{ type: 'bk', name: '🚴 60min Kickr', sub: '2× 8min Z3' }],
+      Di: [{ type: 'rn', name: '🏃 8km', sub: '@5:00/km · Z2' }],
+      Mi: [{ type: 'bk', name: '🚴 45min Kickr', sub: 'Z2' }],
+      Do: [{ type: 'rn', name: '🏃 6km locker', sub: 'Z1–Z2' }],
+      Fr: [{ type: 'rn', name: '🏃 6km locker', sub: 'vor 07h · Z2' }, { type: 'sw', name: '🏊 1.8km locker', sub: 'ab 13:00 · Z1–Z2', time: '13:00' }],
+      Sa: [{ type: 'br', name: '🧱 Mini-Brick', sub: '08:00 · 🚴 2h + 🏃 20min Race Pace', time: '08:00' }],
+      So: [{ type: 'sw', name: '🏊 1.5km locker', sub: '08:00 · Z1', time: '08:00' }, { type: 'rn', name: '🏃 12km locker', sub: 'Z2' }],
+    }
+  },
+  35: {
+    meta: '🏆 RENNWOCHE',
+    volume: '~2.5h + Rennen',
+    days: {
+      Mo: [{ type: 'rn', name: '🏃 5km locker', sub: '+ 4× Strides · Z1' }],
+      Di: [{ type: 'bk', name: '🚴 30min Kickr', sub: 'Z1 sehr locker' }],
+      Mi: [{ type: 'rn', name: '🏃 4km + 2× Strides', sub: 'Z1' }],
+      Do: [{ type: 'rs', name: '💤 Totale Pause', sub: 'Koffer packen · Material check' }],
+      Fr: [{ type: 'rs', name: '🚗 Anreise Zell am See', sub: 'Rad aufbauen · einchecken' }, { type: 'sw', name: '🌊 600m Freiwasser', sub: 'Eingewöhnung Kurs' }],
+      Sa: [{ type: 'rn', name: '🏃 2km Aktivierung', sub: '08:00 · Beine wecken' }, { type: 'sw', name: '🌊 600m Test-Swim', sub: '+ 🚴 15min Rad-Check' }],
+      So: [{ type: 'rc', name: '🏆 70.3 IRONMAN ZELL AM SEE', sub: 'Ziel: Sub 5:00h · Start ~08:00h', time: '08:00' }],
+    }
+  },
+};
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let currentPlanWeek = 12;
+let completedWorkouts = JSON.parse(localStorage.getItem('completedWorkouts') || '{}');
+
+function saveCompleted() {
+  localStorage.setItem('completedWorkouts', JSON.stringify(completedWorkouts));
+}
+
+// ═══════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════
+const MARATHON_DATE = new Date(2026, 3, 19);
+const IRONMAN_DATE = new Date(2026, 7, 30);
+
+function daysUntil(date) {
+  const now = new Date();
+  now.setHours(0,0,0,0);
+  return Math.ceil((date - now) / 86400000);
+}
+
+function getCurrentKW() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  for (let kw = 35; kw >= 12; kw--) {
+    if (WEEK_STARTS[kw] && today >= WEEK_STARTS[kw]) return kw;
+  }
+  return 12;
+}
+
+function getTodayDayIdx() {
+  const d = new Date().getDay();
+  return d === 0 ? 6 : d - 1; // 0=Mo, 6=So
+}
+
+function getPhaseForWeek(kw) {
+  return PHASES.find(p => p.weeks.includes(kw)) || PHASES[0];
+}
+
+function formatDate(d) {
+  return `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}`;
+}
+
+function workoutId(kw, day, idx) {
+  return `${kw}-${day}-${idx}`;
+}
+
+function toggleWorkout(kw, day, idx) {
+  const id = workoutId(kw, day, idx);
+  completedWorkouts[id] = !completedWorkouts[id];
+  saveCompleted();
+  renderAll();
+}
+
+// ═══════════════════════════════════════════════
+// RENDER WORKOUT CARD
+// ═══════════════════════════════════════════════
+function renderWorkoutItem(workout, kw, day, idx) {
+  const id = workoutId(kw, day, idx);
+  const done = !!completedWorkouts[id];
+  const t = workout.type;
+  return `
+    <div class="workout-item ${done ? 'done' : ''}" onclick="toggleWorkout(${kw},'${day}',${idx})">
+      <div class="workout-icon ${t}">${DAY_ICONS[t] || '📋'}</div>
+      <div class="workout-details">
+        <div class="workout-name ${t}">${workout.name}</div>
+        <div class="workout-sub">${workout.sub}</div>
+        ${workout.time ? `<div class="workout-time">🕐 ${workout.time}</div>` : ''}
+      </div>
+      <div class="check-btn">${done ? '✓' : ''}</div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════
+// RENDER TODAY SCREEN
+// ═══════════════════════════════════════════════
+function renderToday() {
+  const kw = getCurrentKW();
+  const dayIdx = getTodayDayIdx();
+  const dayName = DAYS[dayIdx];
+  const week = PLAN[kw];
+  const phase = getPhaseForWeek(kw);
+
+  // Countdown
+  const md = daysUntil(MARATHON_DATE);
+  document.getElementById('days-to-marathon').textContent = md > 0 ? md : '🏆';
+
+  // Today workouts
+  const todayEl = document.getElementById('today-workouts-container');
+  const todayWorkouts = week ? (week.days[dayName] || []) : [];
+
+  let done = 0, total = todayWorkouts.length;
+  todayWorkouts.forEach((w, i) => { if (completedWorkouts[workoutId(kw, dayName, i)]) done++; });
+  const pct = total ? Math.round(done/total*100) : 0;
+
+  const dateStart = WEEK_STARTS[kw];
+  const todayDate = dateStart ? new Date(dateStart.getTime() + dayIdx * 86400000) : new Date();
+
+  todayEl.innerHTML = `
+    <div class="today-card">
+      <div class="today-card-header">
+        <div>
+          <div class="today-week">${dayName}, ${formatDate(todayDate)}.2026</div>
+          <div class="today-date">KW${kw} · ${week ? week.meta : ''}</div>
+        </div>
+        <div class="today-phase-tag">${phase.name.split('—')[0].trim()}</div>
+      </div>
+      ${todayWorkouts.length === 0 ? `<div class="empty-state"><span class="emoji">💤</span>Kein Training geplant — Erholung!</div>` :
+        todayWorkouts.map((w, i) => renderWorkoutItem(w, kw, dayName, i)).join('')}
+      ${total > 0 ? `<div class="progress-row">
+        <div class="progress-bar-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
+        <div class="progress-text">${done}/${total}</div>
+      </div>` : ''}
+    </div>`;
+
+  // This week
+  const weekEl = document.getElementById('this-week-container');
+  if (!week) { weekEl.innerHTML = ''; return; }
+
+  let weekHtml = `<div class="today-card">`;
+  DAYS.forEach((day, dIdx) => {
+    const workouts = week.days[day] || [];
+    const isToday = dIdx === dayIdx;
+    const dayDate = dateStart ? new Date(dateStart.getTime() + dIdx * 86400000) : null;
+
+    let wDone = 0;
+    workouts.forEach((w, i) => { if (completedWorkouts[workoutId(kw, day, i)]) wDone++; });
+
+    weekHtml += `<div style="padding:8px 14px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px;">
+      <div style="min-width:28px; font-size:10px; font-weight:600; color:${isToday ? 'var(--accent)' : 'var(--text-dim)'}">
+        ${day}${isToday ? ' <span style="color:var(--accent)">●</span>' : ''}
+      </div>
+      <div style="flex:1;">`;
+
+    if (workouts.length === 0) {
+      weekHtml += `<div style="font-size:11px; color:var(--text-muted); font-style:italic;">Pause</div>`;
+    } else {
+      workouts.forEach(w => {
+        weekHtml += `<div style="font-size:11px; color:var(--${
+          w.type === 'sw' ? 'swim' : w.type === 'bk' ? 'bike' : w.type === 'rn' ? 'run' :
+          w.type === 'br' ? 'brick' : w.type === 'rc' ? 'race' : w.type === 'hd' ? 'holiday' : 'rest'
+        });">${w.name}</div>`;
+      });
+    }
+
+    weekHtml += `</div>`;
+    if (workouts.length > 0) {
+      weekHtml += `<div style="font-size:10px; color:${wDone === workouts.length && workouts.length > 0 ? 'var(--done-check)' : 'var(--text-dim)'}; font-family:monospace;">${wDone}/${workouts.length}</div>`;
+    }
+    weekHtml += `</div>`;
+  });
+  weekHtml += `</div>`;
+  weekEl.innerHTML = weekHtml;
+}
+
+// ═══════════════════════════════════════════════
+// RENDER PLAN SCREEN
+// ═══════════════════════════════════════════════
+function renderPlan() {
+  const kw = currentPlanWeek;
+  const week = PLAN[kw];
+  const phase = getPhaseForWeek(kw);
+  const dateStart = WEEK_STARTS[kw];
+  const dateEnd = dateStart ? new Date(dateStart.getTime() + 6 * 86400000) : null;
+  const currentKW = getCurrentKW();
+  const todayDayIdx = getTodayDayIdx();
+
+  document.getElementById('plan-kw-label').textContent = `KW${kw}`;
+  document.getElementById('plan-date-label').textContent = dateStart && dateEnd ?
+    `${formatDate(dateStart)} – ${formatDate(dateEnd)}.2026` : '';
+
+  document.getElementById('prev-week-btn').disabled = kw <= 12;
+  document.getElementById('next-week-btn').disabled = kw >= 35;
+
+  const banner = document.getElementById('plan-phase-banner');
+  banner.style.background = phase.bg;
+  banner.style.borderLeft = `3px solid ${phase.color}`;
+  banner.style.color = '#e2edf8';
+  banner.textContent = phase.name;
+
+  if (!week) { document.getElementById('plan-week-content').innerHTML = ''; return; }
+
+  let html = ``;
+  DAYS.forEach((day, dIdx) => {
+    const workouts = week.days[day] || [];
+    const isToday = kw === currentKW && dIdx === todayDayIdx;
+    const dayDate = dateStart ? new Date(dateStart.getTime() + dIdx * 86400000) : null;
+
+    let dayDone = 0;
+    workouts.forEach((w, i) => { if (completedWorkouts[workoutId(kw, day, i)]) dayDone++; });
+
+    html += `<div class="day-card ${isToday ? 'today-highlight' : ''}">
+      <div style="padding:8px 12px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+        <div style="font-size:12px; font-weight:600; color:${isToday ? 'var(--accent)' : 'var(--text)'};">
+          ${isToday ? '● ' : ''}${day}${dayDate ? ` · ${formatDate(dayDate)}` : ''}
+        </div>
+        ${workouts.length > 0 ? `<div style="font-size:10px; color:var(--text-dim); font-family:monospace;">${dayDone}/${workouts.length}</div>` : ''}
+      </div>`;
+
+    if (workouts.length === 0) {
+      html += `<div style="padding:10px 12px; font-size:11px; color:var(--text-muted); font-style:italic;">Kein Training</div>`;
+    } else {
+      workouts.forEach((w, i) => { html += renderWorkoutItem(w, kw, day, i); });
+    }
+    html += `</div>`;
+  });
+
+  // Volume
+  html += `<div style="text-align:center; padding:12px; font-family:monospace; font-size:11px; color:var(--text-dim);">
+    Wochenvolumen: <strong style="color:var(--text)">${week.volume}</strong>
+  </div>`;
+
+  document.getElementById('plan-week-content').innerHTML = html;
+}
+
+function changeWeek(delta) {
+  currentPlanWeek = Math.max(12, Math.min(35, currentPlanWeek + delta));
+  renderPlan();
+}
+
+function goToCurrentWeek() {
+  currentPlanWeek = getCurrentKW();
+  renderPlan();
+}
+
+// ═══════════════════════════════════════════════
+// RENDER PROGRESS SCREEN
+// ═══════════════════════════════════════════════
+function renderProgress() {
+  // Count all workouts
+  let totalWorkouts = 0, doneWorkouts = 0;
+  for (let kw = 12; kw <= 35; kw++) {
+    const week = PLAN[kw];
+    if (!week) continue;
+    DAYS.forEach(day => {
+      const ws = week.days[day] || [];
+      ws.forEach((w, i) => {
+        if (w.type !== 'rs') {
+          totalWorkouts++;
+          if (completedWorkouts[workoutId(kw, day, i)]) doneWorkouts++;
+        }
+      });
+    });
+  }
+
+  const pct = totalWorkouts ? Math.round(doneWorkouts / totalWorkouts * 100) : 0;
+  document.getElementById('stat-done').textContent = doneWorkouts;
+  document.getElementById('stat-total').textContent = totalWorkouts;
+  document.getElementById('donut-pct').textContent = pct + '%';
+
+  const circumference = 238.76;
+  const offset = circumference - (pct / 100) * circumference;
+  document.getElementById('donut-progress').style.strokeDashoffset = offset;
+
+  const md = daysUntil(MARATHON_DATE);
+  const id = daysUntil(IRONMAN_DATE);
+  document.getElementById('stat-marathon-days').textContent = md > 0 ? md : '✓';
+  document.getElementById('stat-ironman-days').textContent = id > 0 ? id : '✓';
+
+  // Phase progress
+  const currentKW = getCurrentKW();
+  const phaseList = document.getElementById('phase-progress-list');
+  phaseList.innerHTML = PHASES.map((phase, idx) => {
+    const totalWeeks = phase.weeks.length;
+    const doneWeeks = phase.weeks.filter(kw => kw < currentKW).length;
+    const activeWeeks = phase.weeks.filter(kw => kw === currentKW).length;
+    const phasePct = Math.round((doneWeeks + activeWeeks * 0.5) / totalWeeks * 100);
+
+    return `<div class="phase-prog-item">
+      <div class="phase-prog-num">${idx + 1}</div>
+      <div class="phase-prog-info">
+        <div class="phase-prog-name">${phase.name}</div>
+        <div class="phase-prog-weeks">KW${phase.weeks[0]}–${phase.weeks[phase.weeks.length-1]} · ${totalWeeks} Wochen</div>
+      </div>
+      <div class="phase-prog-bar-wrap">
+        <div class="phase-prog-bar" style="width:${phasePct}%; background:${phase.color};"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(`screen-${name}`).classList.add('active');
+  document.getElementById(`nav-${name}`).classList.add('active');
+
+  if (name === 'plan') renderPlan();
+  if (name === 'progress') renderProgress();
+  if (name === 'today') renderToday();
+}
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+function renderAll() {
+  const activeScreen = document.querySelector('.screen.active')?.id?.replace('screen-', '');
+  if (activeScreen === 'today') renderToday();
+  if (activeScreen === 'plan') renderPlan();
+  if (activeScreen === 'progress') renderProgress();
+}
+
+currentPlanWeek = getCurrentKW();
+renderToday();
+</script>
+</body>
+</html>
