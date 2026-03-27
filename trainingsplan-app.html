@@ -7,7 +7,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Training 2026">
 <meta name="theme-color" content="#060a10">
-<title>Training 2026</title>
+<title>Swim · Bike · Run 2026</title>
+<!-- favicon replaced below -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23080c12'/%3E%3C!-- ribbon left --%3E%3Crect x='22' y='3' width='8' height='20' rx='3' fill='%233b82f6'/%3E%3Crect x='24' y='3' width='4' height='20' rx='2' fill='%2360a5fa' opacity='0.6'/%3E%3C!-- ribbon right --%3E%3Crect x='34' y='3' width='8' height='20' rx='3' fill='%233b82f6'/%3E%3Crect x='36' y='3' width='4' height='20' rx='2' fill='%2360a5fa' opacity='0.6'/%3E%3C!-- connector bar --%3E%3Crect x='22' y='19' width='20' height='6' rx='2' fill='%231d4ed8'/%3E%3C!-- medal shadow --%3E%3Ccircle cx='32' cy='45' r='17' fill='%23000' opacity='0.3'/%3E%3C!-- medal outer --%3E%3Ccircle cx='32' cy='43' r='17' fill='%23b45309'/%3E%3C!-- medal ring --%3E%3Ccircle cx='32' cy='43' r='14' fill='%23d97706'/%3E%3C!-- medal face --%3E%3Ccircle cx='32' cy='43' r='11' fill='%23fbbf24'/%3E%3C!-- shine --%3E%3Cellipse cx='29' cy='38' rx='4' ry='2.5' fill='%23fff' opacity='0.25' transform='rotate(-20 29 38)'/%3E%3C!-- star --%3E%3Cpolygon points='32,35 33.8,40.5 39.5,40.5 35,44 36.8,49.5 32,46 27.2,49.5 29,44 24.5,40.5 30.2,40.5' fill='%23fffbeb' opacity='0.95'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23080c12'/%3E%3Crect x='22' y='3' width='8' height='20' rx='3' fill='%233b82f6'/%3E%3Crect x='24' y='3' width='4' height='20' rx='2' fill='%2360a5fa' opacity='0.6'/%3E%3Crect x='34' y='3' width='8' height='20' rx='3' fill='%233b82f6'/%3E%3Crect x='36' y='3' width='4' height='20' rx='2' fill='%2360a5fa' opacity='0.6'/%3E%3Crect x='22' y='19' width='20' height='6' rx='2' fill='%231d4ed8'/%3E%3Ccircle cx='32' cy='45' r='17' fill='%23000' opacity='0.3'/%3E%3Ccircle cx='32' cy='43' r='17' fill='%23b45309'/%3E%3Ccircle cx='32' cy='43' r='14' fill='%23d97706'/%3E%3Ccircle cx='32' cy='43' r='11' fill='%23fbbf24'/%3E%3Cellipse cx='29' cy='38' rx='4' ry='2.5' fill='%23fff' opacity='0.25' transform='rotate(-20 29 38)'/%3E%3Cpolygon points='32,35 33.8,40.5 39.5,40.5 35,44 36.8,49.5 32,46 27.2,49.5 29,44 24.5,40.5 30.2,40.5' fill='%23fffbeb' opacity='0.95'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -299,7 +302,100 @@ body {
   padding: 2px 8px; font-size: 10px; color: var(--race); margin-left: 8px;
 }
 
-/* ── UTIL ── */
+/* ── NUTRITION DAY HEADER ── */
+.nutr-day-hero {
+  border-radius: 16px; padding: 18px 20px; margin-bottom: 14px;
+  position: relative; overflow: hidden;
+}
+.nutr-day-hero::before {
+  content: ''; position: absolute; top: -30px; right: -30px;
+  width: 130px; height: 130px;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.nutr-day-tag {
+  font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+  opacity: 0.7; margin-bottom: 4px;
+}
+.nutr-day-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1.5px;
+  color: #fff; line-height: 1.1; margin-bottom: 6px;
+}
+.nutr-kcal-big {
+  font-family: 'DM Mono', monospace; font-size: 36px; font-weight: 500;
+  color: #fff; line-height: 1;
+}
+.nutr-kcal-label { font-size: 11px; opacity: 0.6; margin-left: 4px; }
+.nutr-intensity-bar {
+  margin-top: 12px; display: flex; gap: 4px;
+}
+.nutr-int-dot {
+  width: 28px; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.15);
+  transition: background 0.3s;
+}
+.nutr-int-dot.active { background: rgba(255,255,255,0.8); }
+
+/* ── MACRO ROW ── */
+.macro-row {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 14px;
+}
+.macro-pill {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 10px 12px; text-align: center;
+}
+.macro-pill .mp-label { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
+.macro-pill .mp-val { font-family: 'DM Mono', monospace; font-size: 18px; font-weight: 500; margin: 3px 0 1px; }
+.macro-pill .mp-unit { font-size: 9px; color: var(--text-dim); }
+.macro-pill.prot .mp-val { color: var(--swim); }
+.macro-pill.carb .mp-val { color: var(--bike); }
+.macro-pill.fat .mp-val { color: var(--run); }
+
+/* ── MEAL CARDS ── */
+.meal-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden; margin-bottom: 8px;
+}
+.meal-header {
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.meal-name { font-size: 12px; font-weight: 600; color: var(--text); }
+.meal-kcal { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); }
+.meal-body { padding: 10px 14px; }
+.meal-body p { font-size: 11px; color: var(--text-dim); line-height: 1.7; }
+.meal-body p strong { color: var(--text); }
+.meal-ingredient {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 5px 0; border-bottom: 1px solid var(--border);
+  font-size: 11px;
+}
+.meal-ingredient:last-child { border-bottom: none; }
+.meal-ingredient .ing-name { color: var(--text); }
+.meal-ingredient .ing-amount { color: var(--text-dim); font-family: 'DM Mono', monospace; font-size: 10px; }
+.meal-ingredient .ing-kcal { color: var(--accent); font-family: 'DM Mono', monospace; font-size: 10px; min-width: 50px; text-align: right; }
+
+/* during-workout card */
+.during-card {
+  background: rgba(251,146,60,0.08); border: 1px solid rgba(251,146,60,0.25);
+  border-radius: 12px; padding: 12px 14px; margin-bottom: 8px;
+}
+.during-card .dc-title { font-size: 12px; font-weight: 600; color: var(--bike); margin-bottom: 6px; }
+.during-card .dc-body { font-size: 11px; color: var(--text-dim); line-height: 1.7; }
+.during-card .dc-body strong { color: var(--text); }
+
+.nutr-tip {
+  background: rgba(96,165,250,0.06); border: 1px solid rgba(96,165,250,0.18);
+  border-radius: 10px; padding: 10px 14px; margin-bottom: 8px;
+  font-size: 11px; color: var(--text-dim); line-height: 1.6;
+}
+.nutr-tip strong { color: var(--accent); }
+
+.coming-soon-badge {
+  display: inline-block; background: rgba(251,191,36,0.1);
+  border: 1px solid rgba(251,191,36,0.25); border-radius: 6px;
+  padding: 2px 8px; font-size: 10px; color: var(--race); margin-left: 8px;
+}
+
 .divider { height: 1px; background: var(--border); margin: 16px 0; }
 .empty-state { text-align: center; padding: 40px 20px; color: var(--text-dim); font-size: 13px; }
 .empty-state .emoji { font-size: 36px; display: block; margin-bottom: 12px; }
@@ -323,7 +419,10 @@ body {
 <div id="screen-today" class="screen active">
   <div class="app-header">
     <div>
-      <div class="app-title">🏊 BIKE · <span>RUN</span></div>
+      <div class="app-title">SWIM · BIKE · <span>RUN</span></div>
+
+
+
       <div class="app-sub">WIEN MARATHON · 70.3 IRONMAN ZELL AM SEE</div>
     </div>
     <div class="race-badge">
@@ -361,7 +460,9 @@ body {
   </div>
 
   <div id="plan-phase-banner" class="phase-banner"></div>
-  <div id="plan-week-content"></div>
+  <div id="plan-swipe-area" style="touch-action:pan-y; overflow:hidden; position:relative;">
+    <div id="plan-week-content" style="transition: transform 0.25s ease, opacity 0.2s ease;"></div>
+  </div>
 </div>
 
 <!-- ══════════════════════════════════════════════
@@ -416,78 +517,7 @@ body {
      SCREEN 4: NUTRITION
 ═══════════════════════════════════════════════════ -->
 <div id="screen-nutrition" class="screen">
-  <div style="padding-top:8px; margin-bottom:16px;">
-    <div class="app-title" style="font-size:28px;">ERNÄHRUNG</div>
-    <div class="app-sub">Race Nutrition 2026</div>
-  </div>
-
-  <div class="nutrition-hero">
-    <h2>🥗 ERNÄHRUNGSPLAN</h2>
-    <p>Hier entsteht dein persönlicher Ernährungsplan.<br>
-    Lade deinen Plan hoch, um ihn hier einzubinden.</p>
-  </div>
-
-  <div class="section-label" style="margin-bottom:10px;">Kalorienbedarf (Richtwert · 95kg)</div>
-  <div class="macro-grid">
-    <div class="macro-card prot">
-      <div class="m-label">Protein</div>
-      <div class="m-val">190</div>
-      <div class="m-unit">g/Tag</div>
-    </div>
-    <div class="macro-card carb">
-      <div class="m-label">Kohlenhydrate</div>
-      <div class="m-val">380</div>
-      <div class="m-unit">g/Tag</div>
-    </div>
-    <div class="macro-card fat">
-      <div class="m-label">Fett</div>
-      <div class="m-val">85</div>
-      <div class="m-unit">g/Tag</div>
-    </div>
-  </div>
-
-  <div class="section-label" style="margin-bottom:10px;">Mahlzeiten-Planer <span class="coming-soon-badge">Coming soon</span></div>
-
-  <div class="meal-card">
-    <div class="meal-header">
-      <span class="meal-name">🌅 Vor dem Training (morgens)</span>
-      <span class="meal-kcal">~400 kcal</span>
-    </div>
-    <div class="meal-body">
-      <p>Haferflocken (80g) + Banane + Honig + Proteinpulver (25g)<br>
-      <strong>Timing:</strong> 60–90 Min vor der Einheit</p>
-    </div>
-  </div>
-  <div class="meal-card">
-    <div class="meal-header">
-      <span class="meal-name">🚴 Während langer Einheit (>90 min)</span>
-      <span class="meal-kcal">60–90g Carbs/h</span>
-    </div>
-    <div class="meal-body">
-      <p>Gels alle 30 Min · Riegel bei >3h · Elektrolyte permanent<br>
-      <strong>Trinken:</strong> 500–750ml/h · bei Hitze mehr</p>
-    </div>
-  </div>
-  <div class="meal-card">
-    <div class="meal-header">
-      <span class="meal-name">🏆 Renntag Marathon</span>
-      <span class="meal-kcal">Race Nutrition</span>
-    </div>
-    <div class="meal-body">
-      <p>3h vorher: Haferbrei + Toast. Gel alle 5km ab KM10.<br>
-      <strong>Wasser + Isotonic</strong> an jedem Verpflegungspunkt</p>
-    </div>
-  </div>
-  <div class="meal-card">
-    <div class="meal-header">
-      <span class="meal-name">🌊 Renntag 70.3 Ironman</span>
-      <span class="meal-kcal">Race Nutrition</span>
-    </div>
-    <div class="meal-body">
-      <p>Rad: 2 Flaschen (Carbs + Elektrolyte) · Gel alle 45 Min<br>
-      Laufen: Gel KM4, KM8, KM12 · Cola bei KM15+</p>
-    </div>
-  </div>
+  <div id="nutrition-content"></div>
 </div>
 
 <!-- ══════════════════════════════════════════════
@@ -1162,20 +1192,462 @@ function showScreen(name) {
   if (name === 'plan') renderPlan();
   if (name === 'progress') renderProgress();
   if (name === 'today') renderToday();
+  if (name === 'nutrition') renderNutrition();
 }
 
 // ═══════════════════════════════════════════════
-// INIT
+// RENDER NUTRITION SCREEN — dynamisch auf Trainingstag
 // ═══════════════════════════════════════════════
+function renderNutrition() {
+  const kw = getCurrentKW();
+  const dayIdx = getTodayDayIdx();
+  const dayName = DAYS[dayIdx];
+  const week = PLAN[kw];
+  const todayWorkouts = week ? (week.days[dayName] || []) : [];
+
+  // ── Trainingsintensität bestimmen ──
+  // 0=Ruhe, 1=Leicht, 2=Mittel, 3=Intensiv, 4=Sehr intensiv/Brick/Renn
+  function getIntensity() {
+    if (!todayWorkouts.length) return 0;
+    const types = todayWorkouts.map(w => w.type);
+    if (types.includes('rc')) return 5; // Renntag
+    if (types.includes('br')) return 4; // Brick
+    // Lange Einheiten: prüfe keywords
+    const names = todayWorkouts.map(w => w.name + ' ' + w.sub).join(' ').toLowerCase();
+    if (names.includes('2h') || names.includes('3h') || names.includes('4h') || names.includes('5h') ||
+        names.includes('lang') || names.includes('22km') || names.includes('21km') || names.includes('20km')) return 3;
+    if (names.includes('schwelle') || names.includes('z4') || names.includes('tempo') || names.includes('race pace') || names.includes('intervall')) return 3;
+    if (types.every(t => t === 'rs')) return 0;
+    const swimBikeRun = types.filter(t => ['sw','bk','rn'].includes(t)).length;
+    if (swimBikeRun >= 2) return 2;
+    return 1;
+  }
+
+  const intensity = getIntensity();
+
+  // ── Kalorien nach Intensität (95kg Athlet, ~2000 kcal Grundumsatz) ──
+  const KCAL_TABLE = [
+    { label: 'Ruhetag', kcal: 2200, carb: 220, prot: 190, fat: 80, color: '#1e3050', tagColor: '#60a5fa', dots: 1, desc: 'Aktive Erholung — Fokus auf Mikronährstoffe & Protein' },
+    { label: 'Leichter Trainingstag', kcal: 2600, carb: 290, prot: 195, fat: 82, color: '#0a2010', tagColor: '#4ade80', dots: 2, desc: 'Moderate Einheit — ausreichend Carbs für Energie' },
+    { label: 'Mittlerer Trainingstag', kcal: 3000, carb: 360, prot: 200, fat: 85, color: '#1a1200', tagColor: '#fb923c', dots: 3, desc: 'Solide Belastung — Carb-Loading vor der Einheit' },
+    { label: 'Intensiver Trainingstag', kcal: 3400, carb: 430, prot: 205, fat: 88, color: '#1a0a2e', tagColor: '#c084fc', dots: 4, desc: 'Hohe Belastung — maximale Carb-Zufuhr, viel Hydration' },
+    { label: 'Brick / Langer Block', kcal: 3800, carb: 500, prot: 210, fat: 90, color: '#2a0650', tagColor: '#c084fc', dots: 5, desc: 'Maximale Belastung — Race-Nutrition während + danach' },
+    { label: 'RENNTAG', kcal: 4200, carb: 560, prot: 200, fat: 85, color: '#2a1a00', tagColor: '#fbbf24', dots: 5, desc: 'Alles geben — Carb-Loading ab Vortag, optimales Fueling' },
+  ];
+  const day = KCAL_TABLE[intensity];
+
+  // ── Mahlzeitenverteilung nach Intensität ──
+  // Frühstück ~25%, Mittagessen ~30%, Abendessen ~30%, Snacks ~15%
+  const fr_kcal = Math.round(day.kcal * 0.25 / 50) * 50;
+  const mi_kcal = Math.round(day.kcal * 0.30 / 50) * 50;
+  const ab_kcal = Math.round(day.kcal * 0.30 / 50) * 50;
+  const sn_kcal = day.kcal - fr_kcal - mi_kcal - ab_kcal;
+
+  // ── Mahlzeit-Templates nach Intensität ──
+  const MEALS = {
+    fruehstueck: [
+      // 0 — Ruhe
+      { ingredients: [
+        { name: 'Griechischer Joghurt', amount: '200g', kcal: 130 },
+        { name: 'Heidelbeeren', amount: '100g', kcal: 57 },
+        { name: 'Walnüsse', amount: '20g', kcal: 130 },
+        { name: 'Honig', amount: '10g', kcal: 30 },
+        { name: 'Leinsamen', amount: '10g', kcal: 53 },
+      ], tip: 'Protein-reiches Start — gesunde Fette für die Erholung.' },
+      // 1 — Leicht
+      { ingredients: [
+        { name: 'Haferflocken', amount: '70g', kcal: 255 },
+        { name: 'Milch (1,5%)', amount: '200ml', kcal: 86 },
+        { name: 'Banane', amount: '1 Stück', kcal: 89 },
+        { name: 'Erdnussbutter', amount: '15g', kcal: 88 },
+      ], tip: '60–90 Min vor dem Training essen.' },
+      // 2 — Mittel
+      { ingredients: [
+        { name: 'Haferflocken', amount: '90g', kcal: 328 },
+        { name: 'Milch (1,5%)', amount: '250ml', kcal: 108 },
+        { name: 'Banane', amount: '1 groß', kcal: 105 },
+        { name: 'Honig', amount: '15g', kcal: 45 },
+        { name: 'Proteinpulver', amount: '25g', kcal: 95 },
+      ], tip: 'Kohlenhydrat-reich für die bevorstehende Einheit.' },
+      // 3 — Intensiv
+      { ingredients: [
+        { name: 'Haferflocken', amount: '100g', kcal: 365 },
+        { name: 'Milch (1,5%)', amount: '300ml', kcal: 129 },
+        { name: 'Banane', amount: '2 Stück', kcal: 178 },
+        { name: 'Honig', amount: '20g', kcal: 60 },
+        { name: 'Proteinpulver', amount: '30g', kcal: 114 },
+        { name: 'Heidelbeeren', amount: '80g', kcal: 46 },
+      ], tip: 'Maximales Carb-Loading vor intensiver Einheit.' },
+      // 4 — Brick
+      { ingredients: [
+        { name: 'Haferflocken', amount: '120g', kcal: 438 },
+        { name: 'Milch (1,5%)', amount: '300ml', kcal: 129 },
+        { name: 'Banane', amount: '2 Stück', kcal: 178 },
+        { name: 'Honig', amount: '25g', kcal: 75 },
+        { name: 'Proteinpulver', amount: '30g', kcal: 114 },
+        { name: 'Toast', amount: '2 Scheiben', kcal: 160 },
+        { name: 'Marmelade', amount: '20g', kcal: 52 },
+      ], tip: '2–3h vor dem Brick-Start essen. Danach Gel + Wasser.' },
+      // 5 — Renntag
+      { ingredients: [
+        { name: 'Weißer Reis', amount: '200g', kcal: 260 },
+        { name: 'Banane', amount: '2 Stück', kcal: 178 },
+        { name: 'Toast', amount: '3 Scheiben', kcal: 240 },
+        { name: 'Honig', amount: '30g', kcal: 90 },
+        { name: 'Proteinpulver', amount: '25g', kcal: 95 },
+        { name: 'Kaffee', amount: '1 Tasse', kcal: 5 },
+      ], tip: '3h vor dem Start! Leicht verdaulich — kein Fett, kein Ballaststoff.' },
+    ],
+    mittagessen: [
+      // 0 — Ruhe
+      { ingredients: [
+        { name: 'Hühnerbrust gegrillt', amount: '180g', kcal: 198 },
+        { name: 'Quinoa', amount: '80g trocken', kcal: 292 },
+        { name: 'Gemischter Salat', amount: '200g', kcal: 40 },
+        { name: 'Olivenöl', amount: '10ml', kcal: 90 },
+        { name: 'Feta', amount: '30g', kcal: 80 },
+      ], tip: 'Protein & Mikronährstoffe für optimale Regeneration.' },
+      // 1 — Leicht
+      { ingredients: [
+        { name: 'Vollkornreis', amount: '120g trocken', kcal: 420 },
+        { name: 'Lachs gegrillt', amount: '150g', kcal: 267 },
+        { name: 'Brokkoli', amount: '200g', kcal: 68 },
+        { name: 'Olivenöl', amount: '10ml', kcal: 90 },
+      ], tip: 'Omega-3 unterstützt Muskelregeneration.' },
+      // 2 — Mittel
+      { ingredients: [
+        { name: 'Pasta (Vollkorn)', amount: '150g trocken', kcal: 510 },
+        { name: 'Hühnerbrust', amount: '200g', kcal: 220 },
+        { name: 'Tomatensauce', amount: '150g', kcal: 75 },
+        { name: 'Parmesan', amount: '20g', kcal: 83 },
+        { name: 'Olivenöl', amount: '10ml', kcal: 90 },
+      ], tip: 'Klassisches Ausdauer-Mittagessen — Pasta für Glykogen.' },
+      // 3 — Intensiv
+      { ingredients: [
+        { name: 'Pasta (Vollkorn)', amount: '180g trocken', kcal: 612 },
+        { name: 'Rinderhack (mager)', amount: '200g', kcal: 280 },
+        { name: 'Tomatensauce', amount: '200g', kcal: 100 },
+        { name: 'Parmesan', amount: '30g', kcal: 125 },
+        { name: 'Vollkornbrot', amount: '2 Scheiben', kcal: 160 },
+      ], tip: 'Nach intensiver Einheit: sofort Carbs & Protein.' },
+      // 4 — Brick
+      { ingredients: [
+        { name: 'Weißer Reis', amount: '200g trocken', kcal: 720 },
+        { name: 'Hühnerbrust', amount: '250g', kcal: 275 },
+        { name: 'Gemüse gedünstet', amount: '200g', kcal: 80 },
+        { name: 'Olivenöl', amount: '15ml', kcal: 135 },
+        { name: 'Bananennachtisch', amount: '1 Stück', kcal: 89 },
+      ], tip: '30 Min nach dem Training: sofort Carb-Protein-Combo!' },
+      // 5 — Renntag (Post-Race)
+      { ingredients: [
+        { name: 'Pasta', amount: '200g trocken', kcal: 680 },
+        { name: 'Hühnerbrust', amount: '250g', kcal: 275 },
+        { name: 'Tomatensauce', amount: '200g', kcal: 100 },
+        { name: 'Brot', amount: '2 Scheiben', kcal: 160 },
+        { name: 'Protein-Shake', amount: '40g Pulver', kcal: 152 },
+      ], tip: 'Post-Race Recovery — Glykogen auffüllen & Muskeln reparieren.' },
+    ],
+    abendessen: [
+      // 0 — Ruhe
+      { ingredients: [
+        { name: 'Lachs (gebacken)', amount: '180g', kcal: 321 },
+        { name: 'Süßkartoffel', amount: '200g', kcal: 172 },
+        { name: 'Spinat gedünstet', amount: '200g', kcal: 46 },
+        { name: 'Olivenöl', amount: '10ml', kcal: 90 },
+      ], tip: 'Omega-3 & Magnesium fördern den Schlaf und die Regeneration.' },
+      // 1 — Leicht
+      { ingredients: [
+        { name: 'Hähnchenbrust', amount: '200g', kcal: 220 },
+        { name: 'Süßkartoffel', amount: '250g', kcal: 215 },
+        { name: 'Brokkoli', amount: '200g', kcal: 68 },
+        { name: 'Olivenöl', amount: '10ml', kcal: 90 },
+        { name: 'Hüttenkäse', amount: '100g', kcal: 72 },
+      ], tip: 'Casein-Protein (Hüttenkäse) für nächtliche Regeneration.' },
+      // 2 — Mittel
+      { ingredients: [
+        { name: 'Rindersteak (mager)', amount: '200g', kcal: 280 },
+        { name: 'Vollkornreis', amount: '130g trocken', kcal: 455 },
+        { name: 'Paprika + Zucchini', amount: '250g', kcal: 70 },
+        { name: 'Olivenöl', amount: '15ml', kcal: 135 },
+      ], tip: 'Eisen aus Rindfleisch wichtig für Ausdauersportler.' },
+      // 3 — Intensiv
+      { ingredients: [
+        { name: 'Lachsfilet', amount: '200g', kcal: 356 },
+        { name: 'Vollkornreis', amount: '150g trocken', kcal: 525 },
+        { name: 'Avocado', amount: '½ Stück', kcal: 120 },
+        { name: 'Gemüse gedünstet', amount: '250g', kcal: 85 },
+        { name: 'Hüttenkäse', amount: '150g', kcal: 108 },
+      ], tip: 'Anti-entzündlich: Omega-3 nach intensiver Einheit essenziell.' },
+      // 4 — Brick
+      { ingredients: [
+        { name: 'Pasta', amount: '160g trocken', kcal: 544 },
+        { name: 'Thunfisch', amount: '200g', kcal: 208 },
+        { name: 'Olivenöl', amount: '20ml', kcal: 180 },
+        { name: 'Parmesan', amount: '30g', kcal: 125 },
+        { name: 'Griech. Joghurt', amount: '200g', kcal: 130 },
+        { name: 'Honig', amount: '15g', kcal: 45 },
+      ], tip: 'Carbs für morgen laden — langer Trainingstag braucht volle Speicher.' },
+      // 5 — Renntag (Vortag: Carb-Loading!)
+      { ingredients: [
+        { name: 'Pasta (weiß)', amount: '250g trocken', kcal: 850 },
+        { name: 'Tomatensauce (mild)', amount: '200g', kcal: 100 },
+        { name: 'Hühnerbrust', amount: '200g', kcal: 220 },
+        { name: 'Weißbrot', amount: '3 Scheiben', kcal: 240 },
+        { name: 'Honig', amount: '20g', kcal: 60 },
+      ], tip: 'VORTAG: Maximal Carb-Loading! Kein Fett, kein Ballaststoff, kein Alkohol.' },
+    ],
+  };
+
+  // ── Während-Training-Tip ──
+  function getDuringWorkout() {
+    if (!todayWorkouts.length || intensity === 0) return null;
+    const names = todayWorkouts.map(w => w.name + ' ' + w.sub).join(' ').toLowerCase();
+    const hasBike = todayWorkouts.some(w => ['bk','br'].includes(w.type));
+    const hasRun = todayWorkouts.some(w => ['rn','br'].includes(w.type));
+    const hasSwim = todayWorkouts.some(w => w.type === 'sw');
+    const isRace = todayWorkouts.some(w => w.type === 'rc');
+
+    if (isRace) {
+      const isMarathon = names.includes('marathon');
+      return isMarathon
+        ? '🏆 Renntag Marathon: Gel alle 5km ab KM10 · Isotonic an jedem Punkt · Bei KM30+ Cola wenn möglich. Kein neues Food testen!'
+        : '🌊 Renntag 70.3: Rad 2 Flaschen (Carbs+Elektrolyte), Gel alle 45 Min · Lauf: Gel KM4/KM8/KM12, Cola KM15+. Trinken an jedem Punkt!';
+    }
+    if (intensity >= 4) return '🧱 Brick: Gel nach 45 Min Rad · 500ml/h · nach dem Rad sofort Riegel + Wasser. Recovery-Shake innerhalb 30 Min nach Ziel.';
+    if (hasBike && names.includes('3h') || names.includes('4h') || names.includes('5h'))
+      return '🚴 Lange Ausfahrt: 60–80g Carbs/h · alle 30 Min Gel oder Riegel · 500–750ml/h · Elektrolyte ab 60 Min.';
+    if (hasBike && intensity >= 2) return '🚴 Radeinheit: Bei >60 Min: Flasche mit Iso-Drink · Gel bei Intervallen für schnelle Energie.';
+    if (hasRun && intensity >= 3) return '🏃 Langer Lauf: Gel ab 45 Min (alle 30 Min) · 200–300ml alle 20–30 Min · Elektrolyte bei Hitze.';
+    if (hasSwim) return '🏊 Schwimmeinheit: 200–400ml Wasser direkt vorher · Trinkpause nach Bahnen · kein schweres Essen 2h vorher.';
+    return '💧 Während dem Training: mind. 500ml/h · bei Hitze +200ml/h · Bei >60 Min: Iso-Drink oder Gel.';
+  }
+
+  // ── Berechne Mahlzeit-kcal aus Zutaten ──
+  function sumKcal(ingredients) {
+    return ingredients.reduce((s, i) => s + i.kcal, 0);
+  }
+
+  const frueh = MEALS.fruehstueck[intensity];
+  const mitte = MEALS.mittagessen[intensity];
+  const abend = MEALS.abendessen[intensity];
+  const duringTip = getDuringWorkout();
+
+  const fruehKcal = sumKcal(frueh.ingredients);
+  const mitteKcal = sumKcal(mitte.ingredients);
+  const abendKcal = sumKcal(abend.ingredients);
+  const snackKcal = day.kcal - fruehKcal - mitteKcal - abendKcal;
+
+  // ── Workout-Zusammenfassung für den Tag ──
+  const workoutSummary = todayWorkouts.length
+    ? todayWorkouts.map(w => w.name).join(' + ')
+    : 'Kein Training';
+
+  // ── Intensitäts-Dots ──
+  const dotsHtml = Array.from({length: 5}, (_, i) =>
+    `<div class="nutr-int-dot ${i < day.dots ? 'active' : ''}"></div>`
+  ).join('');
+
+  // ── Zutaten-Rows ──
+  function ingredientRows(ings) {
+    return ings.map(i =>
+      `<div class="meal-ingredient">
+        <span class="ing-name">${i.name}</span>
+        <span class="ing-amount">${i.amount}</span>
+        <span class="ing-kcal">${i.kcal} kcal</span>
+      </div>`
+    ).join('');
+  }
+
+  const todayDayNames = ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'];
+  const todayStr = todayDayNames[dayIdx];
+
+  document.getElementById('nutrition-content').innerHTML = `
+    <div style="padding-top:8px; margin-bottom:14px;">
+      <div class="app-title" style="font-size:28px;">ERNÄHRUNG</div>
+      <div class="app-sub">${todayStr} · KW${kw} · ${workoutSummary}</div>
+    </div>
+
+    <!-- Hero: Tageskalorienbedarf -->
+    <div class="nutr-day-hero" style="background:linear-gradient(135deg, ${day.color} 0%, #080c12 100%); border:1px solid ${day.tagColor}33;">
+      <div class="nutr-day-tag" style="color:${day.tagColor};">${day.label.toUpperCase()}</div>
+      <div class="nutr-day-title">Tageskalorienbedarf</div>
+      <div>
+        <span class="nutr-kcal-big">${day.kcal.toLocaleString('de')}</span>
+        <span class="nutr-kcal-label">kcal</span>
+      </div>
+      <div style="font-size:10px; color:rgba(255,255,255,0.5); margin-top:6px;">${day.desc}</div>
+      <div class="nutr-intensity-bar">${dotsHtml}</div>
+    </div>
+
+    <!-- Makros -->
+    <div class="section-label" style="margin-bottom:8px;">Makronährstoffe</div>
+    <div class="macro-row">
+      <div class="macro-pill prot">
+        <div class="mp-label">Protein</div>
+        <div class="mp-val">${day.prot}</div>
+        <div class="mp-unit">g/Tag</div>
+      </div>
+      <div class="macro-pill carb">
+        <div class="mp-label">Kohlenhydrate</div>
+        <div class="mp-val">${day.carb}</div>
+        <div class="mp-unit">g/Tag</div>
+      </div>
+      <div class="macro-pill fat">
+        <div class="mp-label">Fett</div>
+        <div class="mp-val">${day.fat}</div>
+        <div class="mp-unit">g/Tag</div>
+      </div>
+    </div>
+
+    ${duringTip ? `
+    <!-- Während-Training -->
+    <div class="section-label" style="margin-bottom:8px;">Während dem Training</div>
+    <div class="during-card">
+      <div class="dc-title">⚡ Fueling-Strategie</div>
+      <div class="dc-body">${duringTip}</div>
+    </div>` : ''}
+
+    <!-- Mahlzeiten -->
+    <div class="section-label" style="margin-bottom:8px;">Mahlzeitenplan · Heute</div>
+
+    <div class="meal-card">
+      <div class="meal-header">
+        <span class="meal-name">🌅 Frühstück</span>
+        <span class="meal-kcal">~${fruehKcal} kcal</span>
+      </div>
+      <div class="meal-body">
+        ${ingredientRows(frueh.ingredients)}
+        <div class="nutr-tip" style="margin-top:8px; margin-bottom:0;"><strong>💡 Tipp:</strong> ${frueh.tip}</div>
+      </div>
+    </div>
+
+    ${intensity >= 2 && snackKcal > 0 ? `
+    <div class="meal-card">
+      <div class="meal-header">
+        <span class="meal-name">🍌 Snack vor/nach Training</span>
+        <span class="meal-kcal">~${Math.max(0, snackKcal)} kcal</span>
+      </div>
+      <div class="meal-body">
+        <div class="meal-ingredient"><span class="ing-name">Banane</span><span class="ing-amount">1 Stück</span><span class="ing-kcal">89 kcal</span></div>
+        <div class="meal-ingredient"><span class="ing-name">Energieriegel / Gel</span><span class="ing-amount">1–2 Stück</span><span class="ing-kcal">${Math.max(0, snackKcal - 89)} kcal</span></div>
+        <div class="nutr-tip" style="margin-top:8px;margin-bottom:0;"><strong>💡 Timing:</strong> 30–45 Min vor Start oder direkt nach der Einheit.</div>
+      </div>
+    </div>` : ''}
+
+    <div class="meal-card">
+      <div class="meal-header">
+        <span class="meal-name">☀️ Mittagessen</span>
+        <span class="meal-kcal">~${mitteKcal} kcal</span>
+      </div>
+      <div class="meal-body">
+        ${ingredientRows(mitte.ingredients)}
+        <div class="nutr-tip" style="margin-top:8px;margin-bottom:0;"><strong>💡 Tipp:</strong> ${mitte.tip}</div>
+      </div>
+    </div>
+
+    <div class="meal-card">
+      <div class="meal-header">
+        <span class="meal-name">🌙 Abendessen</span>
+        <span class="meal-kcal">~${abendKcal} kcal</span>
+      </div>
+      <div class="meal-body">
+        ${ingredientRows(abend.ingredients)}
+        <div class="nutr-tip" style="margin-top:8px;margin-bottom:0;"><strong>💡 Tipp:</strong> ${abend.tip}</div>
+      </div>
+    </div>
+
+    <!-- Hydration -->
+    <div class="section-label" style="margin-bottom:8px; margin-top:14px;">Hydration</div>
+    <div class="nutr-tip">
+      <strong>💧 Tagespensum:</strong> ${intensity === 0 ? '2.5–3L Wasser' : intensity <= 2 ? '3–3.5L Wasser + Elektrolyte nach Training' : '3.5–4.5L Wasser + Elektrolyte · Bei langen Einheiten Isotonic-Drink'}
+      <br>Morgens nüchtern: 500ml Wasser. Kaffee zählt nicht zur Wasserbilanz.
+    </div>
+
+    <div style="height:8px;"></div>`;
+}
+
+
 function renderAll() {
   const activeScreen = document.querySelector('.screen.active')?.id?.replace('screen-', '');
   if (activeScreen === 'today') renderToday();
   if (activeScreen === 'plan') renderPlan();
   if (activeScreen === 'progress') renderProgress();
+  if (activeScreen === 'nutrition') renderNutrition();
 }
 
 currentPlanWeek = getCurrentKW();
 renderToday();
+
+// ═══════════════════════════════════════════════
+// SWIPE GESTURES — Plan Screen
+// ═══════════════════════════════════════════════
+(function() {
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let isSwiping = false;
+
+  const planScreen = document.getElementById('screen-plan');
+
+  planScreen.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    isSwiping = false;
+  }, { passive: true });
+
+  planScreen.addEventListener('touchmove', e => {
+    const dx = e.touches[0].clientX - touchStartX;
+    const dy = e.touches[0].clientY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
+      isSwiping = true;
+    }
+  }, { passive: true });
+
+  planScreen.addEventListener('touchend', e => {
+    if (!isSwiping) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) < 50) return; // min swipe distance
+
+    const content = document.getElementById('plan-week-content');
+
+    if (dx < 0 && currentPlanWeek < 35) {
+      // Swipe left → next week
+      content.style.transition = 'transform 0.18s ease, opacity 0.18s ease';
+      content.style.transform = 'translateX(-40px)';
+      content.style.opacity = '0';
+      setTimeout(() => {
+        changeWeek(1);
+        content.style.transition = 'none';
+        content.style.transform = 'translateX(40px)';
+        content.style.opacity = '0';
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            content.style.transition = 'transform 0.18s ease, opacity 0.18s ease';
+            content.style.transform = 'translateX(0)';
+            content.style.opacity = '1';
+          });
+        });
+      }, 180);
+    } else if (dx > 0 && currentPlanWeek > 12) {
+      // Swipe right → prev week
+      content.style.transition = 'transform 0.18s ease, opacity 0.18s ease';
+      content.style.transform = 'translateX(40px)';
+      content.style.opacity = '0';
+      setTimeout(() => {
+        changeWeek(-1);
+        content.style.transition = 'none';
+        content.style.transform = 'translateX(-40px)';
+        content.style.opacity = '0';
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            content.style.transition = 'transform 0.18s ease, opacity 0.18s ease';
+            content.style.transform = 'translateX(0)';
+            content.style.opacity = '1';
+          });
+        });
+      }, 180);
+    }
+  }, { passive: true });
+})();
 </script>
 </body>
 </html>
