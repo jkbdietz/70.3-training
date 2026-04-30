@@ -160,8 +160,8 @@ body {
       <div class="app-sub">WIEN MARATHON · 70.3 IRONMAN ZELL AM SEE</div>
     </div>
     <div class="race-badge">
-      <div class="days" id="days-to-marathon">—</div>
-      <div class="label">Tage bis<br>Marathon</div>
+      <div class="days" id="days-to-ironman">—</div>
+      <div class="label">Tage bis<br>Zell am See</div>
     </div>
   </div>
   <div class="today-section">
@@ -432,7 +432,7 @@ let completedWorkouts = JSON.parse(localStorage.getItem('completedWorkouts') || 
 function saveCompleted() { localStorage.setItem('completedWorkouts', JSON.stringify(completedWorkouts)); }
 
 const MARATHON_DATE = new Date(2026,3,19);
-const IRONMAN_DATE  = new Date(2026,7,30);
+const IRONMAN_DATE  = new Date(2026,8,30);
 function daysUntil(d){const n=new Date();n.setHours(0,0,0,0);return Math.ceil((d-n)/86400000);}
 function getCurrentKW(){const t=new Date();t.setHours(0,0,0,0);for(let k=35;k>=12;k--){if(WEEK_STARTS[k]&&t>=WEEK_STARTS[k])return k;}return 12;}
 function getTodayDayIdx(){const d=new Date().getDay();return d===0?6:d-1;}
@@ -456,8 +456,8 @@ function renderWorkoutItem(workout,kw,day,idx){
 
 function renderToday(){
   const kw=getCurrentKW(),dayIdx=getTodayDayIdx(),dayName=DAYS[dayIdx],week=PLAN[kw],phase=getPhaseForWeek(kw);
-  const md=daysUntil(MARATHON_DATE);
-  document.getElementById('days-to-marathon').textContent=md>0?md:'🏆';
+  const md=daysUntil(IRONMAN_DATE);
+  document.getElementById('days-to-ironman').textContent=md>0?md:'🏆';
   const todayEl=document.getElementById('today-workouts-container');
   const tw=week?(week.days[dayName]||[]):[];
   let done=0;tw.forEach((w,i)=>{if(completedWorkouts[workoutId(kw,dayName,i)])done++;});
