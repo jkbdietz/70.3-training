@@ -5,122 +5,125 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+  :root {
+    --green-bg: #E1F5EE; --green-mid: #5DCAA5; --green-dark: #0F6E56;
+    --green-text: #085041; --green-deep: #1D9E75;
+    --item-expand-bg: #F7FDFB;
+    --nav-shadow: 0 -4px 16px rgba(0,0,0,0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --green-bg: #04342C; --green-mid: #0F6E56; --green-dark: #5DCAA5;
+      --green-text: #9FE1CB; --green-deep: #1D9E75;
+      --item-expand-bg: #0a2620;
+      --nav-shadow: 0 -4px 16px rgba(0,0,0,0.4);
+    }
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: var(--font-sans, system-ui); background: var(--color-background-tertiary); color: var(--color-text-primary); min-height: 100vh; }
   .app { max-width: 420px; margin: 0 auto; padding: 0 0 80px; }
-  .header { background: var(--color-background-primary); border-bottom: 0.5px solid var(--color-border-tertiary); padding: 16px 16px 12px; position: sticky; top: 0; z-index: 10; }
-  .header-title { font-size: 18px; font-weight: 500; }
-  .header-sub { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+
+  .header { background: var(--color-background-primary); border-bottom: 0.5px solid var(--color-border-tertiary); padding: 16px 16px 12px; position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 10px; }
+  .header-im { width: 32px; height: 32px; border-radius: 8px; background: var(--green-deep); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; color: white; letter-spacing: -0.5px; flex-shrink: 0; }
+  .header-text .header-title { font-size: 17px; font-weight: 500; }
+  .header-text .header-sub { font-size: 11px; color: var(--color-text-secondary); margin-top: 1px; }
+
   .section { padding: 12px 12px 0; }
+
   .countdown-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-  .countdown-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; }
   .countdown-race { font-size: 15px; font-weight: 500; }
-  .countdown-days { font-size: 32px; font-weight: 500; color: #0F6E56; line-height: 1; }
+  .countdown-days { font-size: 32px; font-weight: 500; color: var(--green-dark); line-height: 1; }
   .countdown-suffix { font-size: 12px; color: var(--color-text-secondary); }
+
   .today-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 16px; margin-bottom: 10px; }
   .today-label { font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
   .today-training { font-size: 15px; font-weight: 500; line-height: 1.4; margin-bottom: 6px; }
   .today-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
-  .badge { font-size: 11px; padding: 3px 8px; border-radius: 20px; background: #E1F5EE; color: #0F6E56; }
+  .badge { font-size: 11px; padding: 3px 8px; border-radius: 20px; background: var(--green-bg); color: var(--green-dark); }
   .badge-gray { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+
   .done-btn { width: 100%; padding: 10px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: none; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.15s; color: var(--color-text-primary); }
+  .done-btn.completed { background: var(--green-bg); border-color: var(--green-mid); color: var(--green-text); }
   .done-btn:active { transform: scale(0.98); }
-  .done-btn.completed { background: #E1F5EE; border-color: #5DCAA5; color: #085041; }
-  .check-icon { width: 18px; height: 18px; border: 1.5px solid currentColor; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .check-icon.filled { background: #1D9E75; border-color: #1D9E75; }
+
+  .check-icon { width: 20px; height: 20px; border: 1.5px solid currentColor; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s; }
+  .check-icon.filled { background: var(--green-deep); border-color: var(--green-deep); }
   .check-icon svg { display: none; }
   .check-icon.filled svg { display: block; }
+
   .notes-area { width: 100%; margin-top: 12px; padding: 10px 12px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-secondary); font-size: 14px; color: var(--color-text-primary); font-family: inherit; resize: none; line-height: 1.5; }
-  .notes-area:focus { outline: none; border-color: #5DCAA5; }
+  .notes-area:focus { outline: none; border-color: var(--green-mid); }
   .notes-area::placeholder { color: var(--color-text-tertiary); }
-  .week-header { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); padding: 14px 0 6px; text-transform: uppercase; letter-spacing: 0.05em; }
-  .training-item { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px; margin-bottom: 6px; display: flex; gap: 12px; cursor: pointer; transition: all 0.15s; }
-  .training-item.completed { opacity: 0.6; }
-  .training-item.today-item { border-color: #5DCAA5; border-width: 1px; }
-  .item-check { flex-shrink: 0; margin-top: 2px; }
-  .item-body { flex: 1; min-width: 0; }
-  .item-date { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 3px; }
-  .item-name { font-size: 14px; font-weight: 500; line-height: 1.3; }
-  .item-focus { font-size: 12px; color: var(--color-text-secondary); margin-top: 3px; }
-  .item-note-gray { font-size: 12px; color: var(--color-text-secondary); margin-top: 4px; background: var(--color-background-secondary); padding: 4px 8px; border-radius: 4px; }
-  .detail-panel { position: fixed; bottom: 0; left: 0; right: 0; background: var(--color-background-primary); border-top: 0.5px solid var(--color-border-secondary); padding: 16px; z-index: 20; max-width: 420px; margin: 0 auto; transform: translateY(100%); transition: transform 0.25s ease; }
-  .detail-panel.open { transform: translateY(0); }
-  .detail-panel-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 19; display: none; }
-  .detail-panel-overlay.open { display: block; }
-  .panel-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--color-text-secondary); padding: 4px; }
-  .panel-training { font-size: 15px; font-weight: 500; margin: 0 28px 4px 0; line-height: 1.4; }
-  .panel-date { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 12px; }
-  .export-btn { width: 100%; padding: 12px; margin-top: 12px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: none; font-size: 14px; cursor: pointer; color: var(--color-text-primary); display: flex; align-items: center; justify-content: center; gap: 8px; }
-  .export-btn:active { background: var(--color-background-secondary); }
+
+  /* Plan tab */
+  .week-header { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); padding: 14px 0 6px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .training-item { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); margin-bottom: 6px; overflow: hidden; }
+  .training-item.today-item { border-color: var(--green-mid); border-width: 1px; }
+  .training-item.completed > .item-row { opacity: 0.55; }
+
+  .item-row { display: flex; align-items: center; gap: 0; }
+  .item-check-btn { flex-shrink: 0; width: 52px; display: flex; align-items: center; justify-content: center; padding: 14px 0; cursor: pointer; background: none; border: none; border-right: 0.5px solid var(--color-border-tertiary); align-self: stretch; }
+  .item-check-btn:active .check-icon { transform: scale(0.88); }
+  .item-body { flex: 1; padding: 12px 12px 12px 12px; cursor: pointer; min-width: 0; }
+  .item-date { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 2px; }
+  .item-name { font-size: 13px; font-weight: 500; line-height: 1.35; }
+  .item-chevron { flex-shrink: 0; padding: 14px 12px; color: var(--color-text-tertiary); font-size: 12px; cursor: pointer; }
+
+  .item-expand { display: none; background: var(--item-expand-bg); border-top: 0.5px solid var(--color-border-tertiary); padding: 14px 14px 14px 52px; }
+  .item-expand.open { display: block; }
+  .item-focus-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .expand-notes { width: 100%; padding: 8px 10px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-primary); font-size: 13px; color: var(--color-text-primary); font-family: inherit; resize: none; line-height: 1.5; }
+  .expand-notes:focus { outline: none; border-color: var(--green-mid); }
+  .expand-notes::placeholder { color: var(--color-text-tertiary); }
+  .item-note-preview { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* Stats */
   .stat-row { display: flex; gap: 8px; margin-bottom: 10px; }
   .stat-card { flex: 1; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 12px; text-align: center; }
-  .stat-num { font-size: 22px; font-weight: 500; color: #0F6E56; }
+  .stat-num { font-size: 22px; font-weight: 500; color: var(--green-dark); }
   .stat-label { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
-  .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; max-width: 420px; margin: 0 auto; background: var(--color-background-primary); border-top: 1px solid var(--color-border-secondary); display: flex; z-index: 15; box-shadow: 0 -4px 16px rgba(0,0,0,0.08); }
-  .nav-item { flex: 1; padding: 10px 4px 8px; text-align: center; cursor: pointer; border: none; background: none; color: var(--color-text-secondary); font-size: 10px; }
-  .nav-item.active { color: #0F6E56; background: #E1F5EE; }
-  .nav-icon { font-size: 20px; margin-bottom: 2px; }
+  .export-btn { width: 100%; padding: 12px; margin-top: 12px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: none; font-size: 14px; cursor: pointer; color: var(--color-text-primary); display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .export-btn:active { background: var(--color-background-secondary); }
+
+  /* Nav */
+  .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; max-width: 420px; margin: 0 auto; background: var(--color-background-primary); border-top: 1px solid var(--color-border-secondary); display: flex; z-index: 15; box-shadow: var(--nav-shadow); }
+  .nav-item { flex: 1; padding: 10px 4px 8px; text-align: center; cursor: pointer; border: none; background: none; color: var(--color-text-secondary); font-size: 10px; transition: background 0.15s; }
+  .nav-item.active { color: var(--green-dark); background: var(--green-bg); }
+  .nav-icon { font-size: 18px; margin-bottom: 2px; }
+
   .no-training { text-align: center; padding: 32px 20px; color: var(--color-text-secondary); font-size: 14px; background: var(--color-background-primary); border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); }
 </style>
 </head>
 <body>
 <div class="app">
   <div class="header">
-    <div class="header-title">Trainingsplan</div>
-    <div class="header-sub" id="today-date"></div>
+    <div class="header-im" id="header-im">IM</div>
+    <div class="header-text">
+      <div class="header-title">Trainingsplan</div>
+      <div class="header-sub" id="today-date"></div>
+    </div>
   </div>
 
-  <div id="page-home" class="page">
-    <div class="section" id="home-content"></div>
-  </div>
-  <div id="page-plan" class="page" style="display:none">
-    <div class="section" id="plan-content"></div>
-  </div>
-  <div id="page-stats" class="page" style="display:none">
-    <div class="section" id="stats-content"></div>
-  </div>
-
-  <div class="detail-panel-overlay" id="overlay" onclick="closePanel()"></div>
-  <div class="detail-panel" id="detail-panel">
-    <button class="panel-close" onclick="closePanel()">✕</button>
-    <div id="panel-content"></div>
-  </div>
+  <div id="page-home" class="page"><div class="section" id="home-content"></div></div>
+  <div id="page-plan" class="page" style="display:none"><div class="section" id="plan-content"></div></div>
+  <div id="page-stats" class="page" style="display:none"><div class="section" id="stats-content"></div></div>
 
   <nav class="nav-bar">
-    <button class="nav-item active" onclick="showPage('home',this)">
-      <div class="nav-icon">⊙</div>Heute
-    </button>
-    <button class="nav-item" onclick="showPage('plan',this)">
-      <div class="nav-icon">≡</div>Plan
-    </button>
-    <button class="nav-item" onclick="showPage('stats',this)">
-      <div class="nav-icon">◎</div>Auswertung
-    </button>
+    <button class="nav-item active" onclick="showPage('home',this)"><div class="nav-icon">⊙</div>Heute</button>
+    <button class="nav-item" onclick="showPage('plan',this)"><div class="nav-icon">≡</div>Plan</button>
+    <button class="nav-item" onclick="showPage('stats',this)"><div class="nav-icon">◎</div>Auswertung</button>
   </nav>
 </div>
 
 <script>
-const DAYS = ['So','Mo','Di','Mi','Do','Fr','Sa'];
-const MONTHS = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+const DAYS=['So','Mo','Di','Mi','Do','Fr','Sa'];
+const MONTHS=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+function getToday(){const t=new Date();t.setHours(0,0,0,0);return t;}
+function parseDate(str){const p=str.trim().replace(/\.$/,'').split('.');if(p.length<2)return null;const d=parseInt(p[0]),m=parseInt(p[1]);if(isNaN(d)||isNaN(m))return null;return new Date(2026,m-1,d);}
+function fmtDate(d){if(!d)return '';return `${DAYS[d.getDay()]}, ${d.getDate()}. ${MONTHS[d.getMonth()]} 2026`;}
 
-function getToday() {
-  const t = new Date(); t.setHours(0,0,0,0); return t;
-}
-
-function parseDate(str) {
-  const parts = str.trim().replace(/\.$/,'').split('.');
-  if(parts.length < 2) return null;
-  const d = parseInt(parts[0]), m = parseInt(parts[1]);
-  if(isNaN(d)||isNaN(m)) return null;
-  return new Date(2026, m-1, d);
-}
-
-function fmtDate(d) {
-  if(!d) return '';
-  return `${DAYS[d.getDay()]}, ${d.getDate()}. ${MONTHS[d.getMonth()]} 2026`;
-}
-
-const trainings = [
+const trainings=[
   {id:'w1_mo',w:1,date:'27.04.',name:"45' Kraft & Core (Zuhause)",focus:'Stabilität',ern:'HP / LC'},
   {id:'w1_di',w:1,date:'28.04.',name:'10km GA1 Lauf (05:30 Start)',focus:'Ausdauer',ern:'HP / Mixed'},
   {id:'w1_mi',w:1,date:'29.04.',name:"75' Zwift: 4x5' K3 (55 RPM)",focus:'Rad-Kraft',ern:'HP / HC'},
@@ -199,74 +202,55 @@ const trainings = [
   {id:'w18_fr',w:18,date:'28.08.',name:"20' Einschwimmen in Zell am See",focus:'Orientierung',ern:'HC Load'},
   {id:'race',w:19,date:'30.08.',name:'IRONMAN 70.3 ZELL AM SEE',focus:'FINISH < 5h',ern:'RACE FUEL'},
 ];
+trainings.forEach(t=>{t.dateObj=parseDate(t.date);});
 
-trainings.forEach(t => { t.dateObj = parseDate(t.date); });
+const RACE_DATE=new Date(2026,7,30);
+let state={}, currentPage='home', openExpand=null, noteTimeout=null;
 
-const RACE_DATE = new Date(2026, 7, 30);
-
-let state = {};
-let currentPage = 'home';
-let panelNoteTimeout = null;
-
-async function loadState() {
-  try {
-    const r = await window.storage.get('training-state-2026');
-    if(r) state = JSON.parse(r.value);
-  } catch(e) { state = {}; }
+async function loadState(){
+  try{const r=await window.storage.get('training-state-2026');if(r)state=JSON.parse(r.value);}catch(e){state={};}
   renderAll();
 }
+async function saveState(){try{await window.storage.set('training-state-2026',JSON.stringify(state));}catch(e){}}
 
-async function saveState() {
-  try { await window.storage.set('training-state-2026', JSON.stringify(state)); } catch(e) {}
-}
+function daysUntilRace(){const t=getToday();return Math.ceil((RACE_DATE-t)/86400000);}
+function findTodayTraining(){const t=getToday().getTime();return trainings.find(tr=>tr.dateObj&&tr.dateObj.getTime()===t)||null;}
 
-function daysUntilRace() {
-  const t = getToday();
-  return Math.ceil((RACE_DATE - t) / 86400000);
-}
-
-function findTodayTraining() {
-  const t = getToday().getTime();
-  return trainings.find(tr => tr.dateObj && tr.dateObj.getTime() === t) || null;
-}
-
-function showPage(page, el) {
-  currentPage = page;
-  document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-  document.getElementById('page-'+page).style.display = 'block';
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+function showPage(page,el){
+  currentPage=page;
+  document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+  document.getElementById('page-'+page).style.display='block';
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   el.classList.add('active');
-  if(page==='home') renderHome();
-  if(page==='plan') renderPlan();
-  if(page==='stats') renderStats();
+  if(page==='home')renderHome();
+  if(page==='plan')renderPlan();
+  if(page==='stats')renderStats();
 }
 
-function renderAll() { renderHome(); }
+function renderAll(){renderHome();}
 
-function renderHome() {
-  const now = getToday();
-  document.getElementById('today-date').textContent = fmtDate(now);
+function checkSVG(){return `<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;}
 
-  const days = daysUntilRace();
-  const todayT = findTodayTraining();
-  const s = todayT ? (state[todayT.id] || {}) : {};
-
-  let html = `
-    <div class="countdown-card">
-      <div>
-        <div class="countdown-label">Ironman 70.3</div>
-        <div class="countdown-race">Zell am See</div>
-        <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px;">30. August 2026</div>
-      </div>
-      <div style="text-align:right">
-        <div class="countdown-days">${Math.max(0,days)}</div>
-        <div class="countdown-suffix">${days===1?'Tag':'Tage'}</div>
-      </div>
-    </div>`;
-
-  if(todayT) {
-    const done = s.done;
-    html += `<div class="today-card">
+function renderHome(){
+  const now=getToday();
+  document.getElementById('today-date').textContent=fmtDate(now);
+  const days=daysUntilRace();
+  const todayT=findTodayTraining();
+  const s=todayT?(state[todayT.id]||{}):{};
+  let html=`<div class="countdown-card">
+    <div>
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px">Ironman 70.3</div>
+      <div class="countdown-race">Zell am See</div>
+      <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">30. August 2026</div>
+    </div>
+    <div style="text-align:right">
+      <div class="countdown-days">${Math.max(0,days)}</div>
+      <div class="countdown-suffix">${days===1?'Tag':'Tage'}</div>
+    </div>
+  </div>`;
+  if(todayT){
+    const done=s.done;
+    html+=`<div class="today-card">
       <div class="today-label">Heutiges Training · Woche ${todayT.w}</div>
       <div class="today-training">${todayT.name}</div>
       <div class="today-meta">
@@ -274,58 +258,88 @@ function renderHome() {
         <span class="badge badge-gray">${todayT.ern}</span>
       </div>
       <button class="done-btn ${done?'completed':''}" onclick="toggleDone('${todayT.id}','home')">
-        <div class="check-icon ${done?'filled':''}">
-          <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-            <path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        ${done ? 'Erledigt!' : 'Als erledigt markieren'}
+        <div class="check-icon ${done?'filled':''}">${done?checkSVG():''}</div>
+        ${done?'Erledigt!':'Als erledigt markieren'}
       </button>
-      <textarea class="notes-area" rows="3" placeholder="Notizen: Abweichungen, Befinden, Anmerkungen..."
+      <textarea class="notes-area" rows="3" placeholder="Notizen: Abweichungen, Befinden..."
         oninput="updateNote('${todayT.id}',this.value)">${s.note||''}</textarea>
     </div>`;
   } else {
-    html += `<div class="no-training">Für heute kein Training geplant.<br><span style="font-size:12px;color:var(--color-text-tertiary)">Erholungstag – gut gemacht!</span></div>`;
+    html+=`<div class="no-training">Kein Training heute geplant.<br><span style="font-size:12px;color:var(--color-text-tertiary)">Erholungstag – gut gemacht!</span></div>`;
   }
-
-  document.getElementById('home-content').innerHTML = html;
+  document.getElementById('home-content').innerHTML=html;
 }
 
-function renderPlan() {
-  const todayTime = getToday().getTime();
-  let weeks = {};
-  trainings.forEach(t => {
-    if(!weeks[t.w]) weeks[t.w] = [];
-    weeks[t.w].push(t);
-  });
-  let html = '';
-  Object.keys(weeks).sort((a,b)=>+a-+b).forEach(w => {
-    html += `<div class="week-header">Woche ${w}</div>`;
-    weeks[w].forEach(t => {
-      const s = state[t.id] || {};
-      const isToday = t.dateObj && t.dateObj.getTime() === todayTime;
-      html += `<div class="training-item ${s.done?'completed':''} ${isToday?'today-item':''}" onclick="openDetail('${t.id}')">
-        <div class="item-check"><div class="check-icon ${s.done?'filled':''}">
-          <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div></div>
-        <div class="item-body">
-          <div class="item-date">${fmtDate(t.dateObj)||t.date}${isToday?' · <strong>Heute</strong>':''}</div>
-          <div class="item-name">${t.name}</div>
-          <div class="item-focus">${t.focus} · ${t.ern}</div>
-          ${s.note?`<div class="item-note-gray">${s.note}</div>`:''}
+function renderPlan(){
+  const todayTime=getToday().getTime();
+  let weeks={};
+  trainings.forEach(t=>{if(!weeks[t.w])weeks[t.w]=[];weeks[t.w].push(t);});
+  let html='';
+  Object.keys(weeks).sort((a,b)=>+a-+b).forEach(w=>{
+    html+=`<div class="week-header">Woche ${w}</div>`;
+    weeks[w].forEach(t=>{
+      const s=state[t.id]||{};
+      const isToday=t.dateObj&&t.dateObj.getTime()===todayTime;
+      const isOpen=openExpand===t.id;
+      html+=`<div class="training-item ${s.done?'completed':''} ${isToday?'today-item':''}" id="item-${t.id}">
+        <div class="item-row">
+          <button class="item-check-btn" onclick="toggleDone('${t.id}','plan')" title="Als erledigt markieren">
+            <div class="check-icon ${s.done?'filled':''}">${s.done?checkSVG():''}</div>
+          </button>
+          <div class="item-body" onclick="toggleExpand('${t.id}')">
+            <div class="item-date">${fmtDate(t.dateObj)||t.date}${isToday?' · Heute':''}</div>
+            <div class="item-name">${t.name}</div>
+            ${s.note&&!isOpen?`<div class="item-note-preview">${s.note}</div>`:''}
+          </div>
+          <div class="item-chevron" onclick="toggleExpand('${t.id}')">${isOpen?'▲':'▼'}</div>
+        </div>
+        <div class="item-expand ${isOpen?'open':''}" id="expand-${t.id}">
+          <div class="item-focus-row">
+            <span class="badge">${t.focus}</span>
+            <span class="badge badge-gray">${t.ern}</span>
+          </div>
+          <textarea class="expand-notes" rows="3" placeholder="Notizen: Abweichungen, Befinden..."
+            oninput="updateNote('${t.id}',this.value)">${s.note||''}</textarea>
         </div>
       </div>`;
     });
   });
-  document.getElementById('plan-content').innerHTML = html;
+  document.getElementById('plan-content').innerHTML=html;
 }
 
-function renderStats() {
-  const done = trainings.filter(t => state[t.id]?.done).length;
-  const total = trainings.length;
-  const pct = Math.round(done/total*100);
-  const withNote = trainings.filter(t => state[t.id]?.note).length;
-  document.getElementById('stats-content').innerHTML = `
+function toggleExpand(id){
+  openExpand=openExpand===id?null:id;
+  renderPlan();
+  if(openExpand){
+    setTimeout(()=>{
+      const el=document.getElementById('expand-'+id);
+      if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'});
+    },50);
+  }
+}
+
+function toggleDone(id,from){
+  if(!state[id])state[id]={};
+  state[id].done=!state[id].done;
+  saveState();
+  if(from==='home')renderHome();
+  else renderPlan();
+  if(currentPage==='stats')renderStats();
+}
+
+function updateNote(id,val){
+  if(!state[id])state[id]={};
+  state[id].note=val;
+  clearTimeout(noteTimeout);
+  noteTimeout=setTimeout(saveState,800);
+}
+
+function renderStats(){
+  const done=trainings.filter(t=>state[t.id]?.done).length;
+  const total=trainings.length;
+  const pct=Math.round(done/total*100);
+  const withNote=trainings.filter(t=>state[t.id]?.note).length;
+  document.getElementById('stats-content').innerHTML=`
     <div class="stat-row">
       <div class="stat-card"><div class="stat-num">${done}</div><div class="stat-label">Erledigt</div></div>
       <div class="stat-card"><div class="stat-num">${total-done}</div><div class="stat-label">Ausstehend</div></div>
@@ -337,63 +351,31 @@ function renderStats() {
     <button class="export-btn" onclick="exportData()">↓ &nbsp;Protokoll exportieren (CSV)</button>`;
 }
 
-function toggleDone(id, from) {
-  if(!state[id]) state[id] = {};
-  state[id].done = !state[id].done;
-  saveState();
-  if(from==='home') renderHome();
-  else { openDetail(id); if(currentPage==='plan') renderPlan(); }
-  if(currentPage==='stats') renderStats();
-}
-
-function updateNote(id, val) {
-  if(!state[id]) state[id] = {};
-  state[id].note = val;
-  clearTimeout(panelNoteTimeout);
-  panelNoteTimeout = setTimeout(saveState, 800);
-}
-
-function openDetail(id) {
-  const t = trainings.find(x => x.id === id);
-  const s = state[id] || {};
-  document.getElementById('panel-content').innerHTML = `
-    <div class="panel-date">${fmtDate(t.dateObj)||t.date} · Woche ${t.w}</div>
-    <div class="panel-training">${t.name}</div>
-    <div style="display:flex;gap:6px;margin:8px 0 12px;flex-wrap:wrap">
-      <span class="badge">${t.focus}</span>
-      <span class="badge badge-gray">${t.ern}</span>
-    </div>
-    <button class="done-btn ${s.done?'completed':''}" onclick="toggleDone('${id}','panel')">
-      <div class="check-icon ${s.done?'filled':''}">
-        <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      ${s.done ? 'Erledigt!' : 'Als erledigt markieren'}
-    </button>
-    <textarea class="notes-area" rows="3" placeholder="Notizen: Abweichungen, Befinden..."
-      oninput="updateNote('${id}',this.value)">${s.note||''}</textarea>`;
-  document.getElementById('overlay').classList.add('open');
-  document.getElementById('detail-panel').classList.add('open');
-}
-
-function closePanel() {
-  document.getElementById('overlay').classList.remove('open');
-  document.getElementById('detail-panel').classList.remove('open');
-  if(currentPage==='plan') renderPlan();
-}
-
-function exportData() {
-  let csv = 'Woche,Datum,Training,Fokus,Ernaehrung,Erledigt,Notizen\n';
-  trainings.forEach(t => {
-    const s = state[t.id] || {};
-    const note = (s.note||'').replace(/"/g,'""').replace(/\n/g,' ');
-    csv += `${t.w},"${t.date}","${t.name.replace(/"/g,'""')}","${t.focus}","${t.ern}",${s.done?'Ja':'Nein'},"${note}"\n`;
+function exportData(){
+  let csv='Woche,Datum,Training,Fokus,Ernaehrung,Erledigt,Notizen\n';
+  trainings.forEach(t=>{
+    const s=state[t.id]||{};
+    const note=(s.note||'').replace(/"/g,'""').replace(/\n/g,' ');
+    csv+=`${t.w},"${t.date}","${t.name.replace(/"/g,'""')}","${t.focus}","${t.ern}",${s.done?'Ja':'Nein'},"${note}"\n`;
   });
-  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob); a.download = 'trainingsprotokoll.csv';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download='trainingsprotokoll.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
 }
 
+function setFavicon(){
+  const c=document.createElement('canvas');c.width=32;c.height=32;
+  const ctx=c.getContext('2d');
+  ctx.fillStyle='#1D9E75';
+  ctx.roundRect(0,0,32,32,7);ctx.fill();
+  ctx.fillStyle='white';ctx.font='bold 13px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('IM',16,17);
+  const link=document.createElement('link');link.rel='icon';link.href=c.toDataURL();
+  document.head.appendChild(link);
+}
+
+setFavicon();
 loadState();
 </script>
 </body>
