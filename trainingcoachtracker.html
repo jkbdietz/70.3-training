@@ -4,6 +4,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="IM Trainer">
 <style>
   :root {
     --green-bg: #E1F5EE; --green-mid: #5DCAA5; --green-dark: #0F6E56;
@@ -22,54 +25,42 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: var(--font-sans, system-ui); background: var(--color-background-tertiary); color: var(--color-text-primary); min-height: 100vh; }
   .app { max-width: 420px; margin: 0 auto; padding: 0 0 80px; }
-
   .header { background: var(--color-background-primary); border-bottom: 0.5px solid var(--color-border-tertiary); padding: 16px 16px 12px; position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 10px; }
   .header-im { width: 32px; height: 32px; border-radius: 8px; background: var(--green-deep); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; color: white; letter-spacing: -0.5px; flex-shrink: 0; }
   .header-text .header-title { font-size: 17px; font-weight: 500; }
   .header-text .header-sub { font-size: 11px; color: var(--color-text-secondary); margin-top: 1px; }
-
   .section { padding: 12px 12px 0; }
-
   .countdown-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
   .countdown-race { font-size: 15px; font-weight: 500; }
   .countdown-days { font-size: 32px; font-weight: 500; color: var(--green-dark); line-height: 1; }
   .countdown-suffix { font-size: 12px; color: var(--color-text-secondary); }
-
   .today-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 16px; margin-bottom: 10px; }
   .today-label { font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
   .today-training { font-size: 15px; font-weight: 500; line-height: 1.4; margin-bottom: 6px; }
   .today-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
   .badge { font-size: 11px; padding: 3px 8px; border-radius: 20px; background: var(--green-bg); color: var(--green-dark); }
   .badge-gray { background: var(--color-background-secondary); color: var(--color-text-secondary); }
-
   .done-btn { width: 100%; padding: 10px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: none; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.15s; color: var(--color-text-primary); }
   .done-btn.completed { background: var(--green-bg); border-color: var(--green-mid); color: var(--green-text); }
   .done-btn:active { transform: scale(0.98); }
-
   .check-icon { width: 20px; height: 20px; border: 1.5px solid currentColor; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s; }
   .check-icon.filled { background: var(--green-deep); border-color: var(--green-deep); }
   .check-icon svg { display: none; }
   .check-icon.filled svg { display: block; }
-
   .notes-area { width: 100%; margin-top: 12px; padding: 10px 12px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-secondary); font-size: 14px; color: var(--color-text-primary); font-family: inherit; resize: none; line-height: 1.5; }
   .notes-area:focus { outline: none; border-color: var(--green-mid); }
   .notes-area::placeholder { color: var(--color-text-tertiary); }
-
-  /* Plan tab */
   .week-header { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); padding: 14px 0 6px; text-transform: uppercase; letter-spacing: 0.06em; }
-
   .training-item { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); margin-bottom: 6px; overflow: hidden; }
   .training-item.today-item { border-color: var(--green-mid); border-width: 1px; }
   .training-item.completed > .item-row { opacity: 0.55; }
-
-  .item-row { display: flex; align-items: center; gap: 0; }
+  .item-row { display: flex; align-items: center; }
   .item-check-btn { flex-shrink: 0; width: 52px; display: flex; align-items: center; justify-content: center; padding: 14px 0; cursor: pointer; background: none; border: none; border-right: 0.5px solid var(--color-border-tertiary); align-self: stretch; }
   .item-check-btn:active .check-icon { transform: scale(0.88); }
-  .item-body { flex: 1; padding: 12px 12px 12px 12px; cursor: pointer; min-width: 0; }
+  .item-body { flex: 1; padding: 12px; cursor: pointer; min-width: 0; }
   .item-date { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 2px; }
   .item-name { font-size: 13px; font-weight: 500; line-height: 1.35; }
   .item-chevron { flex-shrink: 0; padding: 14px 12px; color: var(--color-text-tertiary); font-size: 12px; cursor: pointer; }
-
   .item-expand { display: none; background: var(--item-expand-bg); border-top: 0.5px solid var(--color-border-tertiary); padding: 14px 14px 14px 52px; }
   .item-expand.open { display: block; }
   .item-focus-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
@@ -77,51 +68,43 @@
   .expand-notes:focus { outline: none; border-color: var(--green-mid); }
   .expand-notes::placeholder { color: var(--color-text-tertiary); }
   .item-note-preview { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-  /* Stats */
   .stat-row { display: flex; gap: 8px; margin-bottom: 10px; }
   .stat-card { flex: 1; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 12px; text-align: center; }
   .stat-num { font-size: 22px; font-weight: 500; color: var(--green-dark); }
   .stat-label { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
   .export-btn { width: 100%; padding: 12px; margin-top: 12px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: none; font-size: 14px; cursor: pointer; color: var(--color-text-primary); display: flex; align-items: center; justify-content: center; gap: 8px; }
   .export-btn:active { background: var(--color-background-secondary); }
-
-  /* Nav */
   .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; max-width: 420px; margin: 0 auto; background: var(--color-background-primary); border-top: 1px solid var(--color-border-secondary); display: flex; z-index: 15; box-shadow: var(--nav-shadow); }
   .nav-item { flex: 1; padding: 10px 4px 8px; text-align: center; cursor: pointer; border: none; background: none; color: var(--color-text-secondary); font-size: 10px; transition: background 0.15s; }
   .nav-item.active { color: var(--green-dark); background: var(--green-bg); }
   .nav-icon { font-size: 18px; margin-bottom: 2px; }
-
   .no-training { text-align: center; padding: 32px 20px; color: var(--color-text-secondary); font-size: 14px; background: var(--color-background-primary); border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); }
 </style>
 </head>
 <body>
 <div class="app">
   <div class="header">
-    <div class="header-im" id="header-im">IM</div>
+    <div class="header-im">IM</div>
     <div class="header-text">
       <div class="header-title">Trainingsplan</div>
       <div class="header-sub" id="today-date"></div>
     </div>
   </div>
-
   <div id="page-home" class="page"><div class="section" id="home-content"></div></div>
   <div id="page-plan" class="page" style="display:none"><div class="section" id="plan-content"></div></div>
   <div id="page-stats" class="page" style="display:none"><div class="section" id="stats-content"></div></div>
-
   <nav class="nav-bar">
     <button class="nav-item active" onclick="showPage('home',this)"><div class="nav-icon">⊙</div>Heute</button>
     <button class="nav-item" onclick="showPage('plan',this)"><div class="nav-icon">≡</div>Plan</button>
     <button class="nav-item" onclick="showPage('stats',this)"><div class="nav-icon">◎</div>Auswertung</button>
   </nav>
 </div>
-
 <script>
 const DAYS=['So','Mo','Di','Mi','Do','Fr','Sa'];
 const MONTHS=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
 function getToday(){const t=new Date();t.setHours(0,0,0,0);return t;}
 function parseDate(str){const p=str.trim().replace(/\.$/,'').split('.');if(p.length<2)return null;const d=parseInt(p[0]),m=parseInt(p[1]);if(isNaN(d)||isNaN(m))return null;return new Date(2026,m-1,d);}
-function fmtDate(d){if(!d)return '';return `${DAYS[d.getDay()]}, ${d.getDate()}. ${MONTHS[d.getMonth()]} 2026`;}
+function fmtDate(d){if(!d)return'';return`${DAYS[d.getDay()]}, ${d.getDate()}. ${MONTHS[d.getMonth()]} 2026`;}
 
 const trainings=[
   {id:'w1_mo',w:1,date:'27.04.',name:"45' Kraft & Core (Zuhause)",focus:'Stabilität',ern:'HP / LC'},
@@ -205,7 +188,7 @@ const trainings=[
 trainings.forEach(t=>{t.dateObj=parseDate(t.date);});
 
 const RACE_DATE=new Date(2026,7,30);
-let state={}, currentPage='home', openExpand=null, noteTimeout=null;
+let state={},currentPage='home',openExpand=null,noteTimeout=null;
 
 async function loadState(){
   try{const r=await window.storage.get('training-state-2026');if(r)state=JSON.parse(r.value);}catch(e){state={};}
@@ -213,7 +196,7 @@ async function loadState(){
 }
 async function saveState(){try{await window.storage.set('training-state-2026',JSON.stringify(state));}catch(e){}}
 
-function daysUntilRace(){const t=getToday();return Math.ceil((RACE_DATE-t)/86400000);}
+function daysUntilRace(){return Math.ceil((RACE_DATE-getToday())/86400000);}
 function findTodayTraining(){const t=getToday().getTime();return trainings.find(tr=>tr.dateObj&&tr.dateObj.getTime()===t)||null;}
 
 function showPage(page,el){
@@ -226,14 +209,11 @@ function showPage(page,el){
   if(page==='plan')renderPlan();
   if(page==='stats')renderStats();
 }
-
 function renderAll(){renderHome();}
-
-function checkSVG(){return `<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;}
+function checkSVG(){return`<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;}
 
 function renderHome(){
-  const now=getToday();
-  document.getElementById('today-date').textContent=fmtDate(now);
+  document.getElementById('today-date').textContent=fmtDate(getToday());
   const days=daysUntilRace();
   const todayT=findTodayTraining();
   const s=todayT?(state[todayT.id]||{}):{};
@@ -253,16 +233,11 @@ function renderHome(){
     html+=`<div class="today-card">
       <div class="today-label">Heutiges Training · Woche ${todayT.w}</div>
       <div class="today-training">${todayT.name}</div>
-      <div class="today-meta">
-        <span class="badge">${todayT.focus}</span>
-        <span class="badge badge-gray">${todayT.ern}</span>
-      </div>
+      <div class="today-meta"><span class="badge">${todayT.focus}</span><span class="badge badge-gray">${todayT.ern}</span></div>
       <button class="done-btn ${done?'completed':''}" onclick="toggleDone('${todayT.id}','home')">
-        <div class="check-icon ${done?'filled':''}">${done?checkSVG():''}</div>
-        ${done?'Erledigt!':'Als erledigt markieren'}
+        <div class="check-icon ${done?'filled':''}">${done?checkSVG():''}</div>${done?'Erledigt!':'Als erledigt markieren'}
       </button>
-      <textarea class="notes-area" rows="3" placeholder="Notizen: Abweichungen, Befinden..."
-        oninput="updateNote('${todayT.id}',this.value)">${s.note||''}</textarea>
+      <textarea class="notes-area" rows="3" placeholder="Notizen: Abweichungen, Befinden..." oninput="updateNote('${todayT.id}',this.value)">${s.note||''}</textarea>
     </div>`;
   } else {
     html+=`<div class="no-training">Kein Training heute geplant.<br><span style="font-size:12px;color:var(--color-text-tertiary)">Erholungstag – gut gemacht!</span></div>`;
@@ -281,9 +256,9 @@ function renderPlan(){
       const s=state[t.id]||{};
       const isToday=t.dateObj&&t.dateObj.getTime()===todayTime;
       const isOpen=openExpand===t.id;
-      html+=`<div class="training-item ${s.done?'completed':''} ${isToday?'today-item':''}" id="item-${t.id}">
+      html+=`<div class="training-item ${s.done?'completed':''} ${isToday?'today-item':''}">
         <div class="item-row">
-          <button class="item-check-btn" onclick="toggleDone('${t.id}','plan')" title="Als erledigt markieren">
+          <button class="item-check-btn" onclick="toggleDone('${t.id}','plan')">
             <div class="check-icon ${s.done?'filled':''}">${s.done?checkSVG():''}</div>
           </button>
           <div class="item-body" onclick="toggleExpand('${t.id}')">
@@ -294,12 +269,8 @@ function renderPlan(){
           <div class="item-chevron" onclick="toggleExpand('${t.id}')">${isOpen?'▲':'▼'}</div>
         </div>
         <div class="item-expand ${isOpen?'open':''}" id="expand-${t.id}">
-          <div class="item-focus-row">
-            <span class="badge">${t.focus}</span>
-            <span class="badge badge-gray">${t.ern}</span>
-          </div>
-          <textarea class="expand-notes" rows="3" placeholder="Notizen: Abweichungen, Befinden..."
-            oninput="updateNote('${t.id}',this.value)">${s.note||''}</textarea>
+          <div class="item-focus-row"><span class="badge">${t.focus}</span><span class="badge badge-gray">${t.ern}</span></div>
+          <textarea class="expand-notes" rows="3" placeholder="Notizen: Abweichungen, Befinden..." oninput="updateNote('${t.id}',this.value)">${s.note||''}</textarea>
         </div>
       </div>`;
     });
@@ -310,72 +281,63 @@ function renderPlan(){
 function toggleExpand(id){
   openExpand=openExpand===id?null:id;
   renderPlan();
-  if(openExpand){
-    setTimeout(()=>{
-      const el=document.getElementById('expand-'+id);
-      if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'});
-    },50);
-  }
+  if(openExpand){setTimeout(()=>{const el=document.getElementById('expand-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'});},50);}
 }
-
 function toggleDone(id,from){
   if(!state[id])state[id]={};
   state[id].done=!state[id].done;
   saveState();
-  if(from==='home')renderHome();
-  else renderPlan();
+  if(from==='home')renderHome();else renderPlan();
   if(currentPage==='stats')renderStats();
 }
-
 function updateNote(id,val){
   if(!state[id])state[id]={};
   state[id].note=val;
   clearTimeout(noteTimeout);
   noteTimeout=setTimeout(saveState,800);
 }
-
 function renderStats(){
   const done=trainings.filter(t=>state[t.id]?.done).length;
   const total=trainings.length;
-  const pct=Math.round(done/total*100);
-  const withNote=trainings.filter(t=>state[t.id]?.note).length;
   document.getElementById('stats-content').innerHTML=`
     <div class="stat-row">
       <div class="stat-card"><div class="stat-num">${done}</div><div class="stat-label">Erledigt</div></div>
       <div class="stat-card"><div class="stat-num">${total-done}</div><div class="stat-label">Ausstehend</div></div>
     </div>
     <div class="stat-row">
-      <div class="stat-card"><div class="stat-num">${pct}%</div><div class="stat-label">Fortschritt</div></div>
-      <div class="stat-card"><div class="stat-num">${withNote}</div><div class="stat-label">Notizen</div></div>
+      <div class="stat-card"><div class="stat-num">${Math.round(done/total*100)}%</div><div class="stat-label">Fortschritt</div></div>
+      <div class="stat-card"><div class="stat-num">${trainings.filter(t=>state[t.id]?.note).length}</div><div class="stat-label">Notizen</div></div>
     </div>
     <button class="export-btn" onclick="exportData()">↓ &nbsp;Protokoll exportieren (CSV)</button>`;
 }
-
 function exportData(){
   let csv='Woche,Datum,Training,Fokus,Ernaehrung,Erledigt,Notizen\n';
-  trainings.forEach(t=>{
-    const s=state[t.id]||{};
-    const note=(s.note||'').replace(/"/g,'""').replace(/\n/g,' ');
-    csv+=`${t.w},"${t.date}","${t.name.replace(/"/g,'""')}","${t.focus}","${t.ern}",${s.done?'Ja':'Nein'},"${note}"\n`;
-  });
-  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);a.download='trainingsprotokoll.csv';
-  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  trainings.forEach(t=>{const s=state[t.id]||{};const note=(s.note||'').replace(/"/g,'""').replace(/\n/g,' ');csv+=`${t.w},"${t.date}","${t.name.replace(/"/g,'""')}","${t.focus}","${t.ern}",${s.done?'Ja':'Nein'},"${note}"\n`;});
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));a.download='trainingsprotokoll.csv';document.body.appendChild(a);a.click();document.body.removeChild(a);
 }
 
-function setFavicon(){
-  const c=document.createElement('canvas');c.width=32;c.height=32;
+function setIcons(){
+  const c=document.createElement('canvas');
+  c.width=180;c.height=180;
   const ctx=c.getContext('2d');
   ctx.fillStyle='#1D9E75';
-  ctx.roundRect(0,0,32,32,7);ctx.fill();
-  ctx.fillStyle='white';ctx.font='bold 13px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText('IM',16,17);
-  const link=document.createElement('link');link.rel='icon';link.href=c.toDataURL();
-  document.head.appendChild(link);
+  if(ctx.roundRect){ctx.roundRect(0,0,180,180,36);ctx.fill();}
+  else{ctx.fillRect(0,0,180,180);}
+  ctx.fillStyle='white';
+  ctx.font='bold 72px -apple-system, system-ui';
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  ctx.fillText('IM',90,94);
+  const url=c.toDataURL('image/png');
+  ['apple-touch-icon','apple-touch-icon-precomposed'].forEach(rel=>{
+    let l=document.querySelector(`link[rel="${rel}"]`)||document.createElement('link');
+    l.rel=rel; l.href=url; document.head.appendChild(l);
+  });
+  let fl=document.querySelector('link[rel="icon"]')||document.createElement('link');
+  fl.rel='icon'; fl.href=url; document.head.appendChild(fl);
 }
 
-setFavicon();
+setIcons();
 loadState();
 </script>
 </body>
