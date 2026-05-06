@@ -7,32 +7,22 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: var(--font-sans, system-ui); background: var(--color-background-tertiary); color: var(--color-text-primary); min-height: 100vh; }
-
   .app { max-width: 420px; margin: 0 auto; padding: 0 0 80px; }
-
   .header { background: var(--color-background-primary); border-bottom: 0.5px solid var(--color-border-tertiary); padding: 16px 16px 12px; position: sticky; top: 0; z-index: 10; }
   .header-title { font-size: 18px; font-weight: 500; }
   .header-sub { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
-
-  .tabs { display: flex; gap: 0; background: var(--color-background-secondary); border-bottom: 0.5px solid var(--color-border-tertiary); }
-  .tab { flex: 1; padding: 10px; font-size: 13px; text-align: center; cursor: pointer; border: none; background: none; color: var(--color-text-secondary); transition: all 0.15s; }
-  .tab.active { color: var(--color-text-primary); font-weight: 500; border-bottom: 2px solid #1D9E75; }
-
   .section { padding: 12px 12px 0; }
-
   .countdown-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
   .countdown-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; }
   .countdown-race { font-size: 15px; font-weight: 500; }
   .countdown-days { font-size: 32px; font-weight: 500; color: #0F6E56; line-height: 1; }
   .countdown-suffix { font-size: 12px; color: var(--color-text-secondary); }
-
   .today-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 16px; margin-bottom: 10px; }
   .today-label { font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
   .today-training { font-size: 15px; font-weight: 500; line-height: 1.4; margin-bottom: 6px; }
   .today-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
   .badge { font-size: 11px; padding: 3px 8px; border-radius: 20px; background: #E1F5EE; color: #0F6E56; }
   .badge-gray { background: var(--color-background-secondary); color: var(--color-text-secondary); }
-  
   .done-btn { width: 100%; padding: 10px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: none; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.15s; color: var(--color-text-primary); }
   .done-btn:active { transform: scale(0.98); }
   .done-btn.completed { background: #E1F5EE; border-color: #5DCAA5; color: #085041; }
@@ -40,24 +30,19 @@
   .check-icon.filled { background: #1D9E75; border-color: #1D9E75; }
   .check-icon svg { display: none; }
   .check-icon.filled svg { display: block; }
-
   .notes-area { width: 100%; margin-top: 12px; padding: 10px 12px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-secondary); font-size: 14px; color: var(--color-text-primary); font-family: inherit; resize: none; line-height: 1.5; }
   .notes-area:focus { outline: none; border-color: #5DCAA5; }
   .notes-area::placeholder { color: var(--color-text-tertiary); }
-
   .week-header { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); padding: 14px 0 6px; text-transform: uppercase; letter-spacing: 0.05em; }
   .training-item { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px; margin-bottom: 6px; display: flex; gap: 12px; cursor: pointer; transition: all 0.15s; }
-  .training-item:active { transform: scale(0.99); }
-  .training-item.completed { opacity: 0.65; }
+  .training-item.completed { opacity: 0.6; }
   .training-item.today-item { border-color: #5DCAA5; border-width: 1px; }
   .item-check { flex-shrink: 0; margin-top: 2px; }
   .item-body { flex: 1; min-width: 0; }
   .item-date { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 3px; }
   .item-name { font-size: 14px; font-weight: 500; line-height: 1.3; }
   .item-focus { font-size: 12px; color: var(--color-text-secondary); margin-top: 3px; }
-  .item-note { font-size: 12px; color: #0F6E56; margin-top: 4px; background: #E1F5EE; padding: 4px 8px; border-radius: 4px; }
   .item-note-gray { font-size: 12px; color: var(--color-text-secondary); margin-top: 4px; background: var(--color-background-secondary); padding: 4px 8px; border-radius: 4px; }
-  
   .detail-panel { position: fixed; bottom: 0; left: 0; right: 0; background: var(--color-background-primary); border-top: 0.5px solid var(--color-border-secondary); padding: 16px; z-index: 20; max-width: 420px; margin: 0 auto; transform: translateY(100%); transition: transform 0.25s ease; }
   .detail-panel.open { transform: translateY(0); }
   .detail-panel-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 19; display: none; }
@@ -65,25 +50,21 @@
   .panel-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--color-text-secondary); padding: 4px; }
   .panel-training { font-size: 15px; font-weight: 500; margin: 0 28px 4px 0; line-height: 1.4; }
   .panel-date { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 12px; }
-
   .export-btn { width: 100%; padding: 12px; margin-top: 12px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: none; font-size: 14px; cursor: pointer; color: var(--color-text-primary); display: flex; align-items: center; justify-content: center; gap: 8px; }
-  .export-btn:active { transform: scale(0.98); background: var(--color-background-secondary); }
-
+  .export-btn:active { background: var(--color-background-secondary); }
   .stat-row { display: flex; gap: 8px; margin-bottom: 10px; }
   .stat-card { flex: 1; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 12px; text-align: center; }
   .stat-num { font-size: 22px; font-weight: 500; color: #0F6E56; }
   .stat-label { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
-
-  .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; max-width: 420px; margin: 0 auto; background: var(--color-background-primary); border-top: 0.5px solid var(--color-border-tertiary); display: flex; z-index: 15; }
+  .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; max-width: 420px; margin: 0 auto; background: var(--color-background-primary); border-top: 1px solid var(--color-border-secondary); display: flex; z-index: 15; box-shadow: 0 -4px 16px rgba(0,0,0,0.08); }
   .nav-item { flex: 1; padding: 10px 4px 8px; text-align: center; cursor: pointer; border: none; background: none; color: var(--color-text-secondary); font-size: 10px; }
-  .nav-item.active { color: #0F6E56; }
+  .nav-item.active { color: #0F6E56; background: #E1F5EE; }
   .nav-icon { font-size: 20px; margin-bottom: 2px; }
-
-  .empty-state { text-align: center; padding: 40px 20px; color: var(--color-text-secondary); font-size: 14px; }
+  .no-training { text-align: center; padding: 32px 20px; color: var(--color-text-secondary); font-size: 14px; background: var(--color-background-primary); border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); }
 </style>
 </head>
 <body>
-<div class="app" id="app">
+<div class="app">
   <div class="header">
     <div class="header-title">Trainingsplan</div>
     <div class="header-sub" id="today-date"></div>
@@ -92,11 +73,9 @@
   <div id="page-home" class="page">
     <div class="section" id="home-content"></div>
   </div>
-
   <div id="page-plan" class="page" style="display:none">
     <div class="section" id="plan-content"></div>
   </div>
-
   <div id="page-stats" class="page" style="display:none">
     <div class="section" id="stats-content"></div>
   </div>
@@ -121,147 +100,135 @@
 </div>
 
 <script>
-const RACE_DATE = new Date('2024-08-30');
-const TODAY = new Date();
-TODAY.setHours(0,0,0,0);
-
-function parseDate(str) {
-  const y = str.includes('2024') ? 2024 : 2024;
-  const parts = str.replace(/\s/g,'').split('.');
-  if(parts.length < 2) return null;
-  let m = parseInt(parts[1]), d = parseInt(parts[0]);
-  if(isNaN(m)||isNaN(d)) return null;
-  return new Date(2024, m-1, d);
-}
-
 const DAYS = ['So','Mo','Di','Mi','Do','Fr','Sa'];
 const MONTHS = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
 
+function getToday() {
+  const t = new Date(); t.setHours(0,0,0,0); return t;
+}
+
+function parseDate(str) {
+  const parts = str.trim().replace(/\.$/,'').split('.');
+  if(parts.length < 2) return null;
+  const d = parseInt(parts[0]), m = parseInt(parts[1]);
+  if(isNaN(d)||isNaN(m)) return null;
+  return new Date(2026, m-1, d);
+}
+
 function fmtDate(d) {
   if(!d) return '';
-  return `${DAYS[d.getDay()]}, ${d.getDate()}. ${MONTHS[d.getMonth()]}`;
+  return `${DAYS[d.getDay()]}, ${d.getDate()}. ${MONTHS[d.getMonth()]} 2026`;
 }
 
 const trainings = [
-  {id:'w1_mo', w:1, date:'27.04.', name:'45\' Kraft & Core (Zuhause)', focus:'Stabilität', ern:'HP / LC'},
-  {id:'w1_di', w:1, date:'28.04.', name:'10km GA1 Lauf (05:30 Start)', focus:'Ausdauer', ern:'HP / Mixed'},
-  {id:'w1_mi', w:1, date:'29.04.', name:'75\' Zwift: 4x5\' K3 (55 RPM)', focus:'Rad-Kraft', ern:'HP / HC'},
-  {id:'w1_do', w:1, date:'30.04.', name:'12km GA1 Lauf', focus:'Grundlage', ern:'HP / Mixed'},
-  {id:'w1_fr', w:1, date:'01.05.', name:'2.200m Swim (Pool) + Gym UK', focus:'Kraft', ern:'HP / LC'},
-  {id:'w1_sa', w:1, date:'02.05.', name:'150\' Rad mit Anhänger', focus:'Kraftausdauer', ern:'HP / HC'},
-  {id:'w1_so', w:1, date:'03.05.', name:'16km Long Run (Pace 5:30) + 30\' OWS', focus:'Kilometer', ern:'HP / HC'},
-  {id:'w2_mo', w:2, date:'04.05.', name:'45\' Kraft & Beweglichkeit', focus:'Regeneration', ern:'HP / LC'},
-  {id:'w2_di', w:2, date:'05.05.', name:'12km Lauf (inkl. 4x1km @ 4:30)', focus:'Tempo', ern:'HP / HC'},
-  {id:'w2_mi', w:2, date:'06.05.', name:'60\' Rad (Zwift): Konstante 160-170W', focus:'Aktive Erholung', ern:'HP: Fokus Omega-3'},
-  {id:'w2_do', w:2, date:'07.05.', name:'10km GA1 Lauf (Pace 5:45) - Achte auf das Stechen!', focus:'Grundlagen', ern:'Mixed: Fokus Zink'},
-  {id:'w2_fr', w:2, date:'08.05.', name:'Prio: 1.500m Technik-Schwimmen (Abschlag, Ente)', focus:'Wasserlage', ern:'HP: Protein nach Pool'},
-  {id:'w2_sa', w:2, date:'09.05.', name:'150\' Rad mit Anhänger (Family-Tour, ca. 45-50km)', focus:'Kraftausdauer', ern:'HC: Nudeln/Kartoffeln'},
-  {id:'w2_so', w:2, date:'10.05.', name:'15km Long Run (flach) + 30\' OWS (Kälteschutz!)', focus:'Umfang', ern:'HC: Carb-Loading'},
-  {id:'w3_mo', w:3, date:'11.05.', name:'45\' Kraft & Core (Fokus: Sprunggelenk-Stabi)', focus:'Stabilität', ern:'HP: Low Carb'},
-  {id:'w3_di', w:3, date:'12.05.', name:'12km GA1 Lauf (05:30 Start)', focus:'Volumen', ern:'HP / Mixed'},
-  {id:'w3_mi', w:3, date:'13.05.', name:'75\' Rad: 4x8\' Kraftausdauer (niedrige Frequenz)', focus:'Power', ern:'HP / HC'},
-  {id:'w3_do', w:3, date:'14.05.', name:'14km GA1 Lauf', focus:'Umfang', ern:'HP / Mixed'},
-  {id:'w3_fr', w:3, date:'15.05.', name:'2.200m Swim (Pool) + Fokus auf Ausdauer', focus:'Rhythmus', ern:'HP / LC'},
-  {id:'w3_sa', w:3, date:'16.05.', name:'180\' Rad (Solo, Aero-Position üben)', focus:'Wettkampf', ern:'HP / HC'},
-  {id:'w3_so', w:3, date:'17.05.', name:'18km Long Run (Pace 5:40) + 30\' Pool', focus:'Herz-Kreislauf', ern:'HP / HC'},
-  {id:'w4_mo', w:4, date:'18.05.', name:'45\' Bodyweight-Kraft (Innsbruck)', focus:'Kraft', ern:'HP / LC'},
-  {id:'w4_di', w:4, date:'19.05.', name:'10km Tempodauerlauf (Pace 4:50)', focus:'Speed', ern:'HP / HC'},
-  {id:'w4_mi', w:4, date:'20.05.', name:'Berglauf/Hiking (600hm) - Knieschonend', focus:'Kraftausdauer', ern:'HP / HC'},
-  {id:'w4_do', w:4, date:'21.05.', name:'12km GA1 Lauf', focus:'Grundlage', ern:'HP / Mixed'},
-  {id:'w4_fr', w:4, date:'22.05.', name:'10km Steigerungslauf', focus:'Aktivierung', ern:'HP / Mixed'},
-  {id:'w4_sa', w:4, date:'23.05.', name:'120\' Rad (Locker rollen)', focus:'Lockerung', ern:'HP / LC'},
-  {id:'w4_so', w:4, date:'24.05.', name:'Ruhetag (30\' Spaziergang)', focus:'Erholung', ern:'HP / LC'},
-  {id:'w5', w:5, date:'25.05.', name:'REKOM: Umfang -50%, viel Schlaf', focus:'Erholung', ern:'HP / LC'},
-  {id:'w6_mo', w:6, date:'01.06.', name:'45\' Kraft & Core', focus:'Kraft', ern:'HP / LC'},
-  {id:'w6_di', w:6, date:'02.06.', name:'12km Lauf (6x1km Intervalle)', focus:'Pace', ern:'HP / HC'},
-  {id:'w6_mi', w:6, date:'03.06.', name:'90\' Zwift: 3x15\' Sweetspot', focus:'Kraftausdauer', ern:'HP / HC'},
-  {id:'w6_do', w:6, date:'04.06.', name:'15km GA1 Lauf', focus:'Umfang', ern:'HP / Mixed'},
-  {id:'w6_fr', w:6, date:'05.06.', name:'2.200m Swim + 60\' Rad K3', focus:'Kraft', ern:'HP / Mixed'},
-  {id:'w6_sa', w:6, date:'06.06.', name:'240\' Rad (Anhänger-Tour) + 20\' Koppel', focus:'Long Ride', ern:'HP / HC'},
-  {id:'w6_so', w:6, date:'07.06.', name:'22km Long Run + 45\' OWS', focus:'Peak Base', ern:'HP / HC'},
-  {id:'w7_tape', w:7, date:'08.06.', name:'Tapering für Kroatien (Läufe max. 12km)', focus:'Race Speed', ern:'HP / Mixed'},
-  {id:'w7_sa', w:7, date:'13.06.', name:'Anreise: 20\' OWS im Meer (Bijela Uvala)', focus:'Wassergefühl', ern:'HP / Mixed'},
-  {id:'w7_so', w:7, date:'14.06.', name:'06:30 Uhr: 3.000m OWS + 120\' Rad', focus:'Volumen', ern:'HP / HC'},
-  {id:'w8_mo', w:8, date:'15.06.', name:'06:30 Uhr: 3.500m OWS (Meer)', focus:'Ausdauer', ern:'HP / Mixed'},
-  {id:'w8_di', w:8, date:'16.06.', name:'06:00 Uhr: 90km Rad (Hinterland) + 15\' Koppel', focus:'Rad-Härte', ern:'HP / HC'},
-  {id:'w8_mi', w:8, date:'17.06.', name:'06:30 Uhr: 2.500m OWS + 10km Lauf', focus:'Technik', ern:'HP / HC'},
-  {id:'w8_do', w:8, date:'18.06.', name:'06:00 Uhr: 4h Rad (Küstenstraße)', focus:'Kraftausdauer', ern:'HP / HC'},
-  {id:'w8_fr', w:8, date:'19.06.', name:'06:30 Uhr: 4.000m OWS (Simulation)', focus:'Mental', ern:'HP / HC'},
-  {id:'w8_sa', w:8, date:'20.06.', name:'05:30 Uhr: 120km Rad (Königs-Etappe)', focus:'Rad-Peak', ern:'HP / HC'},
-  {id:'w8_so', w:8, date:'21.06.', name:'06:30 Uhr: 3.000m OWS / Run: 18km', focus:'Schwimm-Fokus', ern:'HP / HC'},
-  {id:'w9', w:9, date:'22.06.', name:'Weiterhin Frühstart (OWS & Rad) – Peak Kroatien', focus:'Peak', ern:'HP / HC'},
-  {id:'w9_so', w:9, date:'28.06.', name:'Abreise: 1.500m OWS locker', focus:'Locker', ern:'HP / LC'},
-  {id:'w10', w:10, date:'29.06.', name:'REKOM-Woche (Umfang -50%)', focus:'Erholung', ern:'HP / LC'},
-  {id:'w11_mo', w:11, date:'06.07.', name:'45\' Kraft & Core', focus:'Stabilität', ern:'HP / LC'},
-  {id:'w11_di', w:11, date:'07.07.', name:'14km Lauf / 13:00 Uhr Joker-Swim', focus:'Härte', ern:'HP / HC'},
-  {id:'w11_mi', w:11, date:'08.07.', name:'60-75\' Rad (Race Pace Intervalle)', focus:'Wettkampf-Pace', ern:'HP / HC'},
-  {id:'w11_do', w:11, date:'09.07.', name:'10-12km GA1 Lauf', focus:'Grundlagenausdauer', ern:'HP / Mixed'},
-  {id:'w11_fr', w:11, date:'10.07.', name:'1.500m Technik-Schwimmen + Gym UK', focus:'Wasserlage', ern:'HP / LC'},
-  {id:'w11_sa', w:11, date:'11.07.', name:'4h Rad (inkl. 2h Race Pace @ 210W)', focus:'Übertragung', ern:'HP / HC'},
-  {id:'w11_so', w:11, date:'12.07.', name:'15-18km Lauf (oder Recovery Swim)', focus:'Ausdauer-Peak', ern:'HP / HC'},
-  {id:'w12_mo', w:12, date:'13.07.', name:'45\' Kraft & Core', focus:'Stabilität', ern:'HP / LC'},
-  {id:'w12_di', w:12, date:'14.07.', name:'12km Lauf / 13:00 Uhr Joker-Swim', focus:'Ausdauer', ern:'HP / HC'},
-  {id:'w12_mi', w:12, date:'15.07.', name:'60-75\' Rad (Race Pace Intervalle)', focus:'Wettkampf-Pace', ern:'HP / HC'},
-  {id:'w12_do', w:12, date:'16.07.', name:'10-12km GA1 Lauf', focus:'Grundlagenausdauer', ern:'HP / Mixed'},
-  {id:'w12_fr', w:12, date:'17.07.', name:'1.500m Technik-Schwimmen + Gym UK', focus:'Wasserlage', ern:'HP / LC'},
-  {id:'w12_sa', w:12, date:'18.07.', name:'90km Rad (Race Pace) + 10km Koppel-Lauf', focus:'Härtetest', ern:'HP / HC'},
-  {id:'w12_so', w:12, date:'19.07.', name:'15-18km Lauf (oder Recovery Swim)', focus:'Ausdauer-Peak', ern:'HP / HC'},
-  {id:'w13_block', w:13, date:'20.07.', name:'Wie Woche davor (Mo–Fr)', focus:'Ausdauer', ern:'HP / Mixed'},
-  {id:'w13_sa', w:13, date:'25.07.', name:'4,5h Rad (Profilierte Strecke, Berg-Power)', focus:'Berg-Power', ern:'HP / HC'},
-  {id:'w13_so', w:13, date:'26.07.', name:'15-18km Lauf (oder Recovery Swim)', focus:'Ausdauer-Peak', ern:'HP / HC'},
-  {id:'w14', w:14, date:'27.07.', name:'REKOM-Woche', focus:'Regeneration', ern:'HP / LC'},
-  {id:'w15_sa', w:15, date:'08.08.', name:'3,5h Rad + 40\' Koppel-Lauf', focus:'Letzter Reiz', ern:'HP / HC'},
-  {id:'w15_so', w:15, date:'09.08.', name:'15-18km Lauf (oder Recovery Swim)', focus:'Ausdauer-Peak', ern:'HP / HC'},
-  {id:'w16_mo', w:16, date:'10.08.', name:'45\' Kraft & Core', focus:'Stabilität', ern:'HP / LC'},
-  {id:'w16_di', w:16, date:'11.08.', name:'2.000m Swim (Race Pace)', focus:'Rhythmus', ern:'HP / Mixed'},
-  {id:'w16_sa', w:16, date:'15.08.', name:'2,5h Rad (inkl. 3x10\' Race Pace)', focus:'Tapering', ern:'HP / Mixed'},
-  {id:'w16_so', w:16, date:'16.08.', name:'15-18km Lauf (oder Recovery Swim)', focus:'Ausdauer-Peak', ern:'HP / HC'},
-  {id:'w17_sa', w:17, date:'22.08.', name:'90\' Rad + 5km Lauf (Race Pace)', focus:'Spannung', ern:'HP / Mixed'},
-  {id:'w18_mi', w:18, date:'26.08.', name:'45\' Rad (Aktivierung)', focus:'Spritzigkeit', ern:'HP / HC'},
-  {id:'w18_fr', w:18, date:'28.08.', name:'20\' Einschwimmen in Zell am See', focus:'Orientierung', ern:'HC Load'},
-  {id:'race', w:19, date:'30.08.', name:'IRONMAN 70.3 ZELL AM SEE', focus:'FINISH < 5h', ern:'RACE FUEL'},
+  {id:'w1_mo',w:1,date:'27.04.',name:"45' Kraft & Core (Zuhause)",focus:'Stabilität',ern:'HP / LC'},
+  {id:'w1_di',w:1,date:'28.04.',name:'10km GA1 Lauf (05:30 Start)',focus:'Ausdauer',ern:'HP / Mixed'},
+  {id:'w1_mi',w:1,date:'29.04.',name:"75' Zwift: 4x5' K3 (55 RPM)",focus:'Rad-Kraft',ern:'HP / HC'},
+  {id:'w1_do',w:1,date:'30.04.',name:'12km GA1 Lauf',focus:'Grundlage',ern:'HP / Mixed'},
+  {id:'w1_fr',w:1,date:'01.05.',name:'2.200m Swim (Pool) + Gym UK',focus:'Kraft',ern:'HP / LC'},
+  {id:'w1_sa',w:1,date:'02.05.',name:"150' Rad mit Anhänger",focus:'Kraftausdauer',ern:'HP / HC'},
+  {id:'w1_so',w:1,date:'03.05.',name:"16km Long Run (Pace 5:30) + 30' OWS",focus:'Kilometer',ern:'HP / HC'},
+  {id:'w2_mo',w:2,date:'04.05.',name:"45' Kraft & Beweglichkeit",focus:'Regeneration',ern:'HP / LC'},
+  {id:'w2_di',w:2,date:'05.05.',name:'12km Lauf (inkl. 4x1km @ 4:30)',focus:'Tempo',ern:'HP / HC'},
+  {id:'w2_mi',w:2,date:'06.05.',name:"60' Rad (Zwift): Konstante 160-170W",focus:'Aktive Erholung',ern:'HP: Fokus Omega-3'},
+  {id:'w2_do',w:2,date:'07.05.',name:'10km GA1 Lauf (Pace 5:45) - Achte auf das Stechen!',focus:'Grundlagen',ern:'Mixed: Fokus Zink'},
+  {id:'w2_fr',w:2,date:'08.05.',name:'1.500m Technik-Schwimmen (Abschlag, Ente)',focus:'Wasserlage',ern:'HP: Protein nach Pool'},
+  {id:'w2_sa',w:2,date:'09.05.',name:"150' Rad mit Anhänger (Family-Tour, ~45-50km)",focus:'Kraftausdauer',ern:'HC: Nudeln/Kartoffeln'},
+  {id:'w2_so',w:2,date:'10.05.',name:"15km Long Run (flach) + 30' OWS (Kälteschutz!)",focus:'Umfang',ern:'HC: Carb-Loading'},
+  {id:'w3_mo',w:3,date:'11.05.',name:"45' Kraft & Core (Fokus: Sprunggelenk-Stabi)",focus:'Stabilität',ern:'HP: Low Carb'},
+  {id:'w3_di',w:3,date:'12.05.',name:'12km GA1 Lauf (05:30 Start)',focus:'Volumen',ern:'HP / Mixed'},
+  {id:'w3_mi',w:3,date:'13.05.',name:"75' Rad: 4x8' Kraftausdauer (niedrige Frequenz)",focus:'Power',ern:'HP / HC'},
+  {id:'w3_do',w:3,date:'14.05.',name:'14km GA1 Lauf',focus:'Umfang',ern:'HP / Mixed'},
+  {id:'w3_fr',w:3,date:'15.05.',name:'2.200m Swim (Pool) + Fokus auf Ausdauer',focus:'Rhythmus',ern:'HP / LC'},
+  {id:'w3_sa',w:3,date:'16.05.',name:"180' Rad (Solo, Aero-Position üben)",focus:'Wettkampf',ern:'HP / HC'},
+  {id:'w3_so',w:3,date:'17.05.',name:"18km Long Run (Pace 5:40) + 30' Pool",focus:'Herz-Kreislauf',ern:'HP / HC'},
+  {id:'w4_mo',w:4,date:'18.05.',name:"45' Bodyweight-Kraft (Innsbruck)",focus:'Kraft',ern:'HP / LC'},
+  {id:'w4_di',w:4,date:'19.05.',name:'10km Tempodauerlauf (Pace 4:50)',focus:'Speed',ern:'HP / HC'},
+  {id:'w4_mi',w:4,date:'20.05.',name:'Berglauf/Hiking (600hm) - Knieschonend',focus:'Kraftausdauer',ern:'HP / HC'},
+  {id:'w4_do',w:4,date:'21.05.',name:'12km GA1 Lauf',focus:'Grundlage',ern:'HP / Mixed'},
+  {id:'w4_fr',w:4,date:'22.05.',name:'10km Steigerungslauf',focus:'Aktivierung',ern:'HP / Mixed'},
+  {id:'w4_sa',w:4,date:'23.05.',name:"120' Rad (Locker rollen)",focus:'Lockerung',ern:'HP / LC'},
+  {id:'w4_so',w:4,date:'24.05.',name:"Ruhetag (30' Spaziergang)",focus:'Erholung',ern:'HP / LC'},
+  {id:'w5',w:5,date:'25.05.',name:'REKOM: Umfang -50%, viel Schlaf',focus:'Erholung',ern:'HP / LC'},
+  {id:'w6_mo',w:6,date:'01.06.',name:"45' Kraft & Core",focus:'Kraft',ern:'HP / LC'},
+  {id:'w6_di',w:6,date:'02.06.',name:'12km Lauf (6x1km Intervalle)',focus:'Pace',ern:'HP / HC'},
+  {id:'w6_mi',w:6,date:'03.06.',name:"90' Zwift: 3x15' Sweetspot",focus:'Kraftausdauer',ern:'HP / HC'},
+  {id:'w6_do',w:6,date:'04.06.',name:'15km GA1 Lauf',focus:'Umfang',ern:'HP / Mixed'},
+  {id:'w6_fr',w:6,date:'05.06.',name:"2.200m Swim + 60' Rad K3",focus:'Kraft',ern:'HP / Mixed'},
+  {id:'w6_sa',w:6,date:'06.06.',name:"240' Rad (Anhänger-Tour) + 20' Koppel",focus:'Long Ride',ern:'HP / HC'},
+  {id:'w6_so',w:6,date:'07.06.',name:"22km Long Run + 45' OWS",focus:'Peak Base',ern:'HP / HC'},
+  {id:'w7_tape',w:7,date:'08.06.',name:'Tapering für Kroatien (Läufe max. 12km)',focus:'Race Speed',ern:'HP / Mixed'},
+  {id:'w7_sa',w:7,date:'13.06.',name:"Anreise: 20' OWS im Meer (Bijela Uvala)",focus:'Wassergefühl',ern:'HP / Mixed'},
+  {id:'w7_so',w:7,date:'14.06.',name:"06:30: 3.000m OWS + 120' Rad",focus:'Volumen',ern:'HP / HC'},
+  {id:'w8_mo',w:8,date:'15.06.',name:'06:30: 3.500m OWS (Meer)',focus:'Ausdauer',ern:'HP / Mixed'},
+  {id:'w8_di',w:8,date:'16.06.',name:"06:00: 90km Rad (Hinterland) + 15' Koppel",focus:'Rad-Härte',ern:'HP / HC'},
+  {id:'w8_mi',w:8,date:'17.06.',name:'06:30: 2.500m OWS + 10km Lauf',focus:'Technik',ern:'HP / HC'},
+  {id:'w8_do',w:8,date:'18.06.',name:'06:00: 4h Rad (Küstenstraße)',focus:'Kraftausdauer',ern:'HP / HC'},
+  {id:'w8_fr',w:8,date:'19.06.',name:'06:30: 4.000m OWS (Simulation)',focus:'Mental',ern:'HP / HC'},
+  {id:'w8_sa',w:8,date:'20.06.',name:'05:30: 120km Rad (Königs-Etappe)',focus:'Rad-Peak',ern:'HP / HC'},
+  {id:'w8_so',w:8,date:'21.06.',name:'06:30: 3.000m OWS / Run: 18km',focus:'Schwimm-Fokus',ern:'HP / HC'},
+  {id:'w9_block',w:9,date:'22.06.',name:'Weiterhin Frühstart (OWS & Rad)',focus:'Peak Kroatien',ern:'HP / HC'},
+  {id:'w9_so',w:9,date:'28.06.',name:"Abreise: 1.500m OWS locker",focus:'Locker',ern:'HP / LC'},
+  {id:'w10',w:10,date:'29.06.',name:'REKOM-Woche (Umfang -50%)',focus:'Erholung',ern:'HP / LC'},
+  {id:'w11_mo',w:11,date:'06.07.',name:"45' Kraft & Core",focus:'Stabilität',ern:'HP / LC'},
+  {id:'w11_di',w:11,date:'07.07.',name:"14km Lauf / 13:00 Joker-Swim",focus:'Härte',ern:'HP / HC'},
+  {id:'w11_mi',w:11,date:'08.07.',name:"60-75' Rad (Race Pace Intervalle)",focus:'Wettkampf-Pace',ern:'HP / HC'},
+  {id:'w11_do',w:11,date:'09.07.',name:'10-12km GA1 Lauf',focus:'Grundlagenausdauer',ern:'HP / Mixed'},
+  {id:'w11_fr',w:11,date:'10.07.',name:"1.500m Technik-Schwimmen + Gym UK",focus:'Wasserlage',ern:'HP / LC'},
+  {id:'w11_sa',w:11,date:'11.07.',name:"4h Rad (inkl. 2h Race Pace @ 210W)",focus:'Übertragung',ern:'HP / HC'},
+  {id:'w11_so',w:11,date:'12.07.',name:'15-18km Lauf (oder Recovery Swim)',focus:'Ausdauer-Peak',ern:'HP / HC'},
+  {id:'w12_mo',w:12,date:'13.07.',name:"45' Kraft & Core",focus:'Stabilität',ern:'HP / LC'},
+  {id:'w12_di',w:12,date:'14.07.',name:"12km Lauf / 13:00 Joker-Swim",focus:'Ausdauer',ern:'HP / HC'},
+  {id:'w12_mi',w:12,date:'15.07.',name:"60-75' Rad (Race Pace Intervalle)",focus:'Wettkampf-Pace',ern:'HP / HC'},
+  {id:'w12_do',w:12,date:'16.07.',name:'10-12km GA1 Lauf',focus:'Grundlagenausdauer',ern:'HP / Mixed'},
+  {id:'w12_fr',w:12,date:'17.07.',name:"1.500m Technik-Schwimmen + Gym UK",focus:'Wasserlage',ern:'HP / LC'},
+  {id:'w12_sa',w:12,date:'18.07.',name:"90km Rad (Race Pace) + 10km Koppel-Lauf",focus:'Härtetest',ern:'HP / HC'},
+  {id:'w12_so',w:12,date:'19.07.',name:'15-18km Lauf (oder Recovery Swim)',focus:'Ausdauer-Peak',ern:'HP / HC'},
+  {id:'w13_block',w:13,date:'20.07.',name:'Wie Woche davor (Mo–Fr)',focus:'Ausdauer',ern:'HP / Mixed'},
+  {id:'w13_sa',w:13,date:'25.07.',name:"4,5h Rad (Profilierte Strecke, Berg-Power)",focus:'Berg-Power',ern:'HP / HC'},
+  {id:'w13_so',w:13,date:'26.07.',name:'15-18km Lauf (oder Recovery Swim)',focus:'Ausdauer-Peak',ern:'HP / HC'},
+  {id:'w14',w:14,date:'27.07.',name:'REKOM-Woche',focus:'Regeneration',ern:'HP / LC'},
+  {id:'w15_sa',w:15,date:'08.08.',name:"3,5h Rad + 40' Koppel-Lauf",focus:'Letzter Reiz',ern:'HP / HC'},
+  {id:'w15_so',w:15,date:'09.08.',name:'15-18km Lauf (oder Recovery Swim)',focus:'Ausdauer-Peak',ern:'HP / HC'},
+  {id:'w16_mo',w:16,date:'10.08.',name:"45' Kraft & Core",focus:'Stabilität',ern:'HP / LC'},
+  {id:'w16_di',w:16,date:'11.08.',name:'2.000m Swim (Race Pace)',focus:'Rhythmus',ern:'HP / Mixed'},
+  {id:'w16_sa',w:16,date:'15.08.',name:"2,5h Rad (inkl. 3x10' Race Pace)",focus:'Tapering',ern:'HP / Mixed'},
+  {id:'w16_so',w:16,date:'16.08.',name:'15-18km Lauf (oder Recovery Swim)',focus:'Ausdauer-Peak',ern:'HP / HC'},
+  {id:'w17_sa',w:17,date:'22.08.',name:"90' Rad + 5km Lauf (Race Pace)",focus:'Spannung',ern:'HP / Mixed'},
+  {id:'w18_mi',w:18,date:'26.08.',name:"45' Rad (Aktivierung)",focus:'Spritzigkeit',ern:'HP / HC'},
+  {id:'w18_fr',w:18,date:'28.08.',name:"20' Einschwimmen in Zell am See",focus:'Orientierung',ern:'HC Load'},
+  {id:'race',w:19,date:'30.08.',name:'IRONMAN 70.3 ZELL AM SEE',focus:'FINISH < 5h',ern:'RACE FUEL'},
 ];
 
 trainings.forEach(t => { t.dateObj = parseDate(t.date); });
 
+const RACE_DATE = new Date(2026, 7, 30);
+
 let state = {};
+let currentPage = 'home';
+let panelNoteTimeout = null;
 
 async function loadState() {
   try {
-    const r = await window.storage.get('training-state');
+    const r = await window.storage.get('training-state-2026');
     if(r) state = JSON.parse(r.value);
   } catch(e) { state = {}; }
   renderAll();
 }
 
 async function saveState() {
-  try { await window.storage.set('training-state', JSON.stringify(state)); } catch(e) {}
-}
-
-function getToday() {
-  const now = new Date(); now.setHours(0,0,0,0); return now;
-}
-
-function findToday() {
-  const t = getToday();
-  let best = null, bestDiff = Infinity;
-  trainings.forEach(tr => {
-    if(!tr.dateObj) return;
-    const diff = Math.abs(tr.dateObj - t);
-    if(diff < bestDiff) { bestDiff = diff; best = tr; }
-  });
-  return best;
+  try { await window.storage.set('training-state-2026', JSON.stringify(state)); } catch(e) {}
 }
 
 function daysUntilRace() {
   const t = getToday();
-  const r = new Date(2024,7,30);
-  return Math.ceil((r - t) / 86400000);
+  return Math.ceil((RACE_DATE - t) / 86400000);
 }
 
-let currentPage = 'home';
-let openPanel = null;
-let panelNoteTimeout = null;
+function findTodayTraining() {
+  const t = getToday().getTime();
+  return trainings.find(tr => tr.dateObj && tr.dateObj.getTime() === t) || null;
+}
 
 function showPage(page, el) {
   currentPage = page;
@@ -274,28 +241,26 @@ function showPage(page, el) {
   if(page==='stats') renderStats();
 }
 
-function renderAll() {
-  renderHome();
-}
+function renderAll() { renderHome(); }
 
 function renderHome() {
-  const todayStr = fmtDate(getToday());
-  document.getElementById('today-date').textContent = todayStr;
-  
+  const now = getToday();
+  document.getElementById('today-date').textContent = fmtDate(now);
+
   const days = daysUntilRace();
-  const todayT = findToday();
-  const s = state[todayT?.id] || {};
-  
+  const todayT = findTodayTraining();
+  const s = todayT ? (state[todayT.id] || {}) : {};
+
   let html = `
     <div class="countdown-card">
       <div>
         <div class="countdown-label">Ironman 70.3</div>
         <div class="countdown-race">Zell am See</div>
-        <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px;">30. August 2024</div>
+        <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px;">30. August 2026</div>
       </div>
       <div style="text-align:right">
-        <div class="countdown-days">${days > 0 ? days : 0}</div>
-        <div class="countdown-suffix">Tage</div>
+        <div class="countdown-days">${Math.max(0,days)}</div>
+        <div class="countdown-suffix">${days===1?'Tag':'Tage'}</div>
       </div>
     </div>`;
 
@@ -308,7 +273,7 @@ function renderHome() {
         <span class="badge">${todayT.focus}</span>
         <span class="badge badge-gray">${todayT.ern}</span>
       </div>
-      <button class="done-btn ${done?'completed':''}" onclick="toggleDone('${todayT.id}')">
+      <button class="done-btn ${done?'completed':''}" onclick="toggleDone('${todayT.id}','home')">
         <div class="check-icon ${done?'filled':''}">
           <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
             <path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -316,45 +281,42 @@ function renderHome() {
         </div>
         ${done ? 'Erledigt!' : 'Als erledigt markieren'}
       </button>
-      <textarea class="notes-area" rows="3" placeholder="Notizen: Abweichungen, Befinden, Anmerkungen..." 
-        oninput="updateNote('${todayT.id}', this.value)">${s.note||''}</textarea>
+      <textarea class="notes-area" rows="3" placeholder="Notizen: Abweichungen, Befinden, Anmerkungen..."
+        oninput="updateNote('${todayT.id}',this.value)">${s.note||''}</textarea>
     </div>`;
+  } else {
+    html += `<div class="no-training">Für heute kein Training geplant.<br><span style="font-size:12px;color:var(--color-text-tertiary)">Erholungstag – gut gemacht!</span></div>`;
   }
-  
+
   document.getElementById('home-content').innerHTML = html;
 }
 
 function renderPlan() {
+  const todayTime = getToday().getTime();
   let weeks = {};
   trainings.forEach(t => {
     if(!weeks[t.w]) weeks[t.w] = [];
     weeks[t.w].push(t);
   });
-  
   let html = '';
-  Object.keys(weeks).sort((a,b)=>a-b).forEach(w => {
+  Object.keys(weeks).sort((a,b)=>+a-+b).forEach(w => {
     html += `<div class="week-header">Woche ${w}</div>`;
     weeks[w].forEach(t => {
       const s = state[t.id] || {};
-      const isToday = t.dateObj && Math.abs(t.dateObj - getToday()) < 86400000;
+      const isToday = t.dateObj && t.dateObj.getTime() === todayTime;
       html += `<div class="training-item ${s.done?'completed':''} ${isToday?'today-item':''}" onclick="openDetail('${t.id}')">
-        <div class="item-check">
-          <div class="check-icon ${s.done?'filled':''}">
-            <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-              <path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-        </div>
+        <div class="item-check"><div class="check-icon ${s.done?'filled':''}">
+          <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div></div>
         <div class="item-body">
-          <div class="item-date">${fmtDate(t.dateObj) || t.date} ${isToday?'· Heute':''}</div>
+          <div class="item-date">${fmtDate(t.dateObj)||t.date}${isToday?' · <strong>Heute</strong>':''}</div>
           <div class="item-name">${t.name}</div>
           <div class="item-focus">${t.focus} · ${t.ern}</div>
-          ${s.note ? `<div class="item-note-gray">${s.note}</div>` : ''}
+          ${s.note?`<div class="item-note-gray">${s.note}</div>`:''}
         </div>
       </div>`;
     });
   });
-  
   document.getElementById('plan-content').innerHTML = html;
 }
 
@@ -363,8 +325,7 @@ function renderStats() {
   const total = trainings.length;
   const pct = Math.round(done/total*100);
   const withNote = trainings.filter(t => state[t.id]?.note).length;
-  
-  let html = `
+  document.getElementById('stats-content').innerHTML = `
     <div class="stat-row">
       <div class="stat-card"><div class="stat-num">${done}</div><div class="stat-label">Erledigt</div></div>
       <div class="stat-card"><div class="stat-num">${total-done}</div><div class="stat-label">Ausstehend</div></div>
@@ -373,18 +334,15 @@ function renderStats() {
       <div class="stat-card"><div class="stat-num">${pct}%</div><div class="stat-label">Fortschritt</div></div>
       <div class="stat-card"><div class="stat-num">${withNote}</div><div class="stat-label">Notizen</div></div>
     </div>
-    <button class="export-btn" onclick="exportData()">↓ &nbsp;Protokoll exportieren (CSV)</button>
-  `;
-  
-  document.getElementById('stats-content').innerHTML = html;
+    <button class="export-btn" onclick="exportData()">↓ &nbsp;Protokoll exportieren (CSV)</button>`;
 }
 
-function toggleDone(id) {
+function toggleDone(id, from) {
   if(!state[id]) state[id] = {};
   state[id].done = !state[id].done;
   saveState();
-  renderHome();
-  if(currentPage==='plan') renderPlan();
+  if(from==='home') renderHome();
+  else { openDetail(id); if(currentPage==='plan') renderPlan(); }
   if(currentPage==='stats') renderStats();
 }
 
@@ -396,7 +354,6 @@ function updateNote(id, val) {
 }
 
 function openDetail(id) {
-  openPanel = id;
   const t = trainings.find(x => x.id === id);
   const s = state[id] || {};
   document.getElementById('panel-content').innerHTML = `
@@ -406,30 +363,22 @@ function openDetail(id) {
       <span class="badge">${t.focus}</span>
       <span class="badge badge-gray">${t.ern}</span>
     </div>
-    <button class="done-btn ${s.done?'completed':''}" onclick="toggleDone('${id}');refreshPanel('${id}')">
+    <button class="done-btn ${s.done?'completed':''}" onclick="toggleDone('${id}','panel')">
       <div class="check-icon ${s.done?'filled':''}">
-        <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-          <path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
       ${s.done ? 'Erledigt!' : 'Als erledigt markieren'}
     </button>
-    <textarea class="notes-area" rows="3" placeholder="Notizen: Abweichungen, Befinden..." 
-      oninput="updateNote('${id}', this.value)">${s.note||''}</textarea>
-  `;
+    <textarea class="notes-area" rows="3" placeholder="Notizen: Abweichungen, Befinden..."
+      oninput="updateNote('${id}',this.value)">${s.note||''}</textarea>`;
   document.getElementById('overlay').classList.add('open');
   document.getElementById('detail-panel').classList.add('open');
-}
-
-function refreshPanel(id) {
-  openDetail(id);
-  if(currentPage==='plan') renderPlan();
 }
 
 function closePanel() {
   document.getElementById('overlay').classList.remove('open');
   document.getElementById('detail-panel').classList.remove('open');
-  openPanel = null;
+  if(currentPage==='plan') renderPlan();
 }
 
 function exportData() {
@@ -437,19 +386,14 @@ function exportData() {
   trainings.forEach(t => {
     const s = state[t.id] || {};
     const note = (s.note||'').replace(/"/g,'""').replace(/\n/g,' ');
-    const name = t.name.replace(/"/g,'""');
-    csv += `${t.w},"${t.date}","${name}","${t.focus}","${t.ern}",${s.done?'Ja':'Nein'},"${note}"\n`;
+    csv += `${t.w},"${t.date}","${t.name.replace(/"/g,'""')}","${t.focus}","${t.ern}",${s.done?'Ja':'Nein'},"${note}"\n`;
   });
   const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-  const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = 'trainingsprotokoll.csv';
-  document.body.appendChild(a); a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  a.href = URL.createObjectURL(blob); a.download = 'trainingsprotokoll.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
 
-document.getElementById('today-date').textContent = fmtDate(getToday());
 loadState();
 </script>
 </body>
