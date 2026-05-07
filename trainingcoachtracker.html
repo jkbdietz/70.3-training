@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="IM Trainer">
 <style>
@@ -11,141 +10,131 @@
     --ac:#2cc4c9; --ac-dark:#1a9fa4; --ac-mid:#5dd4d8;
     --ac-bg:#e8f9fa; --ac-text:#0e6b6e; --ac-deep:#2cc4c9;
     --exp-bg:#f2fbfb;
-    --glass-bg:#eaf0f033;
-    --glass-dark-bg:rgba(18,18,18,0.80);
+    --glass-bg: rgba(255, 255, 255, 0.85);
     --nav-sh:0 -2px 20px rgba(0,0,0,0.08);
+    --header-height: 60px;
   }
   
   *{box-sizing:border-box;margin:0;padding:0;}
   body{
-    font-family:var(--font-sans,system-ui);
+    font-family: system-ui, -apple-system, sans-serif;
     background:#ffffff;
     color:#111111;
-    min-height:100vh;
+    min-height: 100vh;
+    -webkit-tap-highlight-color: transparent;
   }
-  .app{max-width:420px;margin:0 auto;padding:0 0 80px;}
 
-  /* ── Frosted glass header ── */
-  .header{
-    background:var(--glass-bg);
-    backdrop-filter:blur(24px) saturate(200%);
-    -webkit-backdrop-filter:blur(24px) saturate(200%);
-    border-bottom:.5px solid rgba(128,128,128,0.18);
-    padding:14px 16px 12px;position:sticky;top:0;z-index:10;
-    display:flex;align-items:center;gap:10px;
+  /* ── Layout Fix ── */
+  .app {
+    max-width: 420px;
+    margin: 0 auto;
+    padding: var(--header-height) 0 90px; /* Platz für Header oben und Nav unten */
   }
-  .hdr-im{width:32px;height:32px;border-radius:8px;background:var(--ac-deep);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:white;letter-spacing:-.5px;flex-shrink:0;}
-  .hdr-title{font-size:17px;font-weight:500;}
-  .hdr-sub{font-size:11px;color:var(--color-text-secondary);margin-top:1px;}
+
+  /* ── Fixed Header ── */
+  .header{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    max-width: 420px;
+    height: var(--header-height);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: .5px solid rgba(0,0,0,0.1);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .hdr-im{width:32px;height:32px;border-radius:8px;background:var(--ac-deep);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:white;flex-shrink:0;}
+  .hdr-title{font-size:17px;font-weight:600;margin-left:12px;}
+  .hdr-sub{font-size:11px;color: #666; margin-left: 12px;}
   .save-dot{width:7px;height:7px;border-radius:50%;background:var(--ac);margin-left:auto;opacity:0;transition:opacity .3s;}
   .save-dot.show{opacity:1;}
 
-  .sec{
-  padding:20px 12px 0;
-}
-  .card{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px;margin-bottom:10px;}
+  .sec{ padding: 16px 12px 0; }
+  .card{background:#fff;border:.5px solid #e0e0e0;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow: 0 2px 8px rgba(0,0,0,0.02);}
   .cd-row{display:flex;justify-content:space-between;align-items:center;}
-  .cd-days{font-size:32px;font-weight:500;color:var(--ac-dark);line-height:1;}
-  .cd-suf{font-size:12px;color:var(--color-text-secondary);}
-  .section-label{font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
-  .training-name{font-size:15px;font-weight:500;line-height:1.4;margin-bottom:6px;}
-  .training-name.sm{font-size:13px;margin-bottom:4px;}
+  .cd-days{font-size:32px;font-weight:700;color:var(--ac-dark);line-height:1;}
+  .cd-suf{font-size:12px;color:#666;}
+  .section-label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
+  .training-name{font-size:16px;font-weight:600;line-height:1.4;margin-bottom:6px;}
+  .training-name.sm{font-size:14px;margin-bottom:4px;}
   .meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
-  .meta.sm{margin-bottom:0;}
-  .badge{font-size:11px;padding:3px 8px;border-radius:20px;background:var(--ac-bg);color:var(--ac-dark);}
-  .badge-gray{background:var(--color-background-secondary);color:var(--color-text-secondary);}
-  .done-btn{width:100%;padding:10px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-secondary);background:none;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s;color:var(--color-text-primary);}
+  .badge{font-size:11px;padding:4px 10px;border-radius:20px;background:var(--ac-bg);color:var(--ac-dark);font-weight:500;}
+  .badge-gray{background:#f0f0f0;color:#666;}
+  .done-btn{width:100%;padding:12px;border-radius:12px;border:1px solid #eee;background:#fff;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;}
   .done-btn.ok{background:var(--ac-bg);border-color:var(--ac-mid);color:var(--ac-text);}
-  .done-btn:active{transform:scale(.98);}
-  .ci{width:20px;height:20px;border:1.5px solid currentColor;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
+  .ci{width:20px;height:20px;border:1.5px solid currentColor;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .ci.ok{background:var(--ac-deep);border-color:var(--ac-deep);}
   .ci svg{display:none;}.ci.ok svg{display:block;}
-  .ta{width:100%;margin-top:10px;padding:10px 12px;border:.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);font-size:14px;color:var(--color-text-primary);font-family:inherit;resize:none;line-height:1.5;}
-  .ta:focus{outline:none;border-color:var(--ac-mid);}
-  .ta::placeholder{color:var(--color-text-tertiary);}
-  .tmr-label{font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
-  .divider{height:.5px;background:var(--color-border-tertiary);margin:0 0 12px;}
+  .ta{width:100%;margin-top:12px;padding:12px;border:1px solid #eee;border-radius:12px;background:#f9f9f9;font-size:14px;font-family:inherit;resize:none;}
+  .tmr-label{font-size:11px;color:#888;text-transform:uppercase;margin-bottom:6px;display:block;}
+  .divider{height:.5px;background:#eee;margin:12px 0;}
 
   /* ── Plan ── */
-  .wk-hdr{font-size:11px;font-weight:500;color:var(--color-text-secondary);padding:14px 0 6px;text-transform:uppercase;letter-spacing:.06em;}
-  .ti{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:6px;overflow:hidden;}
-  .ti.today-i{border-color:var(--ac-mid);border-width:1px;}
-  .ti.done-i>.ti-row{opacity:.52;}
+  .wk-hdr{font-size:12px;font-weight:700;color:#999;padding:20px 4px 8px;text-transform:uppercase;letter-spacing:.06em;}
+  .ti{background:#fff;border:.5px solid #e0e0e0;border-radius:14px;margin-bottom:8px;overflow:hidden;}
+  .ti.today-i{border-color:var(--ac-mid);border-width:1.5px;}
+  .ti.done-i{opacity:.6;}
   .ti-row{display:flex;align-items:center;}
-  .ti-chk{flex-shrink:0;width:52px;display:flex;align-items:center;justify-content:center;padding:14px 0;cursor:pointer;background:none;border:none;border-right:.5px solid var(--color-border-tertiary);align-self:stretch;}
-  .ti-chk:active .ci{transform:scale(.85);}
-  .ti-body{flex:1;padding:12px;cursor:pointer;min-width:0;}
-  .ti-date{font-size:11px;color:var(--color-text-secondary);margin-bottom:2px;}
-  .ti-name{font-size:13px;font-weight:500;line-height:1.35;}
-  .ti-np{font-size:11px;color:var(--color-text-secondary);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .ti-chv{flex-shrink:0;padding:14px 12px;color:var(--color-text-tertiary);font-size:11px;cursor:pointer;}
-  .ti-exp{display:none;background:var(--exp-bg);border-top:.5px solid var(--color-border-tertiary);padding:12px 12px 12px 52px;}
+  .ti-chk{flex-shrink:0;width:50px;display:flex;align-items:center;justify-content:center;padding:16px 0;cursor:pointer;background:none;border:none;border-right:.5px solid #eee;align-self:stretch;}
+  .ti-body{flex:1;padding:12px;min-width:0;}
+  .ti-date{font-size:11px;color:#888;margin-bottom:2px;}
+  .ti-name{font-size:14px;font-weight:600;line-height:1.3;}
+  .ti-chv{padding:16px;color:#ccc;font-size:12px;}
+  .ti-exp{display:none;background:var(--exp-bg);border-top:.5px solid #eee;padding:12px 12px 12px 50px;}
   .ti-exp.open{display:block;}
-  .exp-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
-  /* ── Expand textarea: neutral, readable in both modes ── */
-  .exp-ta{
-    width:100%;
-    padding:9px 11px;
-    border:1px solid var(--ac-mid);
-    border-radius:var(--border-radius-md);
-    background:transparent;
-    color:var(--color-text-primary);
-    font-size:13px;
-    font-family:inherit;
-    resize:none;
-    line-height:1.5;
-  }
-  .exp-ta:focus{
-    outline:none;
-    border-color:var(--ac);
-    background:transparent;
-  }
-  .exp-ta::placeholder{color:var(--color-text-tertiary);}
+  .exp-ta{width:100%;padding:10px;border:1px solid var(--ac-mid);border-radius:8px;background:#fff;font-size:13px;resize:none;}
 
   /* ── Stats ── */
-  .stat-row{display:flex;gap:8px;margin-bottom:10px;}
-  .stat-card{flex:1;background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px;text-align:center;}
-  .stat-n{font-size:22px;font-weight:500;color:var(--ac-dark);}
-  .stat-l{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
-  .exp-btn{width:100%;padding:12px;margin-top:12px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-secondary);background:none;font-size:14px;cursor:pointer;color:var(--color-text-primary);display:flex;align-items:center;justify-content:center;gap:8px;}
-  .exp-btn:active{background:var(--color-background-secondary);}
+  .stat-row{display:flex;gap:10px;margin-bottom:10px;}
+  .stat-card{flex:1;background:#fff;border:.5px solid #e0e0e0;border-radius:14px;padding:16px;text-align:center;}
+  .stat-n{font-size:24px;font-weight:700;color:var(--ac-dark);}
+  .stat-l{font-size:11px;color:#888;margin-top:4px;}
+  .exp-btn{width:100%;padding:14px;margin-top:12px;border-radius:12px;border:1px solid #eee;background:#fff;font-size:14px;font-weight:600;color:#444;}
 
-  /* ── Frosted glass nav ── */
+  /* ── Fixed Nav ── */
   .nav-bar{
-    position:fixed;bottom:0;left:0;right:0;max-width:420px;margin:0 auto;
-    background:var(--glass-bg);
-    backdrop-filter:blur(24px) saturate(200%);
-    -webkit-backdrop-filter:blur(24px) saturate(200%);
-    border-top:.5px solid rgba(128,128,128,0.18);
-    display:flex;z-index:15;box-shadow:var(--nav-sh);
+    position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border-top:.5px solid rgba(0,0,0,0.1);
+    display:flex;z-index:1000;padding-bottom: env(safe-area-inset-bottom);
   }
-  .nav-i{flex:1;padding:10px 4px 8px;text-align:center;cursor:pointer;border:none;background:none;color:var(--color-text-secondary);font-size:10px;transition:color .15s;}
+  .nav-i{flex:1;padding:12px 0 8px;text-align:center;cursor:pointer;border:none;background:none;color:#999;font-size:10px;font-weight:500;}
   .nav-i.active{color:var(--ac-deep);}
-  .nav-ic{font-size:18px;margin-bottom:2px;}
-  .nav-bar::before{content:'';position:absolute;inset:0;border-top:.5px solid rgba(44,196,201,0.15);pointer-events:none;}
+  .nav-ic{font-size:20px;margin-bottom:2px;}
 
-  .empty{text-align:center;padding:32px 20px;color:var(--color-text-secondary);font-size:14px;background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:.5px solid var(--color-border-tertiary);}
+  .empty{text-align:center;padding:40px 20px;color:#999;background:#f9f9f9;border-radius:16px;border:1px dashed #ddd;}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="header">
     <div class="hdr-im">IM</div>
-    <div style="flex:1">
+    <div>
       <div class="hdr-title">Trainingsplan</div>
-      <div class="hdr-sub" id="hdr-date"></div>
+      <div class="hdr-sub" id="hdr-date">Lädt...</div>
     </div>
     <div class="save-dot" id="save-dot"></div>
   </div>
+
   <div id="page-home" class="page"><div class="sec" id="home-c"></div></div>
   <div id="page-plan" class="page" style="display:none"><div class="sec" id="plan-c"></div></div>
   <div id="page-stats" class="page" style="display:none"><div class="sec" id="stats-c"></div></div>
+
   <nav class="nav-bar">
     <button class="nav-i active" onclick="showPage('home',this)"><div class="nav-ic">⊙</div>Heute</button>
     <button class="nav-i" onclick="showPage('plan',this)"><div class="nav-ic">≡</div>Plan</button>
     <button class="nav-i" onclick="showPage('stats',this)"><div class="nav-ic">◎</div>Auswertung</button>
   </nav>
 </div>
+
 <script>
 const DAYS=['So','Mo','Di','Mi','Do','Fr','Sa'];
 const MON=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
@@ -158,6 +147,7 @@ function tomorrow(){const t=new Date();t.setHours(0,0,0,0);t.setDate(t.getDate()
 function parseDate(s){const p=s.trim().replace(/\.$/,'').split('.');if(p.length<2)return null;return new Date(2026,parseInt(p[1])-1,parseInt(p[0]));}
 function fmt(d){if(!d)return'';return`${DAYS[d.getDay()]}, ${d.getDate()}. ${MON[d.getMonth()]}`;}
 
+// ... (Trainingsdaten TR identisch wie in deiner Datei) ...
 const TR=[
   {id:'w1_mo',w:1,date:'27.04.',name:"45' Kraft & Core (Zuhause)",focus:'Stabilität',ern:'HP / LC'},
   {id:'w1_di',w:1,date:'28.04.',name:'10km GA1 Lauf (05:30 Start)',focus:'Ausdauer',ern:'HP / Mixed'},
@@ -265,8 +255,10 @@ function schedSave(){clearTimeout(saveTimer);saveTimer=setTimeout(persistState,3
 function findTr(d){const t=d.getTime();return TR.find(r=>r.dateObj&&r.dateObj.getTime()===t)||null;}
 function ckSVG(){return`<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;}
 
+// FIX: Scroll reset beim Seitenwechsel
 function showPage(page,el){
   currentPage=page;
+  window.scrollTo(0, 0); // Ansicht nach oben setzen
   document.querySelectorAll('.page').forEach(p=>p.style.display='none');
   document.getElementById('page-'+page).style.display='block';
   document.querySelectorAll('.nav-i').forEach(n=>n.classList.remove('active'));
@@ -275,20 +267,20 @@ function showPage(page,el){
   if(page==='plan'){renderPlan();scrollToToday();}
   if(page==='stats')renderStats();
 }
+
 function renderAll(){renderHome();}
 
 function renderHome(){
   const currentTraining = findTr(today());
-  document.getElementById('hdr-date').textContent =
-    currentTraining ? `Woche ${currentTraining.w}` : fmt(today());
+  document.getElementById('hdr-date').textContent = currentTraining ? `Woche ${currentTraining.w}` : fmt(today());
   const days=Math.ceil((RACE-today())/86400000);
   const todT=findTr(today()),tmrT=findTr(tomorrow());
   const sT=todT?(state[todT.id]||{}):{};
   let html=`<div class="card cd-row">
     <div>
-      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px">Ironman 70.3</div>
-      <div style="font-size:15px;font-weight:500">Zell am See</div>
-      <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">30. August 2026</div>
+      <div style="font-size:12px;color:#888;margin-bottom:4px">Ironman 70.3</div>
+      <div style="font-size:16px;font-weight:700">Zell am See</div>
+      <div style="font-size:11px;color:#888;margin-top:2px">30. August 2026</div>
     </div>
     <div style="text-align:right">
       <div class="cd-days">${Math.max(0,days)}</div>
@@ -311,7 +303,6 @@ function renderHome(){
   }
   if(tmrT){
     html+=`<div class="card" style="opacity:.82">
-      <div class="divider"></div>
       <div class="tmr-label">Morgen · Woche ${tmrT.w}</div>
       <div class="training-name sm">${tmrT.name}</div>
       <div class="meta sm"><span class="badge">${tmrT.focus}</span><span class="badge badge-gray">${tmrT.ern}</span></div>
@@ -338,13 +329,13 @@ function renderPlan(){
           <div class="ti-body" onclick="toggleExp('${t.id}')">
             <div class="ti-date">${fmt(t.dateObj)||t.date}${isToday?' · <b>Heute</b>':''}</div>
             <div class="ti-name">${t.name}</div>
-            ${s.note&&!isOpen?`<div class="ti-np">${s.note}</div>`:''}
+            ${s.note&&!isOpen?`<div class="ti-np" style="font-size:11px;color:#888;margin-top:4px">${s.note}</div>`:''}
           </div>
           <div class="ti-chv" onclick="toggleExp('${t.id}')">${isOpen?'▲':'▼'}</div>
         </div>
         <div class="ti-exp ${isOpen?'open':''}" id="exp-${t.id}">
-          <div class="exp-badges"><span class="badge">${t.focus}</span><span class="badge badge-gray">${t.ern}</span></div>
-          <textarea class="exp-ta" rows="3" placeholder="Notizen: Abweichungen, Befinden..." oninput="noteChange('${t.id}',this.value)">${s.note||''}</textarea>
+          <div class="exp-badges" style="display:flex;gap:6px;margin-bottom:10px;"><span class="badge">${t.focus}</span><span class="badge badge-gray">${t.ern}</span></div>
+          <textarea class="exp-ta" rows="3" placeholder="Notizen..." oninput="noteChange('${t.id}',this.value)">${s.note||''}</textarea>
         </div>
       </div>`;
     });
@@ -352,49 +343,29 @@ function renderPlan(){
   document.getElementById('plan-c').innerHTML=html;
 }
 
-
 function scrollToToday(){
   setTimeout(()=>{
     const todayT=today().getTime();
     const todTr=TR.find(t=>t.dateObj&&t.dateObj.getTime()===todayT);
-
     let el=null;
-
-    // Always scroll to current week header first
-    if(todTr){
-      el=document.getElementById('wk-'+todTr.w);
-    }
-
-    // Fallback to next upcoming week
+    if(todTr) el=document.getElementById('wk-'+todTr.w);
     if(!el){
       const up=TR.find(t=>t.dateObj&&t.dateObj.getTime()>=todayT);
       if(up) el=document.getElementById('wk-'+up.w);
     }
-
     if(!el) return;
-
-    const headerH=document.querySelector('.header').offsetHeight||56;
-    const rect=el.getBoundingClientRect();
-    const scrollEl=document.scrollingElement||document.documentElement;
-
-    scrollEl.scrollTop+=rect.top-headerH-10;
-  },100);
+    const offset = 70; 
+    const bodyRect = document.body.getBoundingClientRect().top;
+    const elementRect = el.getBoundingClientRect().top;
+    const elementPosition = elementRect - bodyRect;
+    const offsetPosition = elementPosition - offset;
+    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+  },150);
 }
-
 
 function toggleExp(id){
   openExpand=openExpand===id?null:id;
   renderPlan();
-  if(openExpand){
-    setTimeout(()=>{
-      const el=document.getElementById('exp-'+id);
-      if(!el)return;
-      const headerH=document.querySelector('.header').offsetHeight||56;
-      const rect=el.getBoundingClientRect();
-      const scrollEl=document.scrollingElement||document.documentElement;
-      if(rect.bottom>window.innerHeight-80) scrollEl.scrollTop+=rect.bottom-window.innerHeight+90;
-    },60);
-  }
 }
 
 function toggleDone(id,from){
@@ -404,10 +375,12 @@ function toggleDone(id,from){
   if(from==='home')renderHome();else renderPlan();
   if(currentPage==='stats')renderStats();
 }
+
 function noteChange(id,val){
   if(!state[id])state[id]={};
   state[id].note=val;schedSave();
 }
+
 function renderStats(){
   const done=TR.filter(t=>state[t.id]?.done).length,total=TR.length;
   document.getElementById('stats-c').innerHTML=`
@@ -421,61 +394,27 @@ function renderStats(){
     </div>
     <button class="exp-btn" onclick="exportCSV()">↓ &nbsp;Protokoll exportieren (CSV)</button>`;
 }
+
 function exportCSV(){
   let csv='Woche,Datum,Training,Fokus,Ernaehrung,Erledigt,Notizen\n';
   TR.forEach(t=>{const s=state[t.id]||{};const n=(s.note||'').replace(/"/g,'""').replace(/\n/g,' ');csv+=`${t.w},"${t.date}","${t.name.replace(/"/g,'""')}","${t.focus}","${t.ern}",${s.done?'Ja':'Nein'},"${n}"\n`;});
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));a.download='trainingsprotokoll.csv';document.body.appendChild(a);a.click();document.body.removeChild(a);
 }
-function setIcons(){
-  const c=document.createElement('canvas');c.width=180;c.height=180;
-  const ctx=c.getContext('2d');ctx.fillStyle='#2cc4c9';
-  if(ctx.roundRect){ctx.roundRect(0,0,180,180,36);ctx.fill();}else ctx.fillRect(0,0,180,180);
-  ctx.fillStyle='white';ctx.font='bold 72px -apple-system,system-ui';
-  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('IM',90,94);
-  const url=c.toDataURL('image/png');
-  ['apple-touch-icon','apple-touch-icon-precomposed'].forEach(rel=>{const l=document.createElement('link');l.rel=rel;l.href=url;document.head.appendChild(l);});
-  const fl=document.createElement('link');fl.rel='icon';fl.href=url;document.head.appendChild(fl);
-}
 
-// ── Mobile swipe navigation between tabs ──
-let touchStartX = 0;
-let touchEndX = 0;
-
-document.addEventListener('touchstart', e => {
-  touchStartX = e.changedTouches[0].screenX;
-}, {passive:true});
-
-document.addEventListener('touchend', e => {
-  touchEndX = e.changedTouches[0].screenX;
-  handleSwipe();
-}, {passive:true});
+// Swipe Navigation
+let touchStartX = 0, touchEndX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive:true});
+document.addEventListener('touchend', e => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); }, {passive:true});
 
 function handleSwipe(){
   const diff = touchEndX - touchStartX;
-
-  // Ignore tiny movements
-  if(Math.abs(diff) < 60) return;
-
+  if(Math.abs(diff) < 80) return;
   const pages = ['home','plan','stats'];
   const currentIndex = pages.indexOf(currentPage);
-
-  // Swipe left → next tab
-  if(diff < 0 && currentIndex < pages.length - 1){
-    const nextPage = pages[currentIndex + 1];
-    const nextBtn = document.querySelectorAll('.nav-i')[currentIndex + 1];
-    showPage(nextPage, nextBtn);
-  }
-
-  // Swipe right → previous tab
-  if(diff > 0 && currentIndex > 0){
-    const prevPage = pages[currentIndex - 1];
-    const prevBtn = document.querySelectorAll('.nav-i')[currentIndex - 1];
-    showPage(prevPage, prevBtn);
-  }
+  if(diff < 0 && currentIndex < pages.length - 1) showPage(pages[currentIndex + 1], document.querySelectorAll('.nav-i')[currentIndex + 1]);
+  if(diff > 0 && currentIndex > 0) showPage(pages[currentIndex - 1], document.querySelectorAll('.nav-i')[currentIndex - 1]);
 }
 
-
-setIcons();
 loadState();
 </script>
 </body>
