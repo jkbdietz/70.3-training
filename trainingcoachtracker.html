@@ -8,51 +8,69 @@
 <meta name="apple-mobile-web-app-title" content="IM Trainer">
 <style>
   :root {
-    --g-bg:#E1F5EE;--g-mid:#5DCAA5;--g-dark:#0F6E56;--g-text:#085041;--g-deep:#1D9E75;
-    --exp-bg:#F7FDFB;--nav-sh:0 -4px 16px rgba(0,0,0,0.08);
+    --ac:#2cc4c9; --ac-dark:#1a9fa4; --ac-mid:#5dd4d8;
+    --ac-bg:#e8f9fa; --ac-text:#0e6b6e; --ac-deep:#2cc4c9;
+    --exp-bg:#f2fbfb;
+    --glass-bg:rgba(248,250,250,0.78);
+    --glass-dark-bg:rgba(18,18,18,0.80);
+    --nav-sh:0 -2px 20px rgba(0,0,0,0.08);
   }
   @media(prefers-color-scheme:dark){:root{
-    --g-bg:#04342C;--g-mid:#0F6E56;--g-dark:#5DCAA5;--g-text:#9FE1CB;--g-deep:#1D9E75;
-    --exp-bg:#0a2620;--nav-sh:0 -4px 16px rgba(0,0,0,0.4);
+    --ac:#2cc4c9; --ac-dark:#5dd4d8; --ac-mid:#1a9fa4;
+    --ac-bg:#0a2e2f; --ac-text:#a0e8eb; --ac-deep:#2cc4c9;
+    --exp-bg:#0d2526;
+    --glass-bg:rgba(18,18,18,0.80);
+    --glass-dark-bg:rgba(18,18,18,0.80);
+    --nav-sh:0 -2px 20px rgba(0,0,0,0.45);
   }}
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:var(--font-sans,system-ui);background:var(--color-background-tertiary);color:var(--color-text-primary);min-height:100vh;}
   .app{max-width:420px;margin:0 auto;padding:0 0 80px;}
-  .header{background:var(--color-background-primary);border-bottom:.5px solid var(--color-border-tertiary);padding:14px 16px 12px;position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:10px;}
-  .hdr-im{width:32px;height:32px;border-radius:8px;background:var(--g-deep);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:white;letter-spacing:-.5px;flex-shrink:0;}
+
+  /* ── Frosted glass header ── */
+  .header{
+    background:var(--glass-bg);
+    backdrop-filter:blur(18px) saturate(180%);
+    -webkit-backdrop-filter:blur(18px) saturate(180%);
+    border-bottom:.5px solid rgba(128,128,128,0.18);
+    padding:14px 16px 12px;position:sticky;top:0;z-index:10;
+    display:flex;align-items:center;gap:10px;
+  }
+  .hdr-im{width:32px;height:32px;border-radius:8px;background:var(--ac-deep);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:white;letter-spacing:-.5px;flex-shrink:0;}
   .hdr-title{font-size:17px;font-weight:500;}
   .hdr-sub{font-size:11px;color:var(--color-text-secondary);margin-top:1px;}
-  .save-dot{width:7px;height:7px;border-radius:50%;background:var(--g-mid);margin-left:auto;opacity:0;transition:opacity .3s;}
+  .save-dot{width:7px;height:7px;border-radius:50%;background:var(--ac);margin-left:auto;opacity:0;transition:opacity .3s;}
   .save-dot.show{opacity:1;}
+
   .sec{padding:12px 12px 0;}
   .card{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px;margin-bottom:10px;}
   .cd-row{display:flex;justify-content:space-between;align-items:center;}
-  .cd-days{font-size:32px;font-weight:500;color:var(--g-dark);line-height:1;}
+  .cd-days{font-size:32px;font-weight:500;color:var(--ac-dark);line-height:1;}
   .cd-suf{font-size:12px;color:var(--color-text-secondary);}
   .section-label{font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
   .training-name{font-size:15px;font-weight:500;line-height:1.4;margin-bottom:6px;}
   .training-name.sm{font-size:13px;margin-bottom:4px;}
   .meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
-  .meta.sm{margin-bottom:10px;}
-  .badge{font-size:11px;padding:3px 8px;border-radius:20px;background:var(--g-bg);color:var(--g-dark);}
+  .meta.sm{margin-bottom:0;}
+  .badge{font-size:11px;padding:3px 8px;border-radius:20px;background:var(--ac-bg);color:var(--ac-dark);}
   .badge-gray{background:var(--color-background-secondary);color:var(--color-text-secondary);}
   .done-btn{width:100%;padding:10px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-secondary);background:none;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s;color:var(--color-text-primary);}
-  .done-btn.ok{background:var(--g-bg);border-color:var(--g-mid);color:var(--g-text);}
+  .done-btn.ok{background:var(--ac-bg);border-color:var(--ac-mid);color:var(--ac-text);}
   .done-btn:active{transform:scale(.98);}
   .ci{width:20px;height:20px;border:1.5px solid currentColor;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
-  .ci.ok{background:var(--g-deep);border-color:var(--g-deep);}
+  .ci.ok{background:var(--ac-deep);border-color:var(--ac-deep);}
   .ci svg{display:none;}.ci.ok svg{display:block;}
   .ta{width:100%;margin-top:10px;padding:10px 12px;border:.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);font-size:14px;color:var(--color-text-primary);font-family:inherit;resize:none;line-height:1.5;}
-  .ta:focus{outline:none;border-color:var(--g-mid);}
+  .ta:focus{outline:none;border-color:var(--ac-mid);}
   .ta::placeholder{color:var(--color-text-tertiary);}
-  .ta.sm{font-size:13px;margin-top:8px;}
-  .divider{height:.5px;background:var(--color-border-tertiary);margin:12px 0;}
   .tmr-label{font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
-  /* Plan */
+  .divider{height:.5px;background:var(--color-border-tertiary);margin:0 0 12px;}
+
+  /* ── Plan ── */
   .wk-hdr{font-size:11px;font-weight:500;color:var(--color-text-secondary);padding:14px 0 6px;text-transform:uppercase;letter-spacing:.06em;}
   .ti{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:6px;overflow:hidden;}
-  .ti.today-i{border-color:var(--g-mid);border-width:1px;}
-  .ti.done-i>.ti-row{opacity:.55;}
+  .ti.today-i{border-color:var(--ac-mid);border-width:1px;}
+  .ti.done-i>.ti-row{opacity:.52;}
   .ti-row{display:flex;align-items:center;}
   .ti-chk{flex-shrink:0;width:52px;display:flex;align-items:center;justify-content:center;padding:14px 0;cursor:pointer;background:none;border:none;border-right:.5px solid var(--color-border-tertiary);align-self:stretch;}
   .ti-chk:active .ci{transform:scale(.85);}
@@ -64,20 +82,40 @@
   .ti-exp{display:none;background:var(--exp-bg);border-top:.5px solid var(--color-border-tertiary);padding:12px 12px 12px 52px;}
   .ti-exp.open{display:block;}
   .exp-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
-  .exp-ta{width:100%;padding:8px 10px;border:.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);font-size:13px;color:var(--color-text-primary);font-family:inherit;resize:none;line-height:1.5;}
-  .exp-ta:focus{outline:none;border-color:var(--g-mid);}
+  /* ── Expand textarea: neutral, readable in both modes ── */
+  .exp-ta{
+    width:100%;padding:9px 11px;
+    border:.5px solid var(--color-border-secondary);
+    border-radius:var(--border-radius-md);
+    background:var(--color-background-primary);
+    color:var(--color-text-primary);
+    font-size:13px;font-family:inherit;resize:none;line-height:1.5;
+  }
+  .exp-ta:focus{outline:none;border-color:var(--ac-mid);}
   .exp-ta::placeholder{color:var(--color-text-tertiary);}
-  /* Stats */
+
+  /* ── Stats ── */
   .stat-row{display:flex;gap:8px;margin-bottom:10px;}
   .stat-card{flex:1;background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px;text-align:center;}
-  .stat-n{font-size:22px;font-weight:500;color:var(--g-dark);}
+  .stat-n{font-size:22px;font-weight:500;color:var(--ac-dark);}
   .stat-l{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
   .exp-btn{width:100%;padding:12px;margin-top:12px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-secondary);background:none;font-size:14px;cursor:pointer;color:var(--color-text-primary);display:flex;align-items:center;justify-content:center;gap:8px;}
   .exp-btn:active{background:var(--color-background-secondary);}
-  .nav-bar{position:fixed;bottom:0;left:0;right:0;max-width:420px;margin:0 auto;background:var(--color-background-primary);border-top:1px solid var(--color-border-secondary);display:flex;z-index:15;box-shadow:var(--nav-sh);}
-  .nav-i{flex:1;padding:10px 4px 8px;text-align:center;cursor:pointer;border:none;background:none;color:var(--color-text-secondary);font-size:10px;transition:background .15s;}
-  .nav-i.active{color:var(--g-dark);background:var(--g-bg);}
+
+  /* ── Frosted glass nav ── */
+  .nav-bar{
+    position:fixed;bottom:0;left:0;right:0;max-width:420px;margin:0 auto;
+    background:var(--glass-bg);
+    backdrop-filter:blur(18px) saturate(180%);
+    -webkit-backdrop-filter:blur(18px) saturate(180%);
+    border-top:.5px solid rgba(128,128,128,0.18);
+    display:flex;z-index:15;box-shadow:var(--nav-sh);
+  }
+  .nav-i{flex:1;padding:10px 4px 8px;text-align:center;cursor:pointer;border:none;background:none;color:var(--color-text-secondary);font-size:10px;transition:color .15s;}
+  .nav-i.active{color:var(--ac-deep);}
   .nav-ic{font-size:18px;margin-bottom:2px;}
+  .nav-bar::before{content:'';position:absolute;inset:0;border-top:.5px solid rgba(44,196,201,0.15);pointer-events:none;}
+
   .empty{text-align:center;padding:32px 20px;color:var(--color-text-secondary);font-size:14px;background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:.5px solid var(--color-border-tertiary);}
 </style>
 </head>
@@ -89,7 +127,7 @@
       <div class="hdr-title">Trainingsplan</div>
       <div class="hdr-sub" id="hdr-date"></div>
     </div>
-    <div class="save-dot" id="save-dot" title="Gespeichert"></div>
+    <div class="save-dot" id="save-dot"></div>
   </div>
   <div id="page-home" class="page"><div class="sec" id="home-c"></div></div>
   <div id="page-plan" class="page" style="display:none"><div class="sec" id="plan-c"></div></div>
@@ -104,7 +142,8 @@
 const DAYS=['So','Mo','Di','Mi','Do','Fr','Sa'];
 const MON=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
 const RACE=new Date(2026,7,30);
-const STORE_KEY='im703-training-v1';
+const STORE_KEY='im703-v2';
+const DB_NAME='im703db2',DB_STORE='state',DB_KEY='main';
 
 function today(){const t=new Date();t.setHours(0,0,0,0);return t;}
 function tomorrow(){const t=new Date();t.setHours(0,0,0,0);t.setDate(t.getDate()+1);return t;}
@@ -192,54 +231,20 @@ const TR=[
 ];
 TR.forEach(t=>{t.dateObj=parseDate(t.date);});
 
-// ── Persistence: IndexedDB primary, window.storage secondary ──
-const DB_NAME='im703db', DB_STORE='state', DB_KEY='main';
 let db=null;
+function openDB(){return new Promise((res,rej)=>{const r=indexedDB.open(DB_NAME,1);r.onupgradeneeded=e=>e.target.result.createObjectStore(DB_STORE);r.onsuccess=e=>{db=e.target.result;res(db);};r.onerror=rej;});}
+async function dbGet(){try{await openDB();return new Promise((res,rej)=>{const r=db.transaction(DB_STORE,'readonly').objectStore(DB_STORE).get(DB_KEY);r.onsuccess=()=>res(r.result||null);r.onerror=rej;});}catch{return null;}}
+async function dbSet(v){try{await openDB();return new Promise((res,rej)=>{const tx=db.transaction(DB_STORE,'readwrite');tx.objectStore(DB_STORE).put(v,DB_KEY);tx.oncomplete=res;tx.onerror=rej;});}catch{}}
 
-function openDB(){
-  return new Promise((res,rej)=>{
-    const req=indexedDB.open(DB_NAME,1);
-    req.onupgradeneeded=e=>{e.target.result.createObjectStore(DB_STORE);};
-    req.onsuccess=e=>{db=e.target.result;res(db);};
-    req.onerror=()=>rej();
-  });
-}
-async function dbGet(){
-  try{
-    await openDB();
-    return new Promise((res,rej)=>{
-      const tx=db.transaction(DB_STORE,'readonly');
-      const req=tx.objectStore(DB_STORE).get(DB_KEY);
-      req.onsuccess=()=>res(req.result||null);
-      req.onerror=()=>rej();
-    });
-  }catch{return null;}
-}
-async function dbSet(val){
-  try{
-    await openDB();
-    return new Promise((res,rej)=>{
-      const tx=db.transaction(DB_STORE,'readwrite');
-      tx.objectStore(DB_STORE).put(val,DB_KEY);
-      tx.oncomplete=()=>res();
-      tx.onerror=()=>rej();
-    });
-  }catch{}
-}
-
-let state={}, currentPage='home', openExpand=null, saveTimer=null;
+let state={},currentPage='home',openExpand=null,saveTimer=null;
 
 async function loadState(){
-  // Try IndexedDB first, then window.storage fallback
-  let loaded=null;
-  try{loaded=await dbGet();}catch{}
-  if(!loaded){
-    try{const r=await window.storage.get(STORE_KEY);if(r?.value)loaded=JSON.parse(r.value);}catch{}
-  }
-  if(loaded)state=loaded;
+  let d=null;
+  try{d=await dbGet();}catch{}
+  if(!d){try{const r=await window.storage.get(STORE_KEY);if(r?.value)d=JSON.parse(r.value);}catch{}}
+  if(d)state=d;
   renderAll();
 }
-
 async function persistState(){
   const dot=document.getElementById('save-dot');
   dot.classList.add('show');
@@ -247,14 +252,9 @@ async function persistState(){
   try{await window.storage.set(STORE_KEY,JSON.stringify(state));}catch{}
   setTimeout(()=>dot.classList.remove('show'),1200);
 }
+function schedSave(){clearTimeout(saveTimer);saveTimer=setTimeout(persistState,350);}
 
-function schedSave(){
-  clearTimeout(saveTimer);
-  saveTimer=setTimeout(persistState,400);
-}
-
-// ── Helpers ──
-function findTr(date){const t=date.getTime();return TR.find(r=>r.dateObj&&r.dateObj.getTime()===t)||null;}
+function findTr(d){const t=d.getTime();return TR.find(r=>r.dateObj&&r.dateObj.getTime()===t)||null;}
 function ckSVG(){return`<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;}
 
 function showPage(page,el){
@@ -272,7 +272,7 @@ function renderAll(){renderHome();}
 function renderHome(){
   document.getElementById('hdr-date').textContent=fmt(today());
   const days=Math.ceil((RACE-today())/86400000);
-  const todT=findTr(today()), tmrT=findTr(tomorrow());
+  const todT=findTr(today()),tmrT=findTr(tomorrow());
   const sT=todT?(state[todT.id]||{}):{};
   let html=`<div class="card cd-row">
     <div>
@@ -285,7 +285,6 @@ function renderHome(){
       <div class="cd-suf">${days===1?'Tag':'Tage'}</div>
     </div>
   </div>`;
-
   if(todT){
     const done=sT.done;
     html+=`<div class="card">
@@ -295,30 +294,25 @@ function renderHome(){
       <button class="done-btn ${done?'ok':''}" onclick="toggleDone('${todT.id}','home')">
         <div class="ci ${done?'ok':''}">${done?ckSVG():''}</div>${done?'Erledigt!':'Als erledigt markieren'}
       </button>
-      <textarea class="ta" rows="3" placeholder="Notizen: Abweichungen, Befinden..."
-        oninput="noteChange('${todT.id}',this.value)">${sT.note||''}</textarea>
+      <textarea class="ta" rows="3" placeholder="Notizen: Abweichungen, Befinden..." oninput="noteChange('${todT.id}',this.value)">${sT.note||''}</textarea>
     </div>`;
   } else {
-    html+=`<div class="empty">Kein Training heute geplant.<br><span style="font-size:12px;color:var(--color-text-tertiary)">Erholungstag!</span></div>`;
+    html+=`<div class="empty">Kein Training heute.<br><span style="font-size:12px">Erholungstag!</span></div>`;
   }
-
   if(tmrT){
-    const sR=state[tmrT.id]||{};
-    html+=`<div class="card" style="opacity:.85">
-      <div class="divider" style="margin:0 0 12px"></div>
+    html+=`<div class="card" style="opacity:.82">
+      <div class="divider"></div>
       <div class="tmr-label">Morgen · Woche ${tmrT.w}</div>
       <div class="training-name sm">${tmrT.name}</div>
       <div class="meta sm"><span class="badge">${tmrT.focus}</span><span class="badge badge-gray">${tmrT.ern}</span></div>
     </div>`;
   }
-
   document.getElementById('home-c').innerHTML=html;
 }
 
 function renderPlan(){
   const todayT=today().getTime();
-  let weeks={};
-  TR.forEach(t=>{if(!weeks[t.w])weeks[t.w]=[];weeks[t.w].push(t);});
+  let weeks={};TR.forEach(t=>{if(!weeks[t.w])weeks[t.w]=[];weeks[t.w].push(t);});
   let html='';
   Object.keys(weeks).sort((a,b)=>+a-+b).forEach(w=>{
     html+=`<div class="wk-hdr" id="wk-${w}">Woche ${w}</div>`;
@@ -340,8 +334,7 @@ function renderPlan(){
         </div>
         <div class="ti-exp ${isOpen?'open':''}" id="exp-${t.id}">
           <div class="exp-badges"><span class="badge">${t.focus}</span><span class="badge badge-gray">${t.ern}</span></div>
-          <textarea class="exp-ta" rows="3" placeholder="Notizen: Abweichungen, Befinden..."
-            oninput="noteChange('${t.id}',this.value)">${s.note||''}</textarea>
+          <textarea class="exp-ta" rows="3" placeholder="Notizen: Abweichungen, Befinden..." oninput="noteChange('${t.id}',this.value)">${s.note||''}</textarea>
         </div>
       </div>`;
     });
@@ -351,18 +344,21 @@ function renderPlan(){
 
 function scrollToToday(){
   setTimeout(()=>{
-    // Find today's training item or the nearest week header
     const todayT=today().getTime();
     const todTr=TR.find(t=>t.dateObj&&t.dateObj.getTime()===todayT);
     let el=null;
-    if(todTr){el=document.getElementById('tr-'+todTr.id);}
+    if(todTr) el=document.getElementById('tr-'+todTr.id);
     if(!el){
-      // Find current week: nearest upcoming training
-      const upcoming=TR.filter(t=>t.dateObj&&t.dateObj.getTime()>=todayT);
-      if(upcoming.length){el=document.getElementById('wk-'+upcoming[0].w);}
+      const up=TR.find(t=>t.dateObj&&t.dateObj.getTime()>=todayT);
+      if(up) el=document.getElementById('wk-'+up.w);
     }
-    if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
-  },80);
+    if(!el) return;
+    const headerH=document.querySelector('.header').offsetHeight||56;
+    const rect=el.getBoundingClientRect();
+    const scrollEl=document.scrollingElement||document.documentElement;
+    // Scroll so element top sits 8px below header
+    scrollEl.scrollTop+=rect.top-headerH-8;
+  },100);
 }
 
 function toggleExp(id){
@@ -371,7 +367,11 @@ function toggleExp(id){
   if(openExpand){
     setTimeout(()=>{
       const el=document.getElementById('exp-'+id);
-      if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'});
+      if(!el)return;
+      const headerH=document.querySelector('.header').offsetHeight||56;
+      const rect=el.getBoundingClientRect();
+      const scrollEl=document.scrollingElement||document.documentElement;
+      if(rect.bottom>window.innerHeight-80) scrollEl.scrollTop+=rect.bottom-window.innerHeight+90;
     },60);
   }
 }
@@ -380,20 +380,15 @@ function toggleDone(id,from){
   if(!state[id])state[id]={};
   state[id].done=!state[id].done;
   persistState();
-  if(from==='home')renderHome();
-  else renderPlan();
+  if(from==='home')renderHome();else renderPlan();
   if(currentPage==='stats')renderStats();
 }
-
 function noteChange(id,val){
   if(!state[id])state[id]={};
-  state[id].note=val;
-  schedSave();
+  state[id].note=val;schedSave();
 }
-
 function renderStats(){
-  const done=TR.filter(t=>state[t.id]?.done).length;
-  const total=TR.length;
+  const done=TR.filter(t=>state[t.id]?.done).length,total=TR.length;
   document.getElementById('stats-c').innerHTML=`
     <div class="stat-row">
       <div class="stat-card"><div class="stat-n">${done}</div><div class="stat-l">Erledigt</div></div>
@@ -405,33 +400,21 @@ function renderStats(){
     </div>
     <button class="exp-btn" onclick="exportCSV()">↓ &nbsp;Protokoll exportieren (CSV)</button>`;
 }
-
 function exportCSV(){
   let csv='Woche,Datum,Training,Fokus,Ernaehrung,Erledigt,Notizen\n';
-  TR.forEach(t=>{
-    const s=state[t.id]||{};
-    const note=(s.note||'').replace(/"/g,'""').replace(/\n/g,' ');
-    csv+=`${t.w},"${t.date}","${t.name.replace(/"/g,'""')}","${t.focus}","${t.ern}",${s.done?'Ja':'Nein'},"${note}"\n`;
-  });
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
-  a.download='trainingsprotokoll.csv';document.body.appendChild(a);a.click();document.body.removeChild(a);
+  TR.forEach(t=>{const s=state[t.id]||{};const n=(s.note||'').replace(/"/g,'""').replace(/\n/g,' ');csv+=`${t.w},"${t.date}","${t.name.replace(/"/g,'""')}","${t.focus}","${t.ern}",${s.done?'Ja':'Nein'},"${n}"\n`;});
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));a.download='trainingsprotokoll.csv';document.body.appendChild(a);a.click();document.body.removeChild(a);
 }
-
 function setIcons(){
   const c=document.createElement('canvas');c.width=180;c.height=180;
-  const ctx=c.getContext('2d');
-  ctx.fillStyle='#1D9E75';
-  if(ctx.roundRect){ctx.roundRect(0,0,180,180,36);ctx.fill();}else{ctx.fillRect(0,0,180,180);}
+  const ctx=c.getContext('2d');ctx.fillStyle='#2cc4c9';
+  if(ctx.roundRect){ctx.roundRect(0,0,180,180,36);ctx.fill();}else ctx.fillRect(0,0,180,180);
   ctx.fillStyle='white';ctx.font='bold 72px -apple-system,system-ui';
   ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('IM',90,94);
   const url=c.toDataURL('image/png');
-  ['apple-touch-icon','apple-touch-icon-precomposed'].forEach(rel=>{
-    const l=document.createElement('link');l.rel=rel;l.href=url;document.head.appendChild(l);
-  });
+  ['apple-touch-icon','apple-touch-icon-precomposed'].forEach(rel=>{const l=document.createElement('link');l.rel=rel;l.href=url;document.head.appendChild(l);});
   const fl=document.createElement('link');fl.rel='icon';fl.href=url;document.head.appendChild(fl);
 }
-
 setIcons();
 loadState();
 </script>
