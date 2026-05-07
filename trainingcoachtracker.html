@@ -11,27 +11,25 @@
     --ac:#2cc4c9; --ac-dark:#1a9fa4; --ac-mid:#5dd4d8;
     --ac-bg:#e8f9fa; --ac-text:#0e6b6e; --ac-deep:#2cc4c9;
     --exp-bg:#f2fbfb;
-    --glass-bg:rgba(248,250,250,0.78);
+    --glass-bg:#eaf0f033;
     --glass-dark-bg:rgba(18,18,18,0.80);
     --nav-sh:0 -2px 20px rgba(0,0,0,0.08);
   }
-  @media(prefers-color-scheme:dark){:root{
-    --ac:#2cc4c9; --ac-dark:#5dd4d8; --ac-mid:#1a9fa4;
-    --ac-bg:#0a2e2f; --ac-text:#a0e8eb; --ac-deep:#2cc4c9;
-    --exp-bg:#0d2526;
-    --glass-bg:rgba(18,18,18,0.80);
-    --glass-dark-bg:rgba(18,18,18,0.80);
-    --nav-sh:0 -2px 20px rgba(0,0,0,0.45);
-  }}
+  
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:var(--font-sans,system-ui);background:var(--color-background-tertiary);color:var(--color-text-primary);min-height:100vh;}
+  body{
+    font-family:var(--font-sans,system-ui);
+    background:#ffffff;
+    color:#111111;
+    min-height:100vh;
+  }
   .app{max-width:420px;margin:0 auto;padding:0 0 80px;}
 
   /* ── Frosted glass header ── */
   .header{
     background:var(--glass-bg);
-    backdrop-filter:blur(18px) saturate(180%);
-    -webkit-backdrop-filter:blur(18px) saturate(180%);
+    backdrop-filter:blur(24px) saturate(200%);
+    -webkit-backdrop-filter:blur(24px) saturate(200%);
     border-bottom:.5px solid rgba(128,128,128,0.18);
     padding:14px 16px 12px;position:sticky;top:0;z-index:10;
     display:flex;align-items:center;gap:10px;
@@ -42,7 +40,9 @@
   .save-dot{width:7px;height:7px;border-radius:50%;background:var(--ac);margin-left:auto;opacity:0;transition:opacity .3s;}
   .save-dot.show{opacity:1;}
 
-  .sec{padding:12px 12px 0;}
+  .sec{
+  padding:20px 12px 0;
+}
   .card{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px;margin-bottom:10px;}
   .cd-row{display:flex;justify-content:space-between;align-items:center;}
   .cd-days{font-size:32px;font-weight:500;color:var(--ac-dark);line-height:1;}
@@ -84,14 +84,22 @@
   .exp-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
   /* ── Expand textarea: neutral, readable in both modes ── */
   .exp-ta{
-    width:100%;padding:9px 11px;
-    border:.5px solid var(--color-border-secondary);
+    width:100%;
+    padding:9px 11px;
+    border:1px solid var(--ac-mid);
     border-radius:var(--border-radius-md);
-    background:var(--color-background-primary);
+    background:transparent;
     color:var(--color-text-primary);
-    font-size:13px;font-family:inherit;resize:none;line-height:1.5;
+    font-size:13px;
+    font-family:inherit;
+    resize:none;
+    line-height:1.5;
   }
-  .exp-ta:focus{outline:none;border-color:var(--ac-mid);}
+  .exp-ta:focus{
+    outline:none;
+    border-color:var(--ac);
+    background:transparent;
+  }
   .exp-ta::placeholder{color:var(--color-text-tertiary);}
 
   /* ── Stats ── */
@@ -106,8 +114,8 @@
   .nav-bar{
     position:fixed;bottom:0;left:0;right:0;max-width:420px;margin:0 auto;
     background:var(--glass-bg);
-    backdrop-filter:blur(18px) saturate(180%);
-    -webkit-backdrop-filter:blur(18px) saturate(180%);
+    backdrop-filter:blur(24px) saturate(200%);
+    -webkit-backdrop-filter:blur(24px) saturate(200%);
     border-top:.5px solid rgba(128,128,128,0.18);
     display:flex;z-index:15;box-shadow:var(--nav-sh);
   }
@@ -270,7 +278,9 @@ function showPage(page,el){
 function renderAll(){renderHome();}
 
 function renderHome(){
-  document.getElementById('hdr-date').textContent=fmt(today());
+  const currentTraining = findTr(today());
+  document.getElementById('hdr-date').textContent =
+    currentTraining ? `Woche ${currentTraining.w}` : fmt(today());
   const days=Math.ceil((RACE-today())/86400000);
   const todT=findTr(today()),tmrT=findTr(tomorrow());
   const sT=todT?(state[todT.id]||{}):{};
@@ -342,24 +352,35 @@ function renderPlan(){
   document.getElementById('plan-c').innerHTML=html;
 }
 
+
 function scrollToToday(){
   setTimeout(()=>{
     const todayT=today().getTime();
     const todTr=TR.find(t=>t.dateObj&&t.dateObj.getTime()===todayT);
+
     let el=null;
-    if(todTr) el=document.getElementById('tr-'+todTr.id);
+
+    // Always scroll to current week header first
+    if(todTr){
+      el=document.getElementById('wk-'+todTr.w);
+    }
+
+    // Fallback to next upcoming week
     if(!el){
       const up=TR.find(t=>t.dateObj&&t.dateObj.getTime()>=todayT);
       if(up) el=document.getElementById('wk-'+up.w);
     }
+
     if(!el) return;
+
     const headerH=document.querySelector('.header').offsetHeight||56;
     const rect=el.getBoundingClientRect();
     const scrollEl=document.scrollingElement||document.documentElement;
-    // Scroll so element top sits 8px below header
-    scrollEl.scrollTop+=rect.top-headerH-8;
+
+    scrollEl.scrollTop+=rect.top-headerH-10;
   },100);
 }
+
 
 function toggleExp(id){
   openExpand=openExpand===id?null:id;
@@ -415,6 +436,45 @@ function setIcons(){
   ['apple-touch-icon','apple-touch-icon-precomposed'].forEach(rel=>{const l=document.createElement('link');l.rel=rel;l.href=url;document.head.appendChild(l);});
   const fl=document.createElement('link');fl.rel='icon';fl.href=url;document.head.appendChild(fl);
 }
+
+// ── Mobile swipe navigation between tabs ──
+let touchStartX = 0;
+let touchEndX = 0;
+
+document.addEventListener('touchstart', e => {
+  touchStartX = e.changedTouches[0].screenX;
+}, {passive:true});
+
+document.addEventListener('touchend', e => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
+}, {passive:true});
+
+function handleSwipe(){
+  const diff = touchEndX - touchStartX;
+
+  // Ignore tiny movements
+  if(Math.abs(diff) < 60) return;
+
+  const pages = ['home','plan','stats'];
+  const currentIndex = pages.indexOf(currentPage);
+
+  // Swipe left → next tab
+  if(diff < 0 && currentIndex < pages.length - 1){
+    const nextPage = pages[currentIndex + 1];
+    const nextBtn = document.querySelectorAll('.nav-i')[currentIndex + 1];
+    showPage(nextPage, nextBtn);
+  }
+
+  // Swipe right → previous tab
+  if(diff > 0 && currentIndex > 0){
+    const prevPage = pages[currentIndex - 1];
+    const prevBtn = document.querySelectorAll('.nav-i')[currentIndex - 1];
+    showPage(prevPage, prevBtn);
+  }
+}
+
+
 setIcons();
 loadState();
 </script>
