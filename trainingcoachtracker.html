@@ -5,122 +5,125 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="IM Trainer">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232cc4c9%22/><text x=%2250%%22 y=%2250%%22 dominant-baseline=%22central%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22 font-size=%2240%22>IM</text></svg>">
 <style>
   :root {
     --ac:#2cc4c9; --ac-dark:#1a9fa4; --ac-mid:#5dd4d8;
     --ac-bg:#e8f9fa; --ac-text:#0e6b6e; --ac-deep:#2cc4c9;
     --exp-bg:#f2fbfb;
-    --glass-bg:#eaf0f033;
-    --glass-dark-bg:rgba(18,18,18,0.80);
+    --glass-bg: rgba(255, 255, 255, 0.85);
     --nav-sh:0 -2px 20px rgba(0,0,0,0.08);
-    --header-height: 60px; /* Definierte Höhe für den Header */
+    --header-height: 60px;
   }
   
   *{box-sizing:border-box;margin:0;padding:0;}
   body{
-    font-family:var(--font-sans,system-ui);
+    font-family: system-ui, -apple-system, sans-serif;
     background:#ffffff;
     color:#111111;
-    min-height:100vh;
+    min-height: 100vh;
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* FIX: Padding-Top hinzugefügt, damit Inhalt unter dem fixed Header startet */
   .app {
     max-width: 420px;
     margin: 0 auto;
-    padding: var(--header-height) 0 90px; 
+    padding: var(--header-height) 0 90px;
   }
 
-  /* FIX: Header auf position: fixed umgestellt für iOS Stabilität */
   .header{
-    background:var(--glass-bg);
-    backdrop-filter:blur(24px) saturate(200%);
-    -webkit-backdrop-filter:blur(24px) saturate(200%);
-    border-bottom:.5px solid rgba(128,128,128,0.18);
-    padding:14px 16px 12px;
-    position:fixed; /* Geändert von sticky auf fixed */
-    top:0;
-    left: 50%;
-    transform: translateX(-50%);
+    position: fixed;
+    top: 0;
     width: 100%;
     max-width: 420px;
     height: var(--header-height);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: .5px solid rgba(0,0,0,0.1);
     z-index: 1000;
-    display:flex;align-items:center;gap:10px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    left: 50%;
+    transform: translateX(-50%);
   }
   
-  .hdr-im{width:32px;height:32px;border-radius:8px;background:var(--ac-deep);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:white;letter-spacing:-.5px;flex-shrink:0;}
-  .hdr-title{font-size:17px;font-weight:500;}
-  .hdr-sub{font-size:11px;color:var(--color-text-secondary);margin-top:1px;}
+  .hdr-im{width:32px;height:32px;border-radius:8px;background:var(--ac-deep);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:white;flex-shrink:0;}
+  .hdr-title{font-size:17px;font-weight:600;margin-left:12px;}
+  .hdr-sub{font-size:11px;color: #666; margin-left: 12px;}
   .save-dot{width:7px;height:7px;border-radius:50%;background:var(--ac);margin-left:auto;opacity:0;transition:opacity .3s;}
   .save-dot.show{opacity:1;}
 
-  .sec{ padding:20px 12px 0; }
-  .card{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px;margin-bottom:10px;}
+  .sec{ padding: 16px 12px 0; }
+  .card{background:#fff;border:.5px solid #e0e0e0;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow: 0 2px 8px rgba(0,0,0,0.02);}
   .cd-row{display:flex;justify-content:space-between;align-items:center;}
-  .cd-days{font-size:32px;font-weight:500;color:var(--ac-dark);line-height:1;}
-  .cd-suf{font-size:12px;color:var(--color-text-secondary);}
-  .section-label{font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
-  .training-name{font-size:15px;font-weight:500;line-height:1.4;margin-bottom:6px;}
-  .training-name.sm{font-size:13px;margin-bottom:4px;}
+  .cd-days{font-size:32px;font-weight:700;color:var(--ac-dark);line-height:1;}
+  .cd-suf{font-size:12px;color:#666;}
+  .section-label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
+  .training-name{font-size:16px;font-weight:600;line-height:1.4;margin-bottom:6px;}
+  .training-name.sm{font-size:14px;margin-bottom:4px;}
   .meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
-  .badge{font-size:11px;padding:3px 8px;border-radius:20px;background:var(--ac-bg);color:var(--ac-dark);}
-  .badge-gray{background:var(--color-background-secondary);color:var(--color-text-secondary);}
-  .done-btn{width:100%;padding:10px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-secondary);background:none;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s;color:var(--color-text-primary);}
+  .badge{font-size:11px;padding:4px 10px;border-radius:20px;background:var(--ac-bg);color:var(--ac-dark);font-weight:500;}
+  .badge-gray{background:#f0f0f0;color:#666;}
+
+  /* Button Group für Home & Plan */
+  .btn-group { display: flex; gap: 8px; margin-bottom: 12px; }
+  .done-btn{flex: 2; padding:12px;border-radius:12px;border:1px solid #eee;background:#fff;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;}
   .done-btn.ok{background:var(--ac-bg);border-color:var(--ac-mid);color:var(--ac-text);}
+  .skip-btn{flex: 1; padding:12px;border-radius:12px;border:1px solid #eee;background:#fff;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#888;transition:all .2s;}
+  .skip-btn.active{background:#f0f0f0;border-color:#ccc;color:#444;}
+
   .ci{width:20px;height:20px;border:1.5px solid currentColor;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .ci.ok{background:var(--ac-deep);border-color:var(--ac-deep);}
   .ci svg{display:none;}.ci.ok svg{display:block;}
-  .ta{width:100%;margin-top:10px;padding:10px 12px;border:.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);font-size:14px;color:var(--color-text-primary);font-family:inherit;resize:none;line-height:1.5;}
-  .tmr-label{font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;margin-bottom:6px;}
-  .divider{height:.5px;background:var(--color-border-tertiary);margin:0 0 12px;}
-
-  /* ── Plan ── */
-  .wk-hdr{font-size:11px;font-weight:500;color:var(--color-text-secondary);padding:14px 0 6px;text-transform:uppercase;letter-spacing:.06em;}
-  .ti{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:6px;overflow:hidden;}
-  .ti.today-i{border-color:var(--ac-mid);border-width:1px;}
+  .ta{width:100%;margin-top:12px;padding:12px;border:1px solid #eee;border-radius:12px;background:#f9f9f9;font-size:14px;font-family:inherit;resize:none;}
+  .tmr-label{font-size:11px;color:#888;text-transform:uppercase;margin-bottom:6px;display:block;}
+  
+  /* Plan Status */
+  .ti{background:#fff;border:.5px solid #e0e0e0;border-radius:14px;margin-bottom:8px;overflow:hidden;}
+  .ti.today-i{border-color:var(--ac-mid);border-width:1.5px;}
+  .ti.done-i{opacity:.6;}
+  .ti.skipped-i{opacity:.6; background:#fafafa;}
   .ti-row{display:flex;align-items:center;}
-  .ti-chk{flex-shrink:0;width:52px;display:flex;align-items:center;justify-content:center;padding:14px 0;cursor:pointer;background:none;border:none;border-right:.5px solid var(--color-border-tertiary);align-self:stretch;}
-  .ti-body{flex:1;padding:12px;cursor:pointer;min-width:0;}
-  .ti-date{font-size:11px;color:var(--color-text-secondary);margin-bottom:2px;}
-  .ti-name{font-size:13px;font-weight:500;line-height:1.35;}
-  .ti-chv{flex-shrink:0;padding:14px 12px;color:var(--color-text-tertiary);font-size:11px;}
-  .ti-exp{display:none;background:var(--exp-bg);border-top:.5px solid var(--color-border-tertiary);padding:12px 12px 12px 52px;}
+  .ti-chk{flex-shrink:0;width:50px;display:flex;align-items:center;justify-content:center;padding:16px 0;cursor:pointer;background:none;border:none;border-right:.5px solid #eee;align-self:stretch;}
+  .ti-chk.skipped-i { color: #ccc; }
+  .ti-body{flex:1;padding:12px;min-width:0;}
+  .ti-date{font-size:11px;color:#888;margin-bottom:2px;}
+  .ti-name{font-size:14px;font-weight:600;line-height:1.3;}
+  .ti-chv{padding:16px;color:#ccc;font-size:12px;}
+  .ti-exp{display:none;background:var(--exp-bg);border-top:.5px solid #eee;padding:12px 12px 12px 50px;}
   .ti-exp.open{display:block;}
-  .exp-ta{width:100%;padding:9px 11px;border:1px solid var(--ac-mid);border-radius:var(--border-radius-md);background:transparent;color:var(--color-text-primary);font-size:13px;font-family:inherit;resize:none;line-height:1.5;}
+  .exp-ta{width:100%;padding:10px;border:1px solid var(--ac-mid);border-radius:8px;background:#fff;font-size:13px;resize:none;margin-top:8px;}
 
-  /* ── Stats ── */
-  .stat-row{display:flex;gap:8px;margin-bottom:10px;}
-  .stat-card{flex:1;background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px;text-align:center;}
-  .stat-n{font-size:22px;font-weight:500;color:var(--ac-dark);}
-  .stat-l{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
-  .exp-btn{width:100%;padding:12px;margin-top:12px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-secondary);background:none;font-size:14px;cursor:pointer;color:var(--color-text-primary);display:flex;align-items:center;justify-content:center;gap:8px;}
+  /* Stats */
+  .stat-row{display:flex;gap:10px;margin-bottom:10px;}
+  .stat-card{flex:1;background:#fff;border:.5px solid #e0e0e0;border-radius:14px;padding:16px;text-align:center;}
+  .stat-n{font-size:24px;font-weight:700;color:var(--ac-dark);}
+  .stat-l{font-size:11px;color:#888;margin-top:4px;}
+  .exp-btn{width:100%;padding:14px;margin-top:12px;border-radius:12px;border:1px solid #eee;background:#fff;font-size:14px;font-weight:600;color:#444;}
 
-  /* ── Nav ── */
   .nav-bar{
     position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;
-    background:var(--glass-bg);
-    backdrop-filter:blur(24px) saturate(200%);
-    -webkit-backdrop-filter:blur(24px) saturate(200%);
-    border-top:.5px solid rgba(128,128,128,0.18);
-    display:flex;z-index:1000;box-shadow:var(--nav-sh);
-    padding-bottom: env(safe-area-inset-bottom);
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border-top:.5px solid rgba(0,0,0,0.1);
+    display:flex;z-index:1000;padding-bottom: env(safe-area-inset-bottom);
   }
-  .nav-i{flex:1;padding:10px 4px 8px;text-align:center;cursor:pointer;border:none;background:none;color:var(--color-text-secondary);font-size:10px;}
+  .nav-i{flex:1;padding:12px 0 8px;text-align:center;cursor:pointer;border:none;background:none;color:#999;font-size:10px;font-weight:500;}
   .nav-i.active{color:var(--ac-deep);}
-  .nav-ic{font-size:18px;margin-bottom:2px;}
+  .nav-ic{font-size:20px;margin-bottom:2px;}
 
-  .empty{text-align:center;padding:32px 20px;color:var(--color-text-secondary);font-size:14px;background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:.5px solid var(--color-border-tertiary);}
+  .empty{text-align:center;padding:40px 20px;color:#999;background:#f9f9f9;border-radius:16px;border:1px dashed #ddd;}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="header">
     <div class="hdr-im">IM</div>
-    <div style="flex:1">
+    <div>
       <div class="hdr-title">Trainingsplan</div>
-      <div class="hdr-sub" id="hdr-date"></div>
+      <div class="hdr-sub" id="hdr-date">Lädt...</div>
     </div>
     <div class="save-dot" id="save-dot"></div>
   </div>
@@ -243,6 +246,7 @@ async function loadState(){
   if(d)state=d;
   renderAll();
 }
+
 async function persistState(){
   const dot=document.getElementById('save-dot');
   dot.classList.add('show');
@@ -250,15 +254,15 @@ async function persistState(){
   try{await window.storage.set(STORE_KEY,JSON.stringify(state));}catch{}
   setTimeout(()=>dot.classList.remove('show'),1200);
 }
+
 function schedSave(){clearTimeout(saveTimer);saveTimer=setTimeout(persistState,350);}
 
 function findTr(d){const t=d.getTime();return TR.find(r=>r.dateObj&&r.dateObj.getTime()===t)||null;}
 function ckSVG(){return`<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;}
 
-// FIX: Scroll-Reset beim Tab-Wechsel
 function showPage(page,el){
   currentPage=page;
-  window.scrollTo(0, 0); // Ansicht nach oben setzen
+  window.scrollTo(0, 0);
   document.querySelectorAll('.page').forEach(p=>p.style.display='none');
   document.getElementById('page-'+page).style.display='block';
   document.querySelectorAll('.nav-i').forEach(n=>n.classList.remove('active'));
@@ -270,42 +274,59 @@ function showPage(page,el){
 
 function renderAll(){renderHome();}
 
+function toggleStatus(id, type, from) {
+  if(!state[id]) state[id] = {};
+  if(type === 'done') {
+    state[id].done = !state[id].done;
+    if(state[id].done) state[id].skipped = false;
+  } else if(type === 'skipped') {
+    state[id].skipped = !state[id].skipped;
+    if(state[id].skipped) state[id].done = false;
+  }
+  persistState();
+  if(from === 'home') renderHome(); else renderPlan();
+  if(currentPage === 'stats') renderStats();
+}
+
 function renderHome(){
-  const currentTraining = findTr(today());
-  const hdrSub = document.getElementById('hdr-date');
-  if(hdrSub) hdrSub.textContent = currentTraining ? `Woche ${currentTraining.w}` : fmt(today());
-  
-  const days=Math.ceil((RACE-today())/86400000);
   const todT=findTr(today()),tmrT=findTr(tomorrow());
+  document.getElementById('hdr-date').textContent = todT ? `Woche ${todT.w}` : fmt(today());
+  const days=Math.ceil((RACE-today())/86400000);
   const sT=todT?(state[todT.id]||{}):{};
-  
+
   let html=`<div class="card cd-row">
     <div>
-      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px">Ironman 70.3</div>
-      <div style="font-size:15px;font-weight:500">Zell am See</div>
-      <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">30. August 2026</div>
+      <div style="font-size:12px;color:#888;margin-bottom:4px">Ironman 70.3</div>
+      <div style="font-size:16px;font-weight:700">Zell am See</div>
+      <div style="font-size:11px;color:#888;margin-top:2px">30. August 2026</div>
     </div>
     <div style="text-align:right">
       <div class="cd-days">${Math.max(0,days)}</div>
       <div class="cd-suf">${days===1?'Tag':'Tage'}</div>
     </div>
   </div>`;
-  
+
   if(todT){
-    const done=sT.done;
+    const done=sT.done, skipped=sT.skipped;
     html+=`<div class="card">
       <div class="section-label">Heute · Woche ${todT.w}</div>
       <div class="training-name">${todT.name}</div>
       <div class="meta"><span class="badge">${todT.focus}</span><span class="badge badge-gray">${todT.ern}</span></div>
-      <button class="done-btn ${done?'ok':''}" onclick="toggleDone('${todT.id}','home')">
-        <div class="ci ${done?'ok':''}">${done?ckSVG():''}</div>${done?'Erledigt!':'Als erledigt markieren'}
-      </button>
-      <textarea class="ta" rows="3" placeholder="Notizen..." oninput="noteChange('${todT.id}',this.value)">${sT.note||''}</textarea>
+      
+      <div class="btn-group">
+        <button class="done-btn ${done?'ok':''}" onclick="toggleStatus('${todT.id}','done','home')">
+          <div class="ci ${done?'ok':''}">${done?ckSVG():''}</div>${done?'Erledigt!':'Erledigt'}
+        </button>
+        <button class="skip-btn ${skipped?'active':''}" onclick="toggleStatus('${todT.id}','skipped','home')">
+          ${skipped?'Übersprungen':'Skip'}
+        </button>
+      </div>
+
+      <textarea class="ta" rows="3" placeholder="Notizen: Abweichungen, Befinden..." oninput="noteChange('${todT.id}',this.value)">${sT.note||''}</textarea>
     </div>`;
   } else {
     html+=`<div class="empty">Kein Training heute.<br><span style="font-size:12px">Erholungstag!</span></div>`;
   }
-  
   if(tmrT){
     html+=`<div class="card" style="opacity:.82">
       <div class="tmr-label">Morgen · Woche ${tmrT.w}</div>
@@ -318,7 +339,7 @@ function renderHome(){
 
 function renderPlan(){
   const todayT=today().getTime();
-  let weeks={}; TR.forEach(t=>{if(!weeks[t.w])weeks[t.w]=[]; weeks[t.w].push(t);});
+  let weeks={};TR.forEach(t=>{if(!weeks[t.w])weeks[t.w]=[];weeks[t.w].push(t);});
   let html='';
   Object.keys(weeks).sort((a,b)=>+a-+b).forEach(w=>{
     html+=`<div class="wk-hdr" id="wk-${w}">Woche ${w}</div>`;
@@ -326,19 +347,27 @@ function renderPlan(){
       const s=state[t.id]||{};
       const isToday=t.dateObj&&t.dateObj.getTime()===todayT;
       const isOpen=openExpand===t.id;
-      html+=`<div class="ti ${s.done?'done-i':''} ${isToday?'today-i':''}" id="tr-${t.id}">
+      const statusClass = s.done ? 'done-i' : (s.skipped ? 'skipped-i' : '');
+
+      html+=`<div class="ti ${statusClass} ${isToday?'today-i':''}" id="tr-${t.id}">
         <div class="ti-row">
-          <button class="ti-chk" onclick="toggleDone('${t.id}','plan')">
-            <div class="ci ${s.done?'ok':''}">${s.done?ckSVG():''}</div>
+          <button class="ti-chk ${s.skipped?'skipped-i':''}" onclick="toggleStatus('${t.id}','done','plan')">
+            <div class="ci ${s.done?'ok':''}">${s.done?ckSVG():(s.skipped?'—':'')}</div>
           </button>
           <div class="ti-body" onclick="toggleExp('${t.id}')">
-            <div class="ti-date">${fmt(t.dateObj)||t.date}${isToday?' · <b>Heute</b>':''}</div>
+            <div class="ti-date">${fmt(t.dateObj)||t.date}${isToday?' · <b>Heute</b>':''} ${s.skipped?'(Übersprungen)':''}</div>
             <div class="ti-name">${t.name}</div>
+            ${s.note&&!isOpen?`<div class="ti-np" style="font-size:11px;color:#888;margin-top:4px">${s.note}</div>`:''}
           </div>
           <div class="ti-chv" onclick="toggleExp('${t.id}')">${isOpen?'▲':'▼'}</div>
         </div>
         <div class="ti-exp ${isOpen?'open':''}" id="exp-${t.id}">
           <div class="exp-badges" style="display:flex;gap:6px;margin-bottom:10px;"><span class="badge">${t.focus}</span><span class="badge badge-gray">${t.ern}</span></div>
+          <div class="btn-group" style="margin-bottom:0">
+            <button class="skip-btn ${s.skipped?'active':''}" style="flex:none; width:100%" onclick="toggleStatus('${t.id}','skipped','plan')">
+              ${s.skipped ? 'Wieder einplanen' : 'Training überspringen'}
+            </button>
+          </div>
           <textarea class="exp-ta" rows="3" placeholder="Notizen..." oninput="noteChange('${t.id}',this.value)">${s.note||''}</textarea>
         </div>
       </div>`;
@@ -358,33 +387,32 @@ function scrollToToday(){
       if(up) el=document.getElementById('wk-'+up.w);
     }
     if(!el) return;
-    const headerH = 70; 
-    const rect = el.getBoundingClientRect();
-    window.scrollBy({ top: rect.top - headerH, behavior: 'smooth' });
+    const offset = 70; 
+    const bodyRect = document.body.getBoundingClientRect().top;
+    const elementRect = el.getBoundingClientRect().top;
+    window.scrollTo({ top: (elementRect - bodyRect) - offset, behavior: 'smooth' });
   },150);
 }
 
-function toggleExp(id){ openExpand=openExpand===id?null:id; renderPlan(); }
-
-function toggleDone(id,from){
-  if(!state[id])state[id]={};
-  state[id].done=!state[id].done;
-  persistState();
-  if(from==='home')renderHome();else renderPlan();
-  if(currentPage==='stats')renderStats();
+function toggleExp(id){
+  openExpand=openExpand===id?null:id;
+  renderPlan();
 }
 
 function noteChange(id,val){
   if(!state[id])state[id]={};
-  state[id].note=val; schedSave();
+  state[id].note=val;schedSave();
 }
 
 function renderStats(){
-  const done=TR.filter(t=>state[t.id]?.done).length, total=TR.length;
+  const done=TR.filter(t=>state[t.id]?.done).length;
+  const skipped=TR.filter(t=>state[t.id]?.skipped).length;
+  const total=TR.length;
+  
   document.getElementById('stats-c').innerHTML=`
     <div class="stat-row">
       <div class="stat-card"><div class="stat-n">${done}</div><div class="stat-l">Erledigt</div></div>
-      <div class="stat-card"><div class="stat-n">${total-done}</div><div class="stat-l">Ausstehend</div></div>
+      <div class="stat-card"><div class="stat-n">${skipped}</div><div class="stat-l">Übersprungen</div></div>
     </div>
     <div class="stat-row">
       <div class="stat-card"><div class="stat-n">${Math.round(done/total*100)}%</div><div class="stat-l">Fortschritt</div></div>
@@ -394,9 +422,20 @@ function renderStats(){
 }
 
 function exportCSV(){
-  let csv='Woche,Datum,Training,Fokus,Ernaehrung,Erledigt,Notizen\n';
-  TR.forEach(t=>{const s=state[t.id]||{};const n=(s.note||'').replace(/"/g,'""').replace(/\n/g,' ');csv+=`${t.w},"${t.date}","${t.name.replace(/"/g,'""')}","${t.focus}","${t.ern}",${s.done?'Ja':'Nein'},"${n}"\n`;});
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));a.download='trainingsprotokoll.csv';document.body.appendChild(a);a.click();document.body.removeChild(a);
+  let csv='Woche,Datum,Training,Fokus,Ernaehrung,Status,Notizen\n';
+  TR.forEach(t=>{
+    const s=state[t.id]||{};
+    const n=(s.note||'').replace(/"/g,'""').replace(/\n/g,' ');
+    let status = 'Offen';
+    if(s.done) status = 'Erledigt';
+    else if(s.skipped) status = 'Uebersprungen';
+    
+    csv+=`${t.w},"${t.date}","${t.name.replace(/"/g,'""')}","${t.focus}","${t.ern}",${status},"${n}"\n`;
+  });
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
+  a.download='trainingsprotokoll.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
 }
 
 // Swipe Navigation
